@@ -1,7 +1,84 @@
 @echo off
 
+:configloader
+rename config.ini config.bat
+call config.bat
+rename config.bat config.ini
+
 setlocal
 call :setESC
+
+:ADBConfirm
+cls
+echo ==========================================
+echo     %ESC%[7mDo you have ADB Drivers installed?%ESC%[0m
+echo ==========================================
+echo 1) Yes
+echo 2) No
+echo ==========================================
+if "%firsttime%"=="1" goto MainMenu
+
+:ADBInput
+set adbinput=
+set /p adbinput=Answer: 
+if "%adbinput%"=="1" goto firsttimedone
+if "%adbinput%"=="2" goto installadb
+echo Please enter a valid Answer!
+pause
+goto ADBConfirm
+
+:installadb
+cls
+start https://forum.xda-developers.com/attachment.php?attachmentid=4623157
+echo %ESC%[7mInstall these ADB Drivers and re-open this.%ESC%[0m
+pause
+goto firsttimedone
+exit
+
+:firsttimedone
+SetLocal EnableDelayedExpansion
+:: Edit the following three lines as needed.
+:: Specifiy the full path to the file, or the current directory will be used
+Set _PathtoFile=config.ini
+Set _OldLine=set firsttime=0
+Set _NewLine=set firsttime=1
+:: End of Search parameters
+Call :_Parse "%_PathtoFile%"
+Set _Len=0
+Set _Str=%_OldLine%
+Set _Str=%_Str:"=.%987654321
+:_Loop
+If NOT "%_Str:~18%"=="" Set _Str=%_Str:~9%& Set /A _Len+=9& Goto _Loop
+Set _Num=%_Str:~9,1%
+Set /A _Len=_Len+_Num
+PushD %_FilePath%
+If Exist %_FileName%.new Del %_FileName%.new
+If Exist %_FileName%.old Del %_FileName%.old
+Set _LineNo=0
+For /F "Tokens=* Eol=" %%I In (%_FileName%%_FileExt%) Do (
+Set _tmp=%%I
+Set /A _LineNo+=1
+If /I "!_tmp:~0,%_Len%!"=="%_OldLine%" (
+>>%_FileName%.new Echo %_NewLine%
+) Else (
+If !_LineNo! GTR 1 If "!_tmp:~0,1!"=="[" Echo.>>%_FileName%.new
+SetLocal DisableDelayedExpansion
+>>%_FileName%.new Echo %%I
+EndLocal
+))
+Ren %_FileName%%_FileExt% %_FileName%.old
+Ren %_FileName%.new %_FileName%.ini
+PopD
+rename config.ini config.bat
+call config.bat
+rename config.bat config.ini
+if "%firsttime%"=="1" goto MainMenu
+
+:_Parse
+Set _FilePath=%~dp1
+Set _FileName=%~n1
+Set _FileExt=%~x1
+Goto :EOF
 
 :MainMenu
 cls
@@ -11,24 +88,29 @@ echo ==========================================
 echo Which would you like to do?
 echo ==========================================
 echo 1) Change Recording Res/FPS
-echo 2) Coming soon!
+echo 2) Keep Alive (keep the screen on)
+echo 3) Change Refresh Rate
 echo ==========================================
 echo A) Setup Wireless ADB
 echo B) Change Wireless ADB IP
 echo C) Disconnect Wireless ADB
+echo D) Install ADB Drivers
 echo ==========================================
 
 :MainMenuInput
 set INPUT=
 set /p INPUT=Answer: 
 if "%INPUT%"=="1" goto capture
-if "%INPUT%"=="2" goto Option2
+if "%INPUT%"=="2" goto keepalive
+if "%INPUT%"=="3" goto refreshrate
 if "%INPUT%"=="A" goto wirelesssetup
 if "%INPUT%"=="a" goto wirelesssetup
 if "%INPUT%"=="B" goto changeip
 if "%INPUT%"=="b" goto changeip
 if "%INPUT%"=="C" goto disconnect
 if "%INPUT%"=="c" goto disconnect
+if "%INPUT%"=="D" goto installadb
+if "%INPUT%"=="d" goto installadb
 Echo Please enter a valid answer!
 pause
 goto MainMenu
@@ -204,7 +286,6 @@ adb shell setprop debug.oculus.capture.width 1920
 adb shell setprop debug.oculus.capture.height 1080
 adb shell setprop debug.oculus.capture.bitrate 10000000
 adb shell setprop debug.oculus.foveation.level 0
-adb shell setprop debug.oculus.fullRateCapture 1
 adb shell setprop debug.oculus.capture.fps 90
 Echo done.
 pause
@@ -217,7 +298,6 @@ adb shell setprop debug.oculus.capture.width 1280
 adb shell setprop debug.oculus.capture.height 1280
 adb shell setprop debug.oculus.capture.bitrate 10000000
 adb shell setprop debug.oculus.foveation.level 0
-adb shell setprop debug.oculus.fullRateCapture 1
 adb shell setprop debug.oculus.capture.fps 90
 Echo done.
 pause
@@ -230,7 +310,6 @@ adb shell setprop debug.oculus.capture.width 1080
 adb shell setprop debug.oculus.capture.height 1920
 adb shell setprop debug.oculus.capture.bitrate 10000000
 adb shell setprop debug.oculus.foveation.level 0
-adb shell setprop debug.oculus.fullRateCapture 1
 adb shell setprop debug.oculus.capture.fps 90
 Echo done.
 pause
@@ -254,18 +333,74 @@ adb shell setprop debug.oculus.capture.width %width%
 adb shell setprop debug.oculus.capture.height %height%
 adb shell setprop debug.oculus.capture.bitrate 10000000
 adb shell setprop debug.oculus.foveation.level 0
-adb shell setprop debug.oculus.fullRateCapture 1
 adb shell setprop debug.oculus.capture.fps %fps%
 Echo done.
 pause
 goto capture
 
-:Option2
+:keepalive
 cls
-echo %ESC%[7mThis feature is not done yet!%ESC%[0m
+echo %ESC%[7mDo not close KeepAlive to keep the screen on!%ESC%[0m
+pause
+cd ./Requirements
+start KeepAlive.bat
+echo Started KeepAlive...
 pause
 goto MainMenu
 
+:refreshrate
+cls
+title Which refresh rate do you want to use?
+echo ==========================================
+echo Which Refresh Rate do you want to use?
+echo ==========================================
+echo 1) 60Hz
+echo 2) 72Hz
+echo 3) 90Hz (Quest 2 ONLY)
+echo ==========================================
+echo 9) Go Back
+echo ==========================================
+
+set refreshrateInput=
+set /p refreshrateInput=Answer: 
+
+if "%refreshrateInput%"=="1" goto 60
+if "%refreshrateInput%"=="2" goto 72
+if "%refreshrateInput%"=="3" goto 90
+if "%refreshrateInput%"=="9" goto MainMenu
+echo Please enter a valid answer!
+pause
+goto refreshrate
+
+:60
+cls
+title Updating Refresh Rate...
+echo Updating Refresh Rate...
+adb shell setprop debug.oculus.refreshRate 60
+title Done!
+echo Done!
+pause
+goto refreshrate
+
+:72
+cls
+title Updating Refresh Rate...
+echo Updating Refresh Rate...
+adb shell setprop debug.oculus.refreshRate 72
+title Done!
+echo Done!
+pause
+goto refreshrate
+
+:90
+cls
+title Updating Refresh Rate...
+echo Updating Refresh Rate...
+adb shell setprop debug.oculus.refreshRate 90
+title Done!
+echo Done!
+pause
+goto refreshrate
 
 ::IGNORE THIS LINE::
 :setESC
