@@ -8,7 +8,7 @@ echo ==========================================
 echo 1) Change Recording Res/FPS
 echo 2) Coming soon!
 echo ==========================================
-echo A) Enable Wireless ADB
+echo A) Setup Wireless ADB
 echo B) Change Wireless ADB IP
 echo C) Disconnect Wireless ADB
 echo ==========================================
@@ -20,8 +20,8 @@ if "%INPUT%"=="1" goto capture
 if "%INPUT%"=="2" goto Option2
 if "%INPUT%"=="A" goto wirelesssetup
 if "%INPUT%"=="a" goto wirelesssetup
-if "%INPUT%"=="B" goto wirelessIP
-if "%INPUT%"=="b" goto wirelessIP
+if "%INPUT%"=="B" goto changeip
+if "%INPUT%"=="b" goto changeip
 if "%INPUT%"=="C" goto disconnect
 if "%INPUT%"=="c" goto disconnect
 Echo Please enter a valid answer!
@@ -30,9 +30,9 @@ goto MainMenu
 
 :wirelesssetup
 cls
-title Do you need to setup wireless adb?
+title Do you want to setup wireless adb?
 echo ==========================================
-echo Do you need to setup wireless adb?
+echo Do you want to setup wireless adb?
 echo ==========================================
 echo A) Yes
 echo B) No
@@ -56,7 +56,7 @@ echo ==========================================
 echo !!Please plug in your Quest / Quest 2!!
 echo ==========================================
 set localip=
-set /p localip=Quest / Quest 2 local IP:
+set /p localip=Quest / Quest 2 local IP: 
 
 cls
 title is that correct?
@@ -81,10 +81,61 @@ cls
 title Connecting...
 adb tcpip 5555
 adb connect %localip%:5555
-echo Connected! You can now unplug your Quest / Quest 2
+echo You can now unplug your Quest / Quest 2 if it connected!
 title Connected!
 pause
 goto MainMenu
+
+:changeIP
+cls
+echo ==========================================
+echo Do you want to change your Wireless ADB IP?
+echo ==========================================
+echo 1) Yes
+echo 2) No
+echo ==========================================
+
+set changeipInput=
+set /p changeipInput=Answer: 
+if "%changeipInput%"=="1" goto changingIP
+if "%changeipInput%"=="2" goto MainMenu
+echo Please enter a vaild answer!
+pause
+goto ChangeIP
+
+:changingip
+cls
+title Changing Wireless ADB IP
+echo ==========================================
+echo !!If not done yet, please setup Wireless ADB First!!
+echo ==========================================
+set changedip=
+set /p changedip=Quest / Quest 2 local IP: 
+
+cls
+title is that correct?
+echo ==========================================
+echo You set your Quest / Quest 2 local ip to %changedip%. is that correct?
+echo ==========================================
+echo 1) Yes
+echo 2) No
+echo ==========================================
+
+set /p confirm=Answer: 
+if "%confirm%"=="1" goto changingadb
+if "%confirm%"=="2" goto changingip
+echo Please enter a valid answer!
+pause
+goto changingip
+
+:changingadb
+cls
+title Connecting...
+adb connect %changedip%:5555
+title Connected!
+pause
+goto MainMenu
+
 
 :capture
 cls
