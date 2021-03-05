@@ -8,14 +8,25 @@ echo ==========================================
 echo 1) Change Recording Res/FPS
 echo 2) Coming soon!
 echo ==========================================
+echo A) Enable Wireless ADB
+echo B) Change Wireless ADB IP
+echo C) Disconnect Wireless ADB
+echo ==========================================
 
 :MainMenuInput
 set INPUT=
 set /p INPUT=Answer: 
-if "%INPUT%"=="1" goto wirelesssetup
+if "%INPUT%"=="1" goto capture
 if "%INPUT%"=="2" goto Option2
+if "%INPUT%"=="A" goto wirelesssetup
+if "%INPUT%"=="a" goto wirelesssetup
+if "%INPUT%"=="B" goto wirelessIP
+if "%INPUT%"=="b" goto wirelessIP
+if "%INPUT%"=="C" goto disconnect
+if "%INPUT%"=="c" goto disconnect
 Echo Please enter a valid answer!
-goto MainMenuInput
+pause
+goto MainMenu
 
 :wirelesssetup
 cls
@@ -31,19 +42,23 @@ echo ==========================================
 set INPUT=
 set /p INPUT=Answer: 
 if "%INPUT%"=="A" goto wirelessIP
-if "%INPUT%"=="B" goto capture
+if "%INPUT%"=="B" goto MainMenu
 if "%INPUT%"=="a" goto wirelessIP
-if "%INPUT%"=="b" goto capture
+if "%INPUT%"=="b" goto MainMenu
 Echo Please enter a valid answer!
-goto wirelessinput
+pause
+goto wirelesssetup
 
 :wirelessIP
 cls
 title Please plug in your Quest
+echo ==========================================
 echo !!Please plug in your Quest / Quest 2!!
+echo ==========================================
 set localip=
 set /p localip=Quest / Quest 2 local IP:
 
+cls
 title is that correct?
 echo ==========================================
 echo You set your Quest / Quest 2 local ip to %localip%. is that correct?
@@ -57,6 +72,9 @@ if "%confirm%"=="A" goto connecting
 if "%confirm%"=="B" goto wirelessIP
 if "%confirm%"=="a" goto connecting
 if "%confirm%"=="b" goto wirelessIP
+echo Please enter a valid answer!
+pause
+goto WirelessIP
 
 :connecting
 cls
@@ -66,7 +84,7 @@ adb connect %localip%:5555
 echo Connected! You can now unplug your Quest / Quest 2
 title Connected!
 pause
-goto capture
+goto MainMenu
 
 :capture
 cls
@@ -78,9 +96,6 @@ echo A) 1920x1080 90fps (Widescreen)
 echo B) 1280x1280 90fps (Square)
 echo C) 1080x1920 90fps (Youtube Shorts)
 echo D) set custom res/fps
-echo ==========================================
-echo 1) Change Wireless ADB IP
-echo 2) Disconnect wireless ADB
 echo ==========================================
 echo 9) Go to Main Menu
 
@@ -99,7 +114,8 @@ if "%INPUT%"=="1" goto wirelessIP
 if "%INPUT%"=="2" goto disconnect
 if "%INPUT%"=="9" goto MainMenu
 Echo Please enter a valid answer!
-goto captureInput
+pause
+goto capture
 
 :disconnect
 cls
@@ -115,18 +131,20 @@ set confirm2=
 set /p confirm2=Answer: 
 if "%confirm2%"=="A" goto disconnecting
 if "%confirm2%"=="a" goto disconnecting
-if "%confirm2%"=="B" goto capture
-if "%confirm2%"=="b" goto capture
+if "%confirm2%"=="B" goto MainMenu
+if "%confirm2%"=="b" goto MainMenu
+echo Please enter a valid answer!
+pause
+goto disconnect
 
 :disconnecting
 cls
 title Disconnecting...
 adb disconnect
-
 echo Disconnected!
 title Disconnected!
 pause
-goto capture
+goto MainMenu
 
 :wide
 cls
