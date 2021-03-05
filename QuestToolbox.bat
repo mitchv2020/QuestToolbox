@@ -1,7 +1,12 @@
 @echo off
 
+setlocal
+call :setESC
+
 :MainMenu
 cls
+title Quest Toolbox
+echo               %ESC%[7mQuest Toolbox%ESC%[0m
 echo ==========================================
 echo Which would you like to do?
 echo ==========================================
@@ -32,7 +37,7 @@ goto MainMenu
 cls
 title Do you want to setup wireless adb?
 echo ==========================================
-echo Do you want to setup wireless adb?
+echo     %ESC%[7mDo you want to setup wireless adb?%ESC%[0m
 echo ==========================================
 echo A) Yes
 echo B) No
@@ -53,7 +58,7 @@ goto wirelesssetup
 cls
 title Please plug in your Quest
 echo ==========================================
-echo !!Please plug in your Quest / Quest 2!!
+echo   %ESC%[41m!!Please plug in your Quest / Quest 2!!%ESC%[0m
 echo ==========================================
 set localip=
 set /p localip=Quest / Quest 2 local IP: 
@@ -61,7 +66,7 @@ set /p localip=Quest / Quest 2 local IP:
 cls
 title is that correct?
 echo ==========================================
-echo You set your Quest / Quest 2 local ip to %localip%. is that correct?
+echo You set your Quest / Quest 2 local ip to %ESC%[7m%localip%%ESC%[0m. is that correct?
 echo ==========================================
 echo A) Yes
 echo B) No
@@ -89,7 +94,7 @@ goto MainMenu
 :changeIP
 cls
 echo ==========================================
-echo Do you want to change your Wireless ADB IP?
+echo %ESC%[7mDo you want to change your Wireless ADB IP?%ESC%[0m
 echo ==========================================
 echo 1) Yes
 echo 2) No
@@ -107,7 +112,7 @@ goto ChangeIP
 cls
 title Changing Wireless ADB IP
 echo ==========================================
-echo !!If not done yet, please setup Wireless ADB First!!
+echo %ESC%[41m!!If not done yet, please setup Wireless ADB First!!%ESC%[0m
 echo ==========================================
 set changedip=
 set /p changedip=Quest / Quest 2 local IP: 
@@ -115,7 +120,7 @@ set /p changedip=Quest / Quest 2 local IP:
 cls
 title is that correct?
 echo ==========================================
-echo You set your Quest / Quest 2 local ip to %changedip%. is that correct?
+echo You set your Quest / Quest 2 local ip to %ESC%[7m%changedip%%ESC%[0m. is that correct?.
 echo ==========================================
 echo 1) Yes
 echo 2) No
@@ -140,6 +145,7 @@ goto MainMenu
 :capture
 cls
 Title Custom Capture Quest
+echo            %ESC%[7mCustom Capture Quest%ESC%[0m
 echo ==========================================
 echo Which capture commands do you want to run?
 echo ==========================================
@@ -172,7 +178,7 @@ goto capture
 cls
 title Do you want to disconnect wireless ADB?
 echo ==========================================
-echo Do you want to disconnect wireless ADB?
+echo %ESC%[7mDo you want to disconnect wireless ADB?%ESC%[0m
 echo ==========================================
 echo A) Yes
 echo B) No
@@ -246,7 +252,7 @@ set /p width=Custom Width:
 set height=
 set /p height=Custom Height: 
 
-echo !!Due to oculus capping FPS, min is 30 and max is 90.!!
+echo %ESC%[41m!!Due to oculus capping FPS, min is 30 and max is 90!!%ESC%[0m
 set fps=
 set /p fps=Custom FPS: 
 
@@ -265,3 +271,12 @@ cls
 echo This feature is not done yet!
 pause
 goto MainMenu
+
+
+::IGNORE THIS LINE::
+:setESC
+for /F "tokens=1,2 delims=#" %%a in ('"prompt #$H#$E# & echo on & for %%b in (1) do rem"') do (
+  set ESC=%%b
+  exit /B 0
+)
+exit /B 0
