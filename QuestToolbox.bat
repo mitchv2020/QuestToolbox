@@ -39,17 +39,15 @@ title Do you want to setup wireless adb?
 echo ==========================================
 echo     %ESC%[7mDo you want to setup wireless adb?%ESC%[0m
 echo ==========================================
-echo A) Yes
-echo B) No
+echo 1) Yes
+echo 2) No
 echo ==========================================
 
 :wirelessinput
 set INPUT=
 set /p INPUT=Answer: 
-if "%INPUT%"=="A" goto wirelessIP
-if "%INPUT%"=="B" goto MainMenu
-if "%INPUT%"=="a" goto wirelessIP
-if "%INPUT%"=="b" goto MainMenu
+if "%INPUT%"=="1" goto wirelessIP
+if "%INPUT%"=="2" goto MainMenu
 Echo Please enter a valid answer!
 pause
 goto wirelesssetup
@@ -68,15 +66,13 @@ title is that correct?
 echo ==========================================
 echo You set your Quest / Quest 2 local ip to %ESC%[7m%localip%%ESC%[0m. is that correct?
 echo ==========================================
-echo A) Yes
-echo B) No
+echo 1) Yes
+echo 2) No
 echo ==========================================
 
 set /p confirm=Answer: 
-if "%confirm%"=="A" goto connecting
-if "%confirm%"=="B" goto wirelessIP
-if "%confirm%"=="a" goto connecting
-if "%confirm%"=="b" goto wirelessIP
+if "%confirm%"=="1" goto connecting
+if "%confirm%"=="2" goto wirelessIP
 echo Please enter a valid answer!
 pause
 goto WirelessIP
@@ -180,16 +176,14 @@ title Do you want to disconnect wireless ADB?
 echo ==========================================
 echo %ESC%[7mDo you want to disconnect wireless ADB?%ESC%[0m
 echo ==========================================
-echo A) Yes
-echo B) No
+echo 1) Yes
+echo 2) No
 echo ==========================================
 
 set confirm2=
 set /p confirm2=Answer: 
-if "%confirm2%"=="A" goto disconnecting
-if "%confirm2%"=="a" goto disconnecting
-if "%confirm2%"=="B" goto MainMenu
-if "%confirm2%"=="b" goto MainMenu
+if "%confirm2%"=="1" goto disconnecting
+if "%confirm2%"=="2" goto MainMenu
 echo Please enter a valid answer!
 pause
 goto disconnect
@@ -268,7 +262,7 @@ goto capture
 
 :Option2
 cls
-echo This feature is not done yet!
+echo %ESC%[7mThis feature is not done yet!%ESC%[0m
 pause
 goto MainMenu
 
