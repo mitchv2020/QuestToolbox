@@ -6,20 +6,16 @@ call :setESC
 :start
 cls
 title Quest Keep Alive
+echo %ESC%[7mDo not close KeepAlive to keep the screen on!%ESC%[0m
 echo ==========================================
 echo %ESC%[41mYour Quest has to be Plugged in to do this!%ESC%[0m
 echo ==========================================
-echo 1) ENABLE Keep Alive
-echo 2) DISABLE Keep Alive
-echo 3) Exit (disables it)
-echo ==========================================
 
-set keepaliveInput=
-set /p keepaliveInput=Answer: 
-if "%keepaliveInput%"=="1" goto enable
-if "%keepaliveInput%"=="2" goto disable
-if "%keepaliveInput%"=="3" goto exit
-echo Please enter a valid answer!
+cmdMenuSel f870 "ENABLE Keep Alive" "DISABLE Keep Alive" "Exit (disables it)"
+
+if "%ERRORLEVEL%"=="1" goto enable
+if "%ERRORLEVEL%"=="2" goto disable
+if "%ERRORLEVEL%"=="3" goto exit
 goto start
 
 :enable
