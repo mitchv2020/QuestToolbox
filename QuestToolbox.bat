@@ -1,20 +1,15 @@
 @echo off
+cd Requirements
 SetLocal EnableDelayedExpansion
 
-:configloader
-rename config.ini config.bat
-call config.bat
-rename config.bat config.ini
-
 setlocal
-call :setESC
 
 :MainMenu
 cls
 title Quest Toolbox
-echo %ESC%[7mIf not done yet, please install ADB drivers%ESC%[0m
+echo [7mIf not done yet, please install ADB drivers[0m
 echo ==========================================
-echo               %ESC%[7mQuest Toolbox%ESC%[0m
+echo               [7mQuest Toolbox[0m
 echo ==========================================
 echo Which would you like to do?
 echo ==========================================
@@ -30,7 +25,7 @@ goto MainMenu
 
 :ADBMenuoptions
 cls
-echo               %ESC%[7mADB Options%ESC%[0m
+echo               [7mADB Options[0m
 echo ==========================================
 echo Which would you like to do?
 echo ==========================================
@@ -46,7 +41,7 @@ goto ADBMenuOptions
 :installadb
 cls
 start https://forum.xda-developers.com/attachment.php?attachmentid=4623157
-echo %ESC%[7mInstall these ADB Drivers and re-open this.%ESC%[0m
+echo [7mInstall these ADB Drivers and re-open this.[0m
 pause
 exit
 
@@ -54,7 +49,7 @@ exit
 cls
 title Do you want to setup wireless adb?
 echo ==========================================
-echo     %ESC%[7mDo you want to setup wireless adb?%ESC%[0m
+echo     [7mDo you want to setup wireless adb?[0m
 echo ==========================================
 
 :wirelessinput
@@ -68,7 +63,7 @@ goto wirelesssetup
 cls
 title Please plug in your Quest
 echo ==========================================
-echo %ESC%[41mPlease plug in your Quest / Quest 2!%ESC%[0m
+echo [41mPlease plug in your Quest / Quest 2![0m
 echo ==========================================
 set localip=
 set /p localip=Quest / Quest 2 local IP: 
@@ -76,7 +71,7 @@ set /p localip=Quest / Quest 2 local IP:
 cls
 title is that correct?
 echo ==========================================
-echo You set your Quest / Quest 2 local ip to %ESC%[7m%localip%%ESC%[0m. is that correct?
+echo You set your Quest / Quest 2 local ip to [7m%localip%[0m. is that correct?
 echo ==========================================
 
 cmdMenuSel f870 "Yes" "No"
@@ -97,7 +92,7 @@ goto MainMenu
 :changeIP
 cls
 echo ==========================================
-echo %ESC%[7mDo you want to change your Wireless ADB IP?%ESC%[0m
+echo [7mDo you want to change your Wireless ADB IP?[0m
 echo ==========================================
 
 cmdMenuSel f870 "Yes" "No"
@@ -110,7 +105,7 @@ goto ChangeIP
 cls
 title Changing Wireless ADB IP
 echo ==========================================
-echo %ESC%[41mIf not done yet, please setup Wireless ADB First!%ESC%[0m
+echo [41mIf not done yet, please setup Wireless ADB First![7m
 echo ==========================================
 set changedip=
 set /p changedip=Quest / Quest 2 local IP: 
@@ -118,7 +113,7 @@ set /p changedip=Quest / Quest 2 local IP:
 cls
 title is that correct?
 echo ==========================================
-echo You set your Quest / Quest 2 local ip to %ESC%[7m%changedip%%ESC%[0m. is that correct?.
+echo You set your Quest / Quest 2 local ip to [7m%changedip%[0m. is that correct?.
 echo ==========================================
 
 cmdMenuSel f870 "Yes" "No"
@@ -138,7 +133,7 @@ goto MainMenu
 :capture
 cls
 Title Custom Capture Quest
-echo            %ESC%[7mCustom Capture Quest%ESC%[0m
+echo            [7mCustom Capture Quest[0m
 echo ==========================================
 echo Which capture commands do you want to run?
 echo ==========================================
@@ -157,7 +152,7 @@ goto capture
 cls
 title Do you want to disconnect wireless ADB?
 echo ==========================================
-echo %ESC%[7mDo you want to disconnect wireless ADB?%ESC%[0m
+echo [7mDo you want to disconnect wireless ADB?[0m
 echo ==========================================
 
 cmdMenuSel f870 "Yes" "No"
@@ -183,7 +178,7 @@ adb shell setprop debug.oculus.capture.width 1920
 adb shell setprop debug.oculus.capture.height 1080
 adb shell setprop debug.oculus.capture.bitrate 10000000
 adb shell setprop debug.oculus.foveation.level 0
-adb shell setprop debug.oculus.capture.fps 90
+adb shell setprop debug.oculus.fullRateCapture 1
 Echo done.
 pause
 goto capture
@@ -195,7 +190,7 @@ adb shell setprop debug.oculus.capture.width 1280
 adb shell setprop debug.oculus.capture.height 1280
 adb shell setprop debug.oculus.capture.bitrate 10000000
 adb shell setprop debug.oculus.foveation.level 0
-adb shell setprop debug.oculus.capture.fps 90
+adb shell setprop debug.oculus.fullRateCapture 1
 Echo done.
 pause
 goto capture
@@ -207,7 +202,7 @@ adb shell setprop debug.oculus.capture.width 1080
 adb shell setprop debug.oculus.capture.height 1920
 adb shell setprop debug.oculus.capture.bitrate 10000000
 adb shell setprop debug.oculus.foveation.level 0
-adb shell setprop debug.oculus.capture.fps 90
+adb shell setprop debug.oculus.fullRateCapture 1
 Echo done.
 pause
 goto capture
@@ -222,7 +217,7 @@ set /p width=Custom Width:
 set height=
 set /p height=Custom Height: 
 
-echo %ESC%[41mDue to oculus capping FPS, min is 30 and max is 90!%ESC%[0m
+echo [41mDue to oculus capping FPS, min is 30 and max is 90![0m
 set fps=
 set /p fps=Custom FPS: 
 
@@ -244,18 +239,19 @@ goto MainMenu
 
 :refreshrate
 cls
-echo               %ESC%[7mRefresh Rate%ESC%[0m
+echo               [7mRefresh Rate[0m
 title Which refresh rate do you want to use?
 echo ==========================================
 echo Which Refresh Rate do you want to use?
 echo ==========================================
 
-cmdMenuSel f870 "60Hz" "72Hz" "90Hz (Quest 2 ONLY)" "==Back=="
+cmdMenuSel f870 "60Hz" "72Hz" "90Hz (Quest 2 ONLY)" "120Hz (Quest 2 ONLY)" "==Back=="
 
 if "%ERRORLEVEL%"=="1" goto 60
 if "%ERRORLEVEL%"=="2" goto 72
 if "%ERRORLEVEL%"=="3" goto 90
-if "%ERRORLEVEL%"=="4" goto MainMenu
+if "%ERRORLEVEL%"=="4" goto 120
+if "%ERRORLEVEL%"=="5" goto MainMenu
 goto refreshrate
 
 :60
@@ -288,10 +284,12 @@ echo Done!
 pause
 goto refreshrate
 
-::IGNORE THIS LINE::
-:setESC
-for /F "tokens=1,2 delims=#" %%a in ('"prompt #$H#$E# & echo on & for %%b in (1) do rem"') do (
-  set ESC=%%b
-  exit /B 0
-)
-exit /B 0
+:120
+cls
+title Updating Refresh Rate...
+echo Updating Refresh Rate...
+adb shell setprop debug.oculus.refreshRate 120
+title Done!
+echo Done!
+pause
+goto refreshrate
