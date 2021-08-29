@@ -4,7 +4,8 @@ SetLocal EnableDelayedExpansion
 
 setlocal
 
-:MainMenu
+
+:MainMenuInput
 cls
 title Quest Toolbox
 echo [7mIf not done yet, please install ADB drivers[0m
@@ -14,14 +15,37 @@ echo ==========================================
 echo Which would you like to do?
 echo ==========================================
 
-:MainMenuInput
-cmdMenuSel f870 "Change Recording Res/FPS" "Keep Alive (keep the screen on)" "Change Refresh Rate" "ADB Options"
+cmdMenuSel f870 "Change Recording Res/FPS" "Keep Alive (keep the screen on)" "Change Refresh Rate" "ADB Options" "Developer Credits"
 
 if "%ERRORLEVEL%"=="1" goto capture
 if "%ERRORLEVEL%"=="2" goto keepalive
 if "%ERRORLEVEL%"=="3" goto refreshrate
 if "%ERRORLEVEL%"=="4" goto adbmenuoptions
-goto MainMenu
+if "%ERRORLEVEL%"=="5" goto devcredits
+
+goto MainMenuInput
+
+:devcredits
+cls
+echo Developed by:
+cmdMenuSel f870 "mitchv2020" "LordNikonYT" "==Back=="
+
+if "%ERRORLEVEL%"=="1" goto dev1
+if "%ERRORLEVEL%"=="2" goto dev2
+if "%ERRORLEVEL%"=="3" goto MainMenuInput
+goto MainMenuInput
+
+
+:dev1
+cls
+start https://www.youtube.com/channel/UCZW2Nxa-fCm6V8bvDeF0Fyg
+goto :devcredits
+
+:dev2
+cls
+start https://www.youtube.com/channel/UCTaoq74t_tMPA5jUITxB3lw
+goto :devcredits
+
 
 :ADBMenuoptions
 cls
@@ -35,7 +59,8 @@ if "%ERRORLEVEL%"=="1" goto wirelesssetup
 if "%ERRORLEVEL%"=="2" goto changeip
 if "%ERRORLEVEL%"=="3" goto disconnect
 if "%ERRORLEVEL%"=="4" goto installadb
-if "%ERRORLEVEL%"=="5" goto MainMenu
+if "%ERRORLEVEL%"=="5" goto MainMenuInput
+
 goto ADBMenuOptions
 
 :installadb
@@ -56,7 +81,7 @@ echo ==========================================
 cmdMenuSel f870 "Yes" "No"
 
 if "%ERRORLEVEL%"=="1" goto wirelessIP
-if "%ERRORLEVEL%"=="2" goto MainMenu
+if "%ERRORLEVEL%"=="2" goto MainMenuInput
 goto wirelesssetup
 
 :wirelessIP
@@ -87,7 +112,7 @@ adb connect %localip%:5555
 echo You can now unplug your Quest / Quest 2 if it connected!
 title Connected!
 pause
-goto MainMenu
+goto MainMenuInput
 
 :changeIP
 cls
@@ -98,7 +123,7 @@ echo ==========================================
 cmdMenuSel f870 "Yes" "No"
 
 if "%ERRORLEVEL%"=="1" goto changingIP
-if "%ERRORLEVEL%"=="2" goto MainMenu
+if "%ERRORLEVEL%"=="2" goto MainMenuInput
 goto ChangeIP
 
 :changingip
@@ -127,7 +152,7 @@ title Connecting...
 adb connect %changedip%:5555
 title Connected!
 pause
-goto MainMenu
+goto MainMenuInput
 
 
 :capture
@@ -145,7 +170,7 @@ if "%ERRORLEVEL%"=="1" goto wide
 if "%ERRORLEVEL%"=="2" goto square
 if "%ERRORLEVEL%"=="3" goto shorts
 if "%ERRORLEVEL%"=="4" goto custom
-if "%ERRORLEVEL%"=="5" goto MainMenu
+if "%ERRORLEVEL%"=="5" goto MainMenuInput
 goto capture
 
 :disconnect
@@ -157,7 +182,7 @@ echo ==========================================
 
 cmdMenuSel f870 "Yes" "No"
 if "%ERRORLEVEL%"=="1" goto disconnecting
-if "%ERRORLEVEL%"=="2" goto MainMenu
+if "%ERRORLEVEL%"=="2" goto MainMenuInput
 echo Please enter a valid answer!
 pause
 goto disconnect
@@ -169,7 +194,7 @@ adb disconnect
 echo Disconnected!
 title Disconnected!
 pause
-goto MainMenu
+goto MainMenuInput
 
 :wide
 cls
@@ -178,7 +203,7 @@ adb shell setprop debug.oculus.capture.width 1920
 adb shell setprop debug.oculus.capture.height 1080
 adb shell setprop debug.oculus.capture.bitrate 10000000
 adb shell setprop debug.oculus.foveation.level 0
-adb shell setprop debug.oculus.fullRateCapture 1
+adb shell setprop debug.oculus.capture.fps 60
 Echo done.
 pause
 goto capture
@@ -190,7 +215,7 @@ adb shell setprop debug.oculus.capture.width 1280
 adb shell setprop debug.oculus.capture.height 1280
 adb shell setprop debug.oculus.capture.bitrate 10000000
 adb shell setprop debug.oculus.foveation.level 0
-adb shell setprop debug.oculus.fullRateCapture 1
+adb shell setprop debug.oculus.capture.fps 60
 Echo done.
 pause
 goto capture
@@ -202,7 +227,7 @@ adb shell setprop debug.oculus.capture.width 1080
 adb shell setprop debug.oculus.capture.height 1920
 adb shell setprop debug.oculus.capture.bitrate 10000000
 adb shell setprop debug.oculus.foveation.level 0
-adb shell setprop debug.oculus.fullRateCapture 1
+adb shell setprop debug.oculus.capture.fps 60
 Echo done.
 pause
 goto capture
@@ -217,7 +242,8 @@ set /p width=Custom Width:
 set height=
 set /p height=Custom Height: 
 
-echo [41mDue to oculus capping FPS, min is 30 and max is 90![0m
+echo [41m!Due to oculus capping FPS, min is 30 and max is 90![0m
+echo [41m!Might be unreliable cause oculus things. retry if not working![0m
 set fps=
 set /p fps=Custom FPS: 
 
@@ -235,7 +261,7 @@ cls
 cd ./Requirements
 start KeepAlive.bat
 echo Started KeepAlive...
-goto MainMenu
+goto MainMenuInput
 
 :refreshrate
 cls
@@ -251,7 +277,7 @@ if "%ERRORLEVEL%"=="1" goto 60
 if "%ERRORLEVEL%"=="2" goto 72
 if "%ERRORLEVEL%"=="3" goto 90
 if "%ERRORLEVEL%"=="4" goto 120
-if "%ERRORLEVEL%"=="5" goto MainMenu
+if "%ERRORLEVEL%"=="5" goto MainMenuInput
 goto refreshrate
 
 :60
