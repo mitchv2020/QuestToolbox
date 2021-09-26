@@ -13,13 +13,36 @@ echo               [7mQuest Toolbox[0m
 echo ==========================================
 echo Which would you like to do?
 echo ==========================================
-cmdMenuSel f870 "Change Recording Res/FPS" "Keep Alive (keep the screen on)" "Change Refresh Rate" "ADB Options"
+cmdMenuSel f870 "Change Recording Res/FPS" "Keep Alive (keep the screen on)" "Change Refresh Rate" "ADB Options" "Developer Credits"
 
 if "%ERRORLEVEL%"=="1" goto capture
 if "%ERRORLEVEL%"=="2" goto keepalive
 if "%ERRORLEVEL%"=="3" goto refreshrate
 if "%ERRORLEVEL%"=="4" goto adbmenu
+if "%ERRORLEVEL%"=="5" goto devcredits
 goto MainMenu
+
+:devcredits
+cls
+echo ==========================================
+echo Developed by:
+echo ==========================================
+cmdMenuSel f870 "mitchv2020" "LordNikonYT" "==Back=="
+
+if "%ERRORLEVEL%"=="1" goto dev1
+if "%ERRORLEVEL%"=="2" goto dev2
+if "%ERRORLEVEL%"=="3" goto MainMenu
+goto MainMenuInput
+
+:dev1
+cls
+start https://www.youtube.com/channel/UCZW2Nxa-fCm6V8bvDeF0Fyg
+goto :devcredits
+
+:dev2
+cls
+start https://www.youtube.com/channel/UCTaoq74t_tMPA5jUITxB3lw
+goto :devcredits
 
 :ADBMenu
 cls
