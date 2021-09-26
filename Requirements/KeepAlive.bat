@@ -1,5 +1,5 @@
 @echo off
-
+mode con: cols=70 lines=20
 setlocal
 call :setESC
 
