@@ -4,8 +4,7 @@ SetLocal EnableDelayedExpansion
 
 setlocal
 
-
-:MainMenuInput
+:MainMenu
 cls
 title Quest Toolbox
 echo [7mIf not done yet, please install ADB drivers[0m
@@ -14,54 +13,62 @@ echo               [7mQuest Toolbox[0m
 echo ==========================================
 echo Which would you like to do?
 echo ==========================================
-
-cmdMenuSel f870 "Change Recording Res/FPS" "Keep Alive (keep the screen on)" "Change Refresh Rate" "ADB Options" "Developer Credits"
+cmdMenuSel f870 "Change Recording Res/FPS" "Keep Alive (keep the screen on)" "Change Refresh Rate" "ADB Options"
 
 if "%ERRORLEVEL%"=="1" goto capture
 if "%ERRORLEVEL%"=="2" goto keepalive
 if "%ERRORLEVEL%"=="3" goto refreshrate
-if "%ERRORLEVEL%"=="4" goto adbmenuoptions
-if "%ERRORLEVEL%"=="5" goto devcredits
+if "%ERRORLEVEL%"=="4" goto adbmenu
+goto MainMenu
 
-goto MainMenuInput
-
-:devcredits
-cls
-echo Developed by:
-cmdMenuSel f870 "mitchv2020" "LordNikonYT" "==Back=="
-
-if "%ERRORLEVEL%"=="1" goto dev1
-if "%ERRORLEVEL%"=="2" goto dev2
-if "%ERRORLEVEL%"=="3" goto MainMenuInput
-goto MainMenuInput
-
-
-:dev1
-cls
-start https://www.youtube.com/channel/UCZW2Nxa-fCm6V8bvDeF0Fyg
-goto :devcredits
-
-:dev2
-cls
-start https://www.youtube.com/channel/UCTaoq74t_tMPA5jUITxB3lw
-goto :devcredits
-
-
-:ADBMenuoptions
+:ADBMenu
 cls
 echo               [7mADB Options[0m
 echo ==========================================
 echo Which would you like to do?
 echo ==========================================
-cmdMenuSel f870 "Setup Wireless ADB" "Change Wireless ADB IP" "Disconnect Wireless ADB" "Install ADB Drivers" "==Back=="
+cmdMenuSel f870 "Setup Wireless ADB" "Change Wireless ADB IP" "Disconnect Wireless ADB" "Sideload an APK File" "Install ADB Drivers" "==Back=="
 
 if "%ERRORLEVEL%"=="1" goto wirelesssetup
 if "%ERRORLEVEL%"=="2" goto changeip
 if "%ERRORLEVEL%"=="3" goto disconnect
-if "%ERRORLEVEL%"=="4" goto installadb
-if "%ERRORLEVEL%"=="5" goto MainMenuInput
-
+if "%ERRORLEVEL%"=="4" goto sideloadPrompt
+if "%ERRORLEVEL%"=="5" goto installadb
+if "%ERRORLEVEL%"=="6" goto MainMenu
 goto ADBMenuOptions
+
+:sideloadPrompt
+cls
+title Do you want to sideload an APK?
+echo ==========================================
+echo Do you want to sideload an APK?
+echo ==========================================
+cmdMenuSel f870 "Yes" "No"
+
+if "%ERRORLEVEL%"=="1" goto sideload
+if "%ERRORLEVEL%"=="2" goto ADBMenu
+
+:sideload
+cls
+title Sideload an APK
+echo ==========================================
+echo What is the directory of the APK? (include the file name)
+echo ==========================================
+set APKdir=
+set /p APKdir=Answer:
+if "%APKdir%"=="" goto sideloadIncorrect
+cls
+title Sideloading...
+echo Sideloading APK.... Please wait
+adb install %APKdir%
+pause
+goto ADBMenu
+
+:sideloadIncorrect
+cls
+echo Please Enter a directory
+pause
+goto sideload
 
 :installadb
 cls
@@ -81,7 +88,7 @@ echo ==========================================
 cmdMenuSel f870 "Yes" "No"
 
 if "%ERRORLEVEL%"=="1" goto wirelessIP
-if "%ERRORLEVEL%"=="2" goto MainMenuInput
+if "%ERRORLEVEL%"=="2" goto MainMenu
 goto wirelesssetup
 
 :wirelessIP
@@ -112,7 +119,7 @@ adb connect %localip%:5555
 echo You can now unplug your Quest / Quest 2 if it connected!
 title Connected!
 pause
-goto MainMenuInput
+goto MainMenu
 
 :changeIP
 cls
@@ -123,7 +130,7 @@ echo ==========================================
 cmdMenuSel f870 "Yes" "No"
 
 if "%ERRORLEVEL%"=="1" goto changingIP
-if "%ERRORLEVEL%"=="2" goto MainMenuInput
+if "%ERRORLEVEL%"=="2" goto MainMenu
 goto ChangeIP
 
 :changingip
@@ -152,7 +159,7 @@ title Connecting...
 adb connect %changedip%:5555
 title Connected!
 pause
-goto MainMenuInput
+goto MainMenu
 
 
 :capture
@@ -170,7 +177,7 @@ if "%ERRORLEVEL%"=="1" goto wide
 if "%ERRORLEVEL%"=="2" goto square
 if "%ERRORLEVEL%"=="3" goto shorts
 if "%ERRORLEVEL%"=="4" goto custom
-if "%ERRORLEVEL%"=="5" goto MainMenuInput
+if "%ERRORLEVEL%"=="5" goto MainMenu
 goto capture
 
 :disconnect
@@ -182,7 +189,7 @@ echo ==========================================
 
 cmdMenuSel f870 "Yes" "No"
 if "%ERRORLEVEL%"=="1" goto disconnecting
-if "%ERRORLEVEL%"=="2" goto MainMenuInput
+if "%ERRORLEVEL%"=="2" goto MainMenu
 echo Please enter a valid answer!
 pause
 goto disconnect
@@ -194,7 +201,7 @@ adb disconnect
 echo Disconnected!
 title Disconnected!
 pause
-goto MainMenuInput
+goto MainMenu
 
 :wide
 cls
@@ -203,7 +210,7 @@ adb shell setprop debug.oculus.capture.width 1920
 adb shell setprop debug.oculus.capture.height 1080
 adb shell setprop debug.oculus.capture.bitrate 10000000
 adb shell setprop debug.oculus.foveation.level 0
-adb shell setprop debug.oculus.capture.fps 60
+adb shell setprop debug.oculus.fullRateCapture 1
 Echo done.
 pause
 goto capture
@@ -215,7 +222,7 @@ adb shell setprop debug.oculus.capture.width 1280
 adb shell setprop debug.oculus.capture.height 1280
 adb shell setprop debug.oculus.capture.bitrate 10000000
 adb shell setprop debug.oculus.foveation.level 0
-adb shell setprop debug.oculus.capture.fps 60
+adb shell setprop debug.oculus.fullRateCapture 1
 Echo done.
 pause
 goto capture
@@ -227,7 +234,7 @@ adb shell setprop debug.oculus.capture.width 1080
 adb shell setprop debug.oculus.capture.height 1920
 adb shell setprop debug.oculus.capture.bitrate 10000000
 adb shell setprop debug.oculus.foveation.level 0
-adb shell setprop debug.oculus.capture.fps 60
+adb shell setprop debug.oculus.fullRateCapture 1
 Echo done.
 pause
 goto capture
@@ -242,8 +249,7 @@ set /p width=Custom Width:
 set height=
 set /p height=Custom Height: 
 
-echo [41m!Due to oculus capping FPS, min is 30 and max is 90![0m
-echo [41m!Might be unreliable cause oculus things. retry if not working![0m
+echo [41mDue to oculus capping FPS, min is 30 and max is 90![0m
 set fps=
 set /p fps=Custom FPS: 
 
@@ -261,7 +267,7 @@ cls
 cd ./Requirements
 start KeepAlive.bat
 echo Started KeepAlive...
-goto MainMenuInput
+goto MainMenu
 
 :refreshrate
 cls
@@ -277,7 +283,7 @@ if "%ERRORLEVEL%"=="1" goto 60
 if "%ERRORLEVEL%"=="2" goto 72
 if "%ERRORLEVEL%"=="3" goto 90
 if "%ERRORLEVEL%"=="4" goto 120
-if "%ERRORLEVEL%"=="5" goto MainMenuInput
+if "%ERRORLEVEL%"=="5" goto MainMenu
 goto refreshrate
 
 :60
