@@ -1,5 +1,5 @@
 @echo off
-mode con: cols=70 lines=20
+mode con: cols=72 lines=20
 cd Requirements
 SetLocal EnableDelayedExpansion
 
