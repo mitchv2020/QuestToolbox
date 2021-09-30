@@ -14,14 +14,48 @@ echo               [7mQuest Toolbox[0m
 echo ==========================================
 echo Which would you like to do?
 echo ==========================================
-cmdMenuSel f870 "Change Recording Res/FPS" "Keep Alive (keep the screen on)" "Change Refresh Rate" "ADB Options" "Developer Credits"
+cmdMenuSel f870 "Change Recording Res/FPS" "Sideload an APK File" "Keep Alive (keep the screen on)" "Change Refresh Rate" "ADB Options" "Developer Credits"
 
 if "%ERRORLEVEL%"=="1" goto capture
-if "%ERRORLEVEL%"=="2" goto keepalive
-if "%ERRORLEVEL%"=="3" goto refreshrate
-if "%ERRORLEVEL%"=="4" goto adbmenu
-if "%ERRORLEVEL%"=="5" goto devcredits
+if "%ERRORLEVEL%"=="2" goto sideloadPrompt
+if "%ERRORLEVEL%"=="3" goto keepalive
+if "%ERRORLEVEL%"=="4" goto refreshrate
+if "%ERRORLEVEL%"=="5" goto adbmenu
+if "%ERRORLEVEL%"=="6" goto devcredits
 goto MainMenu
+
+:sideloadPrompt
+cls
+title Do you want to sideload an APK?
+echo ==========================================
+echo Do you want to sideload an APK?
+echo ==========================================
+cmdMenuSel f870 "Yes" "No"
+
+if "%ERRORLEVEL%"=="1" goto sideload
+if "%ERRORLEVEL%"=="2" goto ADBMenu
+
+:sideload
+cls
+title Sideload an APK
+echo ==========================================
+echo Type in the directory of the file or drag the file into the CMD window.
+echo ==========================================
+set APKdir=
+set /p APKdir=Answer:
+if "%APKdir%"=="" goto sideloadIncorrect
+cls
+title Sideloading...
+echo Sideloading APK.... Please wait
+adb install %APKdir%
+pause
+goto ADBMenu
+
+:sideloadIncorrect
+cls
+echo Please Enter a directory
+pause
+goto sideload
 
 :devcredits
 cls
@@ -51,48 +85,15 @@ echo               [7mADB Options[0m
 echo ==========================================
 echo Which would you like to do?
 echo ==========================================
-cmdMenuSel f870 "Setup Wireless ADB" "Change Wireless ADB IP" "Disconnect Wireless ADB" "Sideload an APK File" "Install ADB Drivers" "==Back=="
+cmdMenuSel f870 "Setup Wireless ADB" "Change Wireless ADB IP" "Disconnect Wireless ADB" "Install ADB Drivers" "==Back=="
 
 if "%ERRORLEVEL%"=="1" goto wirelesssetup
 if "%ERRORLEVEL%"=="2" goto changeip
 if "%ERRORLEVEL%"=="3" goto disconnect
-if "%ERRORLEVEL%"=="4" goto sideloadPrompt
 if "%ERRORLEVEL%"=="5" goto installadb
 if "%ERRORLEVEL%"=="6" goto MainMenu
 goto ADBMenuOptions
 
-:sideloadPrompt
-cls
-title Do you want to sideload an APK?
-echo ==========================================
-echo Do you want to sideload an APK?
-echo ==========================================
-cmdMenuSel f870 "Yes" "No"
-
-if "%ERRORLEVEL%"=="1" goto sideload
-if "%ERRORLEVEL%"=="2" goto ADBMenu
-
-:sideload
-cls
-title Sideload an APK
-echo ==========================================
-echo What is the directory of the APK? (include the file name)
-echo ==========================================
-set APKdir=
-set /p APKdir=Answer:
-if "%APKdir%"=="" goto sideloadIncorrect
-cls
-title Sideloading...
-echo Sideloading APK.... Please wait
-adb install %APKdir%
-pause
-goto ADBMenu
-
-:sideloadIncorrect
-cls
-echo Please Enter a directory
-pause
-goto sideload
 
 :installadb
 cls
