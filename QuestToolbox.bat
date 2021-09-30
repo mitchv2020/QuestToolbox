@@ -90,8 +90,8 @@ cmdMenuSel f870 "Setup Wireless ADB" "Change Wireless ADB IP" "Disconnect Wirele
 if "%ERRORLEVEL%"=="1" goto wirelesssetup
 if "%ERRORLEVEL%"=="2" goto changeip
 if "%ERRORLEVEL%"=="3" goto disconnect
-if "%ERRORLEVEL%"=="5" goto installadb
-if "%ERRORLEVEL%"=="6" goto MainMenu
+if "%ERRORLEVEL%"=="4" goto installadb
+if "%ERRORLEVEL%"=="5" goto MainMenu
 goto ADBMenuOptions
 
 
