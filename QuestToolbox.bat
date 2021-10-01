@@ -49,7 +49,7 @@ echo ==========================================
 :: Options
 cmdMenuSel f870 "Yes" "No"
 if "%ERRORLEVEL%"=="1" goto sideload
-if "%ERRORLEVEL%"=="2" goto ADBMenu
+if "%ERRORLEVEL%"=="2" goto MainMenu
 goto sideloadPrompt
 
 :sideload
@@ -68,7 +68,7 @@ title Sideloading...
 echo Sideloading APK.... Please wait
 adb install %APKdir%
 pause
-goto ADBMenu
+goto MainMenu
 
 :sideloadIncorrect
 cls
