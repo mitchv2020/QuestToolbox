@@ -22,8 +22,6 @@ SetLocal EnableDelayedExpansion
 :MainMenu
 cls
 title Quest Toolbox
-echo [7mIf not done yet, please install ADB drivers[0m
-echo ==========================================
 echo               [7mQuest Toolbox[0m
 echo ==========================================
 echo Which would you like to do?
@@ -48,40 +46,100 @@ echo ==========================================
 
 ::Options
 cmdMenuSel f870 "Quest 1" "Quest 2" "==Exit=="
-if "%ERRORLEVEL%"=="1" goto Q1Mirror
-if "%ERRORLEVEL%"=="2" goto Q2Mirror
+if "%ERRORLEVEL%"=="1" goto Q1mirror
+if "%ERRORLEVEL%"=="2" goto Q2mirror
 if "%ERRORLEVEL%"=="3" goto MainMenu
 
-:Q1Mirror
+:Q1mirror
 cls
 title Starting stream....
 echo ==========================================
 echo What FPS would you like the stream to be?
 echo ==========================================
-set streamFPS=
-set /p streamFPS=Answer:
+set Q1streamFPS=
+cmdMenuSel f870 "60 FPS" "30 FPS" "Custom" "==back=="
+if "%errorlevel%"=="1" goto 60Q1
+if "%errorlevel%"=="2" goto 30Q1
+if "%errorlevel%"=="3" goto customQ2
+if "%errorlevel%"=="4" goto mirrorScreen
+
+:60Q1
+set Q1streamFPS=
+set Q1streamFPS=60
+goto Q1bitrate
+
+:30Q1
+set Q1streamFPS=
+set Q1streamFPS=30
+goto Q1bitrate
+
+:customQ1
 cls
-echo Starting stream at %streamFPS% FPS....
-:: Starts a stream to the quest at 60fps with a crop set
-scrcpy --max-fps %streamFPS% --crop 1280:720:1500:350
+set Q1streamFPS=
+set /p Q1streamFPS=Custom FPS:
+goto Q1bitrate
+
+:Q1bitrate
+cls
+echo ==========================================
+echo What bitrate would you like the stream to be (MB)?
+echo ==========================================
+set Q1bitrate=
+set /p Q1bitrate=Answer:
+goto Q1streaming
+
+:Q1streaming
+cls
+echo Starting stream at %Q1streamFPS% FPS....
+:: Starts a stream to the quest at a custom fps with a crop set
+scrcpy --max-fps %Q1streamFPS% --crop 1280:720:1500:350 --bit-rate %Q1bitrate%M
 pause
 goto MainMenu
 
-:Q2Mirror
+:Q2mirror
 cls
 title Starting stream....
 echo ==========================================
 echo What FPS would you like the stream to be?
 echo ==========================================
-set streamFPS=
-set /p streamFPS=Answer:
+cmdMenuSel f870 "60 FPS" "30 FPS" "Custom" "==back=="
+if "%errorlevel%"=="1" goto 60Q2
+if "%errorlevel%"=="2" goto 30Q2
+if "%errorlevel%"=="3" goto customQ2
+if "%errorlevel%"=="4" goto mirrorScreen
+
+:60Q2
+set Q2streamFPS=
+set Q2streamFPS=60
+goto Q2bitrate
+
+:30Q2
+set Q2streamFPS=
+set Q2streamFPS=30
+goto Q2bitrate
+
+:customQ2
 cls
-echo Starting stream at %streamFPS% FPS....
-:: Starts a stream to the quest at 60fps with a crop set
-scrcpy --max-fps %streamFPS% --crop 1600:900:2017:510
+set Q2streamFPS=
+set /p Q2StreamFPS=Custom FPS:
+goto Q2bitrate
+
+:Q2bitrate
+cls
+echo ==========================================
+echo What bitrate would you like the stream to be (MB)?
+echo ==========================================
+set Q2bitrate=
+set /p Q2bitrate=Answer:
+goto Q2streaming
+
+:Q2streaming
+cls
+echo Starting stream at %Q2streamFPS% FPS....
+:: Starts a stream to the quest at a custom fps with a crop set
+scrcpy --max-fps %Q2streamFPS% --crop 1600:900:2017:510 --bit-rate %Q2bitrate%M
 pause
 goto MainMenu
-
 
 :sideloadPrompt
 cls
@@ -151,24 +209,14 @@ echo               [7mADB Options[0m
 echo ==========================================
 echo Which would you like to do?
 echo ==========================================
-cmdMenuSel f870 "Setup Wireless ADB" "Change Wireless ADB IP" "Disconnect Wireless ADB" "Install ADB Drivers" "==Back=="
+cmdMenuSel f870 "Setup Wireless ADB" "Change Wireless ADB IP" "Disconnect Wireless ADB" "==Back=="
 
 :: Options
 if "%ERRORLEVEL%"=="1" goto wirelesssetup
 if "%ERRORLEVEL%"=="2" goto changeip
 if "%ERRORLEVEL%"=="3" goto disconnect
-if "%ERRORLEVEL%"=="4" goto installadb
-if "%ERRORLEVEL%"=="5" goto MainMenu
+if "%ERRORLEVEL%"=="4" goto MainMenu
 goto ADBMenuOptions
-
-
-:installadb
-cls
-:: Opens a download link to ADB Drivers
-start https://forum.xda-developers.com/attachment.php?attachmentid=4623157
-echo [7mInstall these ADB Drivers SYSTEM-WIDE and re-open this.[0m
-pause
-exit
 
 :wirelesssetup
 cls
