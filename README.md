@@ -14,3 +14,4 @@ A batch file full of useful tools to use for Quest 1 and 2!
 # Known Bugs/Problems
 - Resizing the window will break the ui (to fix this just choose any option)
 - Custom recording FPS is broken/unstable
+- KeepAlive is only working on Quest 1/ Bugged on Quest 2
