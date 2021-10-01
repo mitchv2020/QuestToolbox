@@ -1,9 +1,23 @@
 @echo off
-mode con: cols=72 lines=20
-cd Requirements
-SetLocal EnableDelayedExpansion
+:: Sets the window size
+mode con: cols=90 lines=20 
+:: Checks if the requirements folder exists
+if not exist ".\Requirements" goto noRequirements
+if exist ".\Requirements" goto folderExist
+:noRequirements
+:: Tells the user to redownload if the requirements folder is missing
+echo [41m The requirements folder does not exist, please redownload! [0m
+pause
+start https://github.com/mitchv2020/QuestToolbox/releases/latest
+exit
 
-setlocal
+:folderExist
+:: Sets the window size
+mode con: cols=72 lines=20 
+:: Changes directory into the requirements folder, which is needed for KeepAlive and the UI
+cd Requirements
+
+SetLocal EnableDelayedExpansion
 
 :MainMenu
 cls
@@ -14,8 +28,9 @@ echo               [7mQuest Toolbox[0m
 echo ==========================================
 echo Which would you like to do?
 echo ==========================================
-cmdMenuSel f870 "Change Recording Res/FPS" "Sideload an APK File" "Keep Alive (keep the screen on)" "Change Refresh Rate" "ADB Options" "Developer Credits"
 
+:: Options
+cmdMenuSel f870 "Change Recording Res/FPS" "Sideload an APK File" "Keep Alive (keep the screen on)" "Change Refresh Rate" "ADB Options" "Developer Credits"
 if "%ERRORLEVEL%"=="1" goto capture
 if "%ERRORLEVEL%"=="2" goto sideloadPrompt
 if "%ERRORLEVEL%"=="3" goto keepalive
@@ -30,10 +45,12 @@ title Do you want to sideload an APK?
 echo ==========================================
 echo Do you want to sideload an APK?
 echo ==========================================
-cmdMenuSel f870 "Yes" "No"
 
+:: Options
+cmdMenuSel f870 "Yes" "No"
 if "%ERRORLEVEL%"=="1" goto sideload
 if "%ERRORLEVEL%"=="2" goto ADBMenu
+goto sideloadPrompt
 
 :sideload
 cls
@@ -41,7 +58,9 @@ title Sideload an APK
 echo ==========================================
 echo Type in the directory of the file or drag the file into the CMD window.
 echo ==========================================
+:: Resets the APK directory selected
 set APKdir=
+:: Input
 set /p APKdir=Answer:
 if "%APKdir%"=="" goto sideloadIncorrect
 cls
@@ -62,8 +81,9 @@ cls
 echo ==========================================
 echo Developed by:
 echo ==========================================
-cmdMenuSel f870 "mitchv2020" "LordNikonYT" "==Back=="
 
+:: Options
+cmdMenuSel f870 "mitchv2020" "LordNikonYT" "==Back=="
 if "%ERRORLEVEL%"=="1" goto dev1
 if "%ERRORLEVEL%"=="2" goto dev2
 if "%ERRORLEVEL%"=="3" goto MainMenu
@@ -71,11 +91,13 @@ goto MainMenuInput
 
 :dev1
 cls
+:: Redirects the user to mitchv2020's youtube channel
 start https://www.youtube.com/channel/UCZW2Nxa-fCm6V8bvDeF0Fyg
 goto :devcredits
 
 :dev2
 cls
+:: Redirects the user to lordnikon's youtube channel
 start https://www.youtube.com/channel/UCTaoq74t_tMPA5jUITxB3lw
 goto :devcredits
 
@@ -87,6 +109,7 @@ echo Which would you like to do?
 echo ==========================================
 cmdMenuSel f870 "Setup Wireless ADB" "Change Wireless ADB IP" "Disconnect Wireless ADB" "Install ADB Drivers" "==Back=="
 
+:: Options
 if "%ERRORLEVEL%"=="1" goto wirelesssetup
 if "%ERRORLEVEL%"=="2" goto changeip
 if "%ERRORLEVEL%"=="3" goto disconnect
@@ -97,8 +120,9 @@ goto ADBMenuOptions
 
 :installadb
 cls
+:: Opens a download link to ADB Drivers
 start https://forum.xda-developers.com/attachment.php?attachmentid=4623157
-echo [7mInstall these ADB Drivers and re-open this.[0m
+echo [7mInstall these ADB Drivers SYSTEM-WIDE and re-open this.[0m
 pause
 exit
 
@@ -109,9 +133,8 @@ echo ==========================================
 echo     [7mDo you want to setup wireless adb?[0m
 echo ==========================================
 
-:wirelessinput
+:: Options
 cmdMenuSel f870 "Yes" "No"
-
 if "%ERRORLEVEL%"=="1" goto wirelessIP
 if "%ERRORLEVEL%"=="2" goto MainMenu
 goto wirelesssetup
@@ -122,7 +145,9 @@ title Please plug in your Quest
 echo ==========================================
 echo [41mPlease plug in your Quest / Quest 2![0m
 echo ==========================================
+:: Resets the local ip
 set localip=
+:: Prompts for the local IP
 set /p localip=Quest / Quest 2 local IP: 
 
 cls
@@ -131,6 +156,7 @@ echo ==========================================
 echo You set your Quest / Quest 2 local ip to [7m%localip%[0m. is that correct?
 echo ==========================================
 
+:: Options
 cmdMenuSel f870 "Yes" "No"
 if "%ERRORLEVEL%"=="1" goto connecting
 if "%ERRORLEVEL%"=="2" goto wirelessIP
@@ -139,7 +165,9 @@ goto WirelessIP
 :connecting
 cls
 title Connecting...
+:: Sets the quest up for wireless
 adb tcpip 5555
+:: Connects to the quest wirelessly
 adb connect %localip%:5555
 echo You can now unplug your Quest / Quest 2 if it connected!
 title Connected!
@@ -152,8 +180,8 @@ echo ==========================================
 echo [7mDo you want to change your Wireless ADB IP?[0m
 echo ==========================================
 
+:: Options
 cmdMenuSel f870 "Yes" "No"
-
 if "%ERRORLEVEL%"=="1" goto changingIP
 if "%ERRORLEVEL%"=="2" goto MainMenu
 goto ChangeIP
@@ -164,15 +192,19 @@ title Changing Wireless ADB IP
 echo ==========================================
 echo [41mIf not done yet, please setup Wireless ADB First![7m
 echo ==========================================
+:: Resets the local IP
 set changedip=
+:: Prompts for local IP
 set /p changedip=Quest / Quest 2 local IP: 
 
+:changingIPconfirm
 cls
 title is that correct?
 echo ==========================================
 echo You set your Quest / Quest 2 local ip to [7m%changedip%[0m. is that correct?.
 echo ==========================================
 
+:: Options
 cmdMenuSel f870 "Yes" "No"
 if "%ERRORLEVEL%"=="1" goto changingadb
 if "%ERRORLEVEL%"=="2" goto changingip
@@ -181,6 +213,7 @@ goto changingip
 :changingadb
 cls
 title Connecting...
+:: Connects to the new local IP
 adb connect %changedip%:5555
 title Connected!
 pause
