@@ -30,14 +30,58 @@ echo Which would you like to do?
 echo ==========================================
 
 :: Options
-cmdMenuSel f870 "Change Recording Res/FPS" "Sideload an APK File" "Keep Alive (keep the screen on)" "Change Refresh Rate" "ADB Options" "Developer Credits"
+cmdMenuSel f870 "Change Recording Res/FPS" "Stream Quest screen to PC" "Sideload an APK File" "Keep Alive (keep the screen on)" "Change Refresh Rate" "ADB Options" "Developer Credits"
 if "%ERRORLEVEL%"=="1" goto capture
-if "%ERRORLEVEL%"=="2" goto sideloadPrompt
-if "%ERRORLEVEL%"=="3" goto keepalive
-if "%ERRORLEVEL%"=="4" goto refreshrate
-if "%ERRORLEVEL%"=="5" goto adbmenu
-if "%ERRORLEVEL%"=="6" goto devcredits
+if "%ERRORLEVEL%"=="2" goto mirrorScreen
+if "%ERRORLEVEL%"=="3" goto sideloadPrompt
+if "%ERRORLEVEL%"=="4" goto keepalive
+if "%ERRORLEVEL%"=="5" goto refreshrate
+if "%ERRORLEVEL%"=="6" goto adbmenu
+if "%ERRORLEVEL%"=="7" goto devcredits
 goto MainMenu
+
+:mirrorScreen
+cls
+echo ==========================================
+echo Do you have a Quest 1 or 2?
+echo ==========================================
+
+::Options
+cmdMenuSel f870 "Quest 1" "Quest 2" "==Exit=="
+if "%ERRORLEVEL%"=="1" goto Q1Mirror
+if "%ERRORLEVEL%"=="2" goto Q2Mirror
+if "%ERRORLEVEL%"=="3" goto MainMenu
+
+:Q1Mirror
+cls
+title Starting stream....
+echo ==========================================
+echo What FPS would you like the stream to be?
+echo ==========================================
+set streamFPS=
+set /p streamFPS=Answer:
+cls
+echo Starting stream at %streamFPS% FPS....
+:: Starts a stream to the quest at 60fps with a crop set
+scrcpy --max-fps %streamFPS% --crop 1280:720:1500:350
+pause
+goto MainMenu
+
+:Q2Mirror
+cls
+title Starting stream....
+echo ==========================================
+echo What FPS would you like the stream to be?
+echo ==========================================
+set streamFPS=
+set /p streamFPS=Answer:
+cls
+echo Starting stream at %streamFPS% FPS....
+:: Starts a stream to the quest at 60fps with a crop set
+scrcpy --max-fps %streamFPS% --crop 1600:900:2017:510
+pause
+goto MainMenu
+
 
 :sideloadPrompt
 cls
@@ -166,9 +210,9 @@ goto WirelessIP
 cls
 title Connecting...
 :: Sets the quest up for wireless
-adb tcpip 5555
+adb tcpip 5037
 :: Connects to the quest wirelessly
-adb connect %localip%:5555
+adb connect %localip%:5037
 echo You can now unplug your Quest / Quest 2 if it connected!
 title Connected!
 pause
@@ -214,7 +258,7 @@ goto changingip
 cls
 title Connecting...
 :: Connects to the new local IP
-adb connect %changedip%:5555
+adb connect %changedip%:5037
 title Connected!
 pause
 goto MainMenu
