@@ -7,8 +7,8 @@ if exist ".\Requirements" goto folderExist
 :noRequirements
 :: Tells the user to redownload if the requirements folder is missing
 echo [41m The requirements folder does not exist, please redownload! [0m
-pause
 start https://github.com/mitchv2020/QuestToolbox/releases/latest
+pause
 exit
 
 :folderExist
@@ -29,13 +29,13 @@ echo ==========================================
 
 :: Options
 cmdMenuSel f870 "Change Recording Res/FPS" "Stream Quest screen to PC" "Sideload an APK File" "Keep Alive (keep the screen on)" "Change Refresh Rate" "ADB Options" "Developer Credits"
-if "%ERRORLEVEL%"=="1" goto capture
-if "%ERRORLEVEL%"=="2" goto mirrorScreen
-if "%ERRORLEVEL%"=="3" goto sideloadPrompt
-if "%ERRORLEVEL%"=="4" goto keepalive
-if "%ERRORLEVEL%"=="5" goto refreshrate
-if "%ERRORLEVEL%"=="6" goto adbmenu
-if "%ERRORLEVEL%"=="7" goto devcredits
+if "%errorlevel%"=="1" goto capture
+if "%errorlevel%"=="2" goto mirrorScreen
+if "%errorlevel%"=="3" goto sideloadPrompt
+if "%errorlevel%"=="4" goto keepalive
+if "%errorlevel%"=="5" goto refreshrate
+if "%errorlevel%"=="6" goto adbmenu
+if "%errorlevel%"=="7" goto devcredits
 goto MainMenu
 
 :mirrorScreen
@@ -46,9 +46,9 @@ echo ==========================================
 
 ::Options
 cmdMenuSel f870 "Quest 1" "Quest 2" "==Exit=="
-if "%ERRORLEVEL%"=="1" goto Q1mirror
-if "%ERRORLEVEL%"=="2" goto Q2mirror
-if "%ERRORLEVEL%"=="3" goto MainMenu
+if "%errorlevel%"=="1" goto Q1mirror
+if "%errorlevel%"=="2" goto Q2mirror
+if "%errorlevel%"=="3" goto MainMenu
 
 :Q1mirror
 cls
@@ -150,8 +150,8 @@ echo ==========================================
 
 :: Options
 cmdMenuSel f870 "Yes" "No"
-if "%ERRORLEVEL%"=="1" goto sideload
-if "%ERRORLEVEL%"=="2" goto MainMenu
+if "%errorlevel%"=="1" goto sideload
+if "%errorlevel%"=="2" goto MainMenu
 goto sideloadPrompt
 
 :sideload
@@ -186,9 +186,9 @@ echo ==========================================
 
 :: Options
 cmdMenuSel f870 "mitchv2020" "LordNikonYT" "==Back=="
-if "%ERRORLEVEL%"=="1" goto dev1
-if "%ERRORLEVEL%"=="2" goto dev2
-if "%ERRORLEVEL%"=="3" goto MainMenu
+if "%errorlevel%"=="1" goto dev1
+if "%errorlevel%"=="2" goto dev2
+if "%errorlevel%"=="3" goto MainMenu
 goto MainMenuInput
 
 :dev1
@@ -212,10 +212,10 @@ echo ==========================================
 cmdMenuSel f870 "Setup Wireless ADB" "Change Wireless ADB IP" "Disconnect Wireless ADB" "==Back=="
 
 :: Options
-if "%ERRORLEVEL%"=="1" goto wirelesssetup
-if "%ERRORLEVEL%"=="2" goto changeip
-if "%ERRORLEVEL%"=="3" goto disconnect
-if "%ERRORLEVEL%"=="4" goto MainMenu
+if "%errorlevel%"=="1" goto wirelesssetup
+if "%errorlevel%"=="2" goto changeip
+if "%errorlevel%"=="3" goto disconnect
+if "%errorlevel%"=="4" goto MainMenu
 goto ADBMenuOptions
 
 :wirelesssetup
@@ -227,8 +227,8 @@ echo ==========================================
 
 :: Options
 cmdMenuSel f870 "Yes" "No"
-if "%ERRORLEVEL%"=="1" goto wirelessIP
-if "%ERRORLEVEL%"=="2" goto MainMenu
+if "%errorlevel%"=="1" goto wirelessIP
+if "%errorlevel%"=="2" goto MainMenu
 goto wirelesssetup
 
 :wirelessIP
@@ -250,8 +250,8 @@ echo ==========================================
 
 :: Options
 cmdMenuSel f870 "Yes" "No"
-if "%ERRORLEVEL%"=="1" goto connecting
-if "%ERRORLEVEL%"=="2" goto wirelessIP
+if "%errorlevel%"=="1" goto connecting
+if "%errorlevel%"=="2" goto wirelessIP
 goto WirelessIP
 
 :connecting
@@ -274,8 +274,8 @@ echo ==========================================
 
 :: Options
 cmdMenuSel f870 "Yes" "No"
-if "%ERRORLEVEL%"=="1" goto changingIP
-if "%ERRORLEVEL%"=="2" goto MainMenu
+if "%errorlevel%"=="1" goto changingIP
+if "%errorlevel%"=="2" goto MainMenu
 goto ChangeIP
 
 :changingip
@@ -298,8 +298,8 @@ echo ==========================================
 
 :: Options
 cmdMenuSel f870 "Yes" "No"
-if "%ERRORLEVEL%"=="1" goto changingadb
-if "%ERRORLEVEL%"=="2" goto changingip
+if "%errorlevel%"=="1" goto changingadb
+if "%errorlevel%"=="2" goto changingip
 goto changingip
 
 :changingadb
@@ -323,11 +323,11 @@ echo ==========================================
 :captureInput
 cmdMenuSel f870 "1920x1080 90fps (Widescreen)" "1280x1280 90fps (Square)" "1080x1920 90fps (Youtube Shorts)" "Set custom res/fps" "==Back=="
 
-if "%ERRORLEVEL%"=="1" goto wide
-if "%ERRORLEVEL%"=="2" goto square
-if "%ERRORLEVEL%"=="3" goto shorts
-if "%ERRORLEVEL%"=="4" goto custom
-if "%ERRORLEVEL%"=="5" goto MainMenu
+if "%errorlevel%"=="1" goto wide
+if "%errorlevel%"=="2" goto square
+if "%errorlevel%"=="3" goto shorts
+if "%errorlevel%"=="4" goto custom
+if "%errorlevel%"=="5" goto MainMenu
 goto capture
 
 :disconnect
@@ -338,8 +338,8 @@ echo [7mDo you want to disconnect wireless ADB?[0m
 echo ==========================================
 
 cmdMenuSel f870 "Yes" "No"
-if "%ERRORLEVEL%"=="1" goto disconnecting
-if "%ERRORLEVEL%"=="2" goto MainMenu
+if "%errorlevel%"=="1" goto disconnecting
+if "%errorlevel%"=="2" goto MainMenu
 echo Please enter a valid answer!
 pause
 goto disconnect
@@ -429,11 +429,11 @@ echo ==========================================
 
 cmdMenuSel f870 "60Hz" "72Hz" "90Hz (Quest 2 ONLY)" "120Hz (Quest 2 ONLY)" "==Back=="
 
-if "%ERRORLEVEL%"=="1" goto 60
-if "%ERRORLEVEL%"=="2" goto 72
-if "%ERRORLEVEL%"=="3" goto 90
-if "%ERRORLEVEL%"=="4" goto 120
-if "%ERRORLEVEL%"=="5" goto MainMenu
+if "%errorlevel%"=="1" goto 60
+if "%errorlevel%"=="2" goto 72
+if "%errorlevel%"=="3" goto 90
+if "%errorlevel%"=="4" goto 120
+if "%errorlevel%"=="5" goto MainMenu
 goto refreshrate
 
 :60
