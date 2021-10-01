@@ -8,7 +8,7 @@ A batch file full of useful tools to use for Quest 1 and 2!
 - Sideload APK Files
 - Wireless ADB
 
-![](https://i.imgur.com/lB58Iu0.png)
+![](https://i.imgur.com/a8gZ57R.png)
 
 # Known Bugs/Problems
 - Resizing the window will break the ui (to fix this just choose any option)
