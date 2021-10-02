@@ -22,20 +22,28 @@ SetLocal EnableDelayedExpansion
 :MainMenu
 cls
 title Quest Toolbox
-echo               [7mQuest Toolbox[0m
+echo               [7mQuest Toolbox[0m			      Version: [7mv1.3.0[0m
 echo ==========================================
 echo Which would you like to do?
 echo ==========================================
 
 :: Options
-cmdMenuSel f870 "Change Recording Res/FPS" "Stream Quest screen to PC" "Sideload an APK File" "Keep Alive (keep the screen on)" "Change Refresh Rate" "ADB Options" "Developer Credits"
+cmdMenuSel f870 "Change Recording Res/FPS" "Stream Quest screen to PC" "Sideload an APK File" "Keep Alive (keep the screen on)" "Change Refresh Rate" "ADB Options" "Update QuestToolbox" "Developer Credits"
 if "%errorlevel%"=="1" goto capture
 if "%errorlevel%"=="2" goto mirrorScreen
 if "%errorlevel%"=="3" goto sideloadPrompt
 if "%errorlevel%"=="4" goto keepalive
 if "%errorlevel%"=="5" goto refreshrate
 if "%errorlevel%"=="6" goto adbmenu
-if "%errorlevel%"=="7" goto devcredits
+if "%errorlevel%"=="7" goto update
+if "%errorlevel%"=="8" goto devcredits
+goto MainMenu
+
+:update
+cls
+echo Opening GitHub page...
+:: Opens a browser tab with the latest release
+start https://www.github.com/mitchv2020/QuestToolbox/releases/latest
 goto MainMenu
 
 :mirrorScreen
@@ -56,7 +64,6 @@ title Starting stream....
 echo ==========================================
 echo What FPS would you like the stream to be?
 echo ==========================================
-set Q1streamFPS=
 cmdMenuSel f870 "60 FPS" "30 FPS" "Custom" "==back=="
 if "%errorlevel%"=="1" goto 60Q1
 if "%errorlevel%"=="2" goto 30Q1
@@ -64,18 +71,24 @@ if "%errorlevel%"=="3" goto customQ2
 if "%errorlevel%"=="4" goto mirrorScreen
 
 :60Q1
+:: Clears the FPS variable
 set Q1streamFPS=
+:: Sets the FPS of stream to 60
 set Q1streamFPS=60
 goto Q1bitrate
 
 :30Q1
+:: Clears the FPS variable
 set Q1streamFPS=
+:: Sets the FPS of stream to 30
 set Q1streamFPS=30
 goto Q1bitrate
 
 :customQ1
 cls
+:: Clears the FPS variable
 set Q1streamFPS=
+:: Input for custom FPS
 set /p Q1streamFPS=Custom FPS:
 goto Q1bitrate
 
@@ -84,14 +97,16 @@ cls
 echo ==========================================
 echo What bitrate would you like the stream to be (MB)?
 echo ==========================================
+:: Clears the Bitrate Variable
 set Q1bitrate=
+:: Input for bitrate of stream
 set /p Q1bitrate=Answer:
 goto Q1streaming
 
 :Q1streaming
 cls
 echo Starting stream at %Q1streamFPS% FPS....
-:: Starts a stream to the quest at a custom fps with a crop set
+:: Starts a stream to the quest at a custom fps and bitrate with a crop set
 scrcpy --max-fps %Q1streamFPS% --crop 1280:720:1500:350 --bit-rate %Q1bitrate%M
 pause
 goto MainMenu
@@ -109,18 +124,24 @@ if "%errorlevel%"=="3" goto customQ2
 if "%errorlevel%"=="4" goto mirrorScreen
 
 :60Q2
+:: Clears the FPS variable
 set Q2streamFPS=
+:: Sets the FPS of stream to 60
 set Q2streamFPS=60
 goto Q2bitrate
 
 :30Q2
+:: Clears the FPS variable
 set Q2streamFPS=
+:: Sets the FPS of stream to 30
 set Q2streamFPS=30
 goto Q2bitrate
 
 :customQ2
 cls
+:: Clears the FPS variable
 set Q2streamFPS=
+:: Input for custom FPS
 set /p Q2StreamFPS=Custom FPS:
 goto Q2bitrate
 
@@ -129,7 +150,9 @@ cls
 echo ==========================================
 echo What bitrate would you like the stream to be (MB)?
 echo ==========================================
+:: Clears the Bitrate Variable
 set Q2bitrate=
+:: Input for bitrate of stream
 set /p Q2bitrate=Answer:
 goto Q2streaming
 
@@ -189,7 +212,7 @@ cmdMenuSel f870 "mitchv2020" "LordNikonYT" "==Back=="
 if "%errorlevel%"=="1" goto dev1
 if "%errorlevel%"=="2" goto dev2
 if "%errorlevel%"=="3" goto MainMenu
-goto MainMenuInput
+goto devcredits
 
 :dev1
 cls
