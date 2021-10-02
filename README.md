@@ -7,9 +7,10 @@ A batch file full of useful tools to use for Quest 1 and 2!
 - KeepAlive (Keep the screen on)
 - Change Refresh Rate
 - Sideload APK Files
+- Uninstall Apps
 - Wireless ADB
 
-![](https://i.imgur.com/0PlwE0R.png)
+![](https://i.imgur.com/9uKgkq2.png)
 
 # Known Bugs/Problems
 - Resizing the window will break the ui (to fix this just choose any option)
