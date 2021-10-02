@@ -22,22 +22,65 @@ SetLocal EnableDelayedExpansion
 :MainMenu
 cls
 title Quest Toolbox
-echo               [7mQuest Toolbox[0m			      Version: [7mv1.3.0[0m
+echo               [7mQuest Toolbox[0m			      Version: [7mv1.3.1[0m
 echo ==========================================
 echo Which would you like to do?
 echo ==========================================
 
 :: Options
-cmdMenuSel f870 "Change Recording Res/FPS" "Stream Quest screen to PC" "Sideload an APK File" "Keep Alive (keep the screen on)" "Change Refresh Rate" "ADB Options" "Update QuestToolbox" "Developer Credits"
+cmdMenuSel f870 "Change Recording Res/FPS" "Stream Quest screen to PC" "Sideload an APK File" "Uninstall an App" "Keep Alive (keep the screen on)" "Change Refresh Rate" "ADB Options" "Update QuestToolbox" "Developer Credits"
 if "%errorlevel%"=="1" goto capture
 if "%errorlevel%"=="2" goto mirrorScreen
 if "%errorlevel%"=="3" goto sideloadPrompt
-if "%errorlevel%"=="4" goto keepalive
-if "%errorlevel%"=="5" goto refreshrate
-if "%errorlevel%"=="6" goto adbmenu
-if "%errorlevel%"=="7" goto update
-if "%errorlevel%"=="8" goto devcredits
+if "%errorlevel%"=="4" goto uninstallAPKPrompt
+if "%errorlevel%"=="5" goto keepalive
+if "%errorlevel%"=="6" goto refreshrate
+if "%errorlevel%"=="7" goto adbmenu
+if "%errorlevel%"=="8" goto update
+if "%errorlevel%"=="9" goto devcredits
 goto MainMenu
+
+:uninstallAPKPrompt
+cls
+echo ==========================================
+echo Are you sure you want to uninstall an App?
+echo ==========================================
+cmdMenuSel f870 "Yes" "No"
+if "%errorlevel%"=="1" goto uninstallAPK
+if "%errorlevel%"=="2" goto MainMenu
+
+:uninstallAPK
+cls
+echo ==========================================
+echo [7mA new window will open with all the apps installed.[0m
+echo ==========================================
+pause
+start packages.bat
+goto uninstalling
+
+:uninstalling
+cls
+echo ==========================================
+echo Please Enter the package name of 
+echo the app you would like to uninstall (Without the "package:")
+echo ==========================================
+echo [7m Type "exit" to cancel!![0m
+set APKuninst=
+set /p APKuninst=Answer:
+if "%APKuninst%"=="" goto wrongInputAPK
+if "%APKuninst%"=="exit" goto MainMenu
+cls
+title Uninstalling APK....
+echo Uninstalling APK....
+adb uninstall %APKuninst%
+pause
+goto MainMenu
+
+:wrongInputAPK
+cls
+echo Please enter a package name!
+pause
+goto uninstalling
 
 :update
 cls
