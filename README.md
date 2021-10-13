@@ -13,7 +13,7 @@ A batch file full of useful tools to use for Quest 1 and 2!
 # Install
 - Windows
 
-Download the [latest release](https://github.com/mitchv2020/QuestToolbox/releases/latest/download/QuestToolbox.zip) and place it in a folder of your liking. Make sure that the requirements folder does not get seperated.
+Download the [latest release](https://github.com/mitchv2020/QuestToolbox/releases/latest/download/QuestToolbox.zip) and extract it in a folder of your liking. Make sure that the requirements folder does not get seperated.
 
 - Linux
 
