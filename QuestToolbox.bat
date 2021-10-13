@@ -1,9 +1,16 @@
 @echo off
+:: Developed By:
+:: mitchv2020 and lordnikon
+
+
+
 :: Sets the window size
 mode con: cols=90 lines=20 
+
 :: Checks if the requirements folder exists
 if not exist ".\Requirements" goto noRequirements
 if exist ".\Requirements" goto folderExist
+
 :noRequirements
 :: Tells the user to redownload if the requirements folder is missing
 echo [41m The requirements folder does not exist, please redownload! [0m
@@ -17,12 +24,10 @@ mode con: cols=72 lines=20
 :: Changes directory into the requirements folder, which is needed for KeepAlive and the UI
 cd Requirements
 
-SetLocal EnableDelayedExpansion
-
 :MainMenu
 cls
 title Quest Toolbox
-echo               [7mQuest Toolbox[0m			      Version: [7mv1.3.1[0m
+echo               [7mQuest Toolbox[0m			      Version: [7mv1.3.2[0m
 echo ==========================================
 echo Which would you like to do?
 echo ==========================================
@@ -40,57 +45,90 @@ if "%errorlevel%"=="8" goto update
 if "%errorlevel%"=="9" goto devcredits
 goto MainMenu
 
-:uninstallAPKPrompt
-cls
-echo ==========================================
-echo Are you sure you want to uninstall an App?
-echo ==========================================
-cmdMenuSel f870 "Yes" "No"
-if "%errorlevel%"=="1" goto uninstallAPK
-if "%errorlevel%"=="2" goto MainMenu
 
-:uninstallAPK
-cls
-echo ==========================================
-echo [7mA new window will open with all the apps installed.[0m
-echo ==========================================
-pause
-start packages.bat
-goto uninstalling
 
-:uninstalling
+:capture
 cls
+Title Change Recording Res/FPS
+echo            [7mChange Recording Res/FPS[0m
 echo ==========================================
-echo Please Enter the package name of 
-echo the app you would like to uninstall (Without the "package:")
+echo Which capture commands do you want to run?
 echo ==========================================
-echo [7m Type "exit" to cancel!![0m
-set APKuninst=
-set /p APKuninst=Answer:
-if "%APKuninst%"=="" goto wrongInputAPK
-if "%APKuninst%"=="exit" goto MainMenu
+
+:captureInput
+cmdMenuSel f870 "1920x1080 60fps (Widescreen)" "1280x1280 60fps (Square)" "1080x1920 60fps (Youtube Shorts)" "Custom res/fps" "==Back=="
+
+if "%errorlevel%"=="1" goto wide
+if "%errorlevel%"=="2" goto square
+if "%errorlevel%"=="3" goto shorts
+if "%errorlevel%"=="4" goto custom
+if "%errorlevel%"=="5" goto MainMenu
+goto capture
+
+:wide
 cls
-title Uninstalling APK....
-echo Uninstalling APK....
-adb uninstall %APKuninst%
+title Widescreen
+adb shell setprop debug.oculus.capture.width 1920
+adb shell setprop debug.oculus.capture.height 1080
+adb shell setprop debug.oculus.capture.bitrate 10000000
+adb shell setprop debug.oculus.foveation.level 0
+adb shell setprop debug.oculus.capture.fps 60
+Echo done.
 pause
 goto MainMenu
 
-:wrongInputAPK
+:square
 cls
-echo Please enter a package name!
+title Square
+adb shell setprop debug.oculus.capture.width 1280
+adb shell setprop debug.oculus.capture.height 1280
+adb shell setprop debug.oculus.capture.bitrate 10000000
+adb shell setprop debug.oculus.foveation.level 0
+adb shell setprop debug.oculus.capture.fps 60
+Echo done.
 pause
-goto uninstalling
-
-:update
-cls
-echo Opening GitHub page...
-:: Opens a browser tab with the latest release
-start https://www.github.com/mitchv2020/QuestToolbox/releases/latest
 goto MainMenu
+
+:shorts
+cls
+title Youtube Shorts
+adb shell setprop debug.oculus.capture.width 1080
+adb shell setprop debug.oculus.capture.height 1920
+adb shell setprop debug.oculus.capture.bitrate 10000000
+adb shell setprop debug.oculus.foveation.level 0
+adb shell setprop debug.oculus.capture.fps 60
+Echo done.
+pause
+goto MainMenu
+
+:custom
+cls
+title Custom Option
+
+set width=
+set /p width=Custom Width: 
+
+set height=
+set /p height=Custom Height: 
+
+echo [41mDue to oculus capping FPS, min is 30 and max is 90![0m
+set fps=
+set /p fps=Custom FPS: 
+
+adb shell setprop debug.oculus.capture.width %width%
+adb shell setprop debug.oculus.capture.height %height%
+adb shell setprop debug.oculus.capture.bitrate 10000000
+adb shell setprop debug.oculus.foveation.level 0
+adb shell setprop debug.oculus.capture.fps %fps%
+Echo done.
+pause
+goto MainMenu
+
+
 
 :mirrorScreen
 cls
+title Stream Quest to PC
 echo ==========================================
 echo Do you have a Quest 1 or 2?
 echo ==========================================
@@ -207,6 +245,8 @@ scrcpy --max-fps %Q2streamFPS% --crop 1600:900:2017:510 --bit-rate %Q2bitrate%M
 pause
 goto MainMenu
 
+
+
 :sideloadPrompt
 cls
 title Do you want to sideload an APK?
@@ -244,30 +284,119 @@ echo Please Enter a directory
 pause
 goto sideload
 
-:devcredits
+
+
+:uninstallAPKPrompt
 cls
 echo ==========================================
-echo Developed by:
+echo Are you sure you want to uninstall an App?
+echo ==========================================
+cmdMenuSel f870 "Yes" "No"
+if "%errorlevel%"=="1" goto uninstallAPK
+if "%errorlevel%"=="2" goto MainMenu
+
+:uninstallAPK
+cls
+echo ==========================================
+echo [7mA new window will open with all the apps installed.[0m
+echo ==========================================
+pause
+start packages.bat
+goto uninstalling
+
+:uninstalling
+cls
+echo ==========================================
+echo Please Enter the package name of 
+echo the app you would like to uninstall (Without the "package:")
+echo ==========================================
+echo [7m Type "exit" to cancel!![0m
+set APKuninst=
+set /p APKuninst=Answer:
+if "%APKuninst%"=="" goto wrongInputAPK
+if "%APKuninst%"=="exit" goto MainMenu
+cls
+title Uninstalling APK....
+echo Uninstalling APK....
+adb uninstall %APKuninst%
+pause
+goto MainMenu
+
+:wrongInputAPK
+cls
+echo Please enter a package name!
+pause
+goto uninstalling
+
+
+
+:keepalive
+cls
+cd ./Requirements
+start KeepAlive.bat
+echo Started KeepAlive...
+goto MainMenu
+
+
+
+:refreshrate
+cls
+echo               [7mRefresh Rate[0m
+title Which refresh rate do you want to use?
+echo ==========================================
+echo Which Refresh Rate do you want to use?
 echo ==========================================
 
-:: Options
-cmdMenuSel f870 "mitchv2020" "LordNikonYT" "==Back=="
-if "%errorlevel%"=="1" goto dev1
-if "%errorlevel%"=="2" goto dev2
-if "%errorlevel%"=="3" goto MainMenu
-goto devcredits
+cmdMenuSel f870 "60Hz" "72Hz" "90Hz (Quest 2 ONLY)" "120Hz (Quest 2 ONLY)" "==Back=="
 
-:dev1
-cls
-:: Redirects the user to mitchv2020's youtube channel
-start https://www.youtube.com/channel/UCZW2Nxa-fCm6V8bvDeF0Fyg
-goto :devcredits
+if "%errorlevel%"=="1" goto 60
+if "%errorlevel%"=="2" goto 72
+if "%errorlevel%"=="3" goto 90
+if "%errorlevel%"=="4" goto 120
+if "%errorlevel%"=="5" goto MainMenu
+goto refreshrate
 
-:dev2
+:60
 cls
-:: Redirects the user to lordnikon's youtube channel
-start https://www.youtube.com/channel/UCTaoq74t_tMPA5jUITxB3lw
-goto :devcredits
+title Updating Refresh Rate...
+echo Updating Refresh Rate...
+adb shell setprop debug.oculus.refreshRate 60
+title Done!
+echo Done!
+pause
+goto refreshrate
+
+:72
+cls
+title Updating Refresh Rate...
+echo Updating Refresh Rate...
+adb shell setprop debug.oculus.refreshRate 72
+title Done!
+echo Done!
+pause
+goto refreshrate
+
+:90
+cls
+title Updating Refresh Rate...
+echo Updating Refresh Rate...
+adb shell setprop debug.oculus.refreshRate 90
+title Done!
+echo Done!
+pause
+goto refreshrate
+
+:120
+cls
+title Updating Refresh Rate...
+echo Updating Refresh Rate...
+adb shell setprop debug.oculus.refreshRate 120
+title Done!
+echo Done!
+pause
+goto refreshrate
+
+
 
 :ADBMenu
 cls
@@ -377,25 +506,6 @@ title Connected!
 pause
 goto MainMenu
 
-
-:capture
-cls
-Title Custom Capture Quest
-echo            [7mCustom Capture Quest[0m
-echo ==========================================
-echo Which capture commands do you want to run?
-echo ==========================================
-
-:captureInput
-cmdMenuSel f870 "1920x1080 90fps (Widescreen)" "1280x1280 90fps (Square)" "1080x1920 90fps (Youtube Shorts)" "Set custom res/fps" "==Back=="
-
-if "%errorlevel%"=="1" goto wide
-if "%errorlevel%"=="2" goto square
-if "%errorlevel%"=="3" goto shorts
-if "%errorlevel%"=="4" goto custom
-if "%errorlevel%"=="5" goto MainMenu
-goto capture
-
 :disconnect
 cls
 title Do you want to disconnect wireless ADB?
@@ -419,125 +529,38 @@ title Disconnected!
 pause
 goto MainMenu
 
-:wide
+
+
+:update
 cls
-title Widescreen
-adb shell setprop debug.oculus.capture.width 1920
-adb shell setprop debug.oculus.capture.height 1080
-adb shell setprop debug.oculus.capture.bitrate 10000000
-adb shell setprop debug.oculus.foveation.level 0
-adb shell setprop debug.oculus.fullRateCapture 1
-Echo done.
-pause
-goto capture
-
-:square
-cls
-title Square
-adb shell setprop debug.oculus.capture.width 1280
-adb shell setprop debug.oculus.capture.height 1280
-adb shell setprop debug.oculus.capture.bitrate 10000000
-adb shell setprop debug.oculus.foveation.level 0
-adb shell setprop debug.oculus.fullRateCapture 1
-Echo done.
-pause
-goto capture
-
-:shorts
-cls
-title Youtube Shorts
-adb shell setprop debug.oculus.capture.width 1080
-adb shell setprop debug.oculus.capture.height 1920
-adb shell setprop debug.oculus.capture.bitrate 10000000
-adb shell setprop debug.oculus.foveation.level 0
-adb shell setprop debug.oculus.fullRateCapture 1
-Echo done.
-pause
-goto capture
-
-:custom
-cls
-title Custom Option
-
-set width=
-set /p width=Custom Width: 
-
-set height=
-set /p height=Custom Height: 
-
-echo [41mDue to oculus capping FPS, min is 30 and max is 90![0m
-set fps=
-set /p fps=Custom FPS: 
-
-adb shell setprop debug.oculus.capture.width %width%
-adb shell setprop debug.oculus.capture.height %height%
-adb shell setprop debug.oculus.capture.bitrate 10000000
-adb shell setprop debug.oculus.foveation.level 0
-adb shell setprop debug.oculus.capture.fps %fps%
-Echo done.
-pause
-goto capture
-
-:keepalive
-cls
-cd ./Requirements
-start KeepAlive.bat
-echo Started KeepAlive...
+echo Opening GitHub page...
+:: Opens a browser tab with the latest release
+start https://www.github.com/mitchv2020/QuestToolbox/releases/latest
 goto MainMenu
 
-:refreshrate
+
+
+:devcredits
 cls
-echo               [7mRefresh Rate[0m
-title Which refresh rate do you want to use?
 echo ==========================================
-echo Which Refresh Rate do you want to use?
+echo Developed by:
 echo ==========================================
 
-cmdMenuSel f870 "60Hz" "72Hz" "90Hz (Quest 2 ONLY)" "120Hz (Quest 2 ONLY)" "==Back=="
+:: Options
+cmdMenuSel f870 "mitchv2020" "LordNikonYT" "==Back=="
+if "%errorlevel%"=="1" goto dev1
+if "%errorlevel%"=="2" goto dev2
+if "%errorlevel%"=="3" goto MainMenu
+goto devcredits
 
-if "%errorlevel%"=="1" goto 60
-if "%errorlevel%"=="2" goto 72
-if "%errorlevel%"=="3" goto 90
-if "%errorlevel%"=="4" goto 120
-if "%errorlevel%"=="5" goto MainMenu
-goto refreshrate
-
-:60
+:dev1
 cls
-title Updating Refresh Rate...
-echo Updating Refresh Rate...
-adb shell setprop debug.oculus.refreshRate 60
-title Done!
-echo Done!
-pause
-goto refreshrate
+:: Redirects the user to mitchv2020's youtube channel
+start https://www.youtube.com/channel/UCZW2Nxa-fCm6V8bvDeF0Fyg
+goto :devcredits
 
-:72
+:dev2
 cls
-title Updating Refresh Rate...
-echo Updating Refresh Rate...
-adb shell setprop debug.oculus.refreshRate 72
-title Done!
-echo Done!
-pause
-goto refreshrate
-
-:90
-cls
-title Updating Refresh Rate...
-echo Updating Refresh Rate...
-adb shell setprop debug.oculus.refreshRate 90
-title Done!
-echo Done!
-pause
-goto refreshrate
-
-:120
-cls
-title Updating Refresh Rate...
-echo Updating Refresh Rate...
-adb shell setprop debug.oculus.refreshRate 120
-title Done!
-echo Done!
-pause
-goto refreshrate
+:: Redirects the user to lordnikon's youtube channel
+start https://www.youtube.com/channel/UCTaoq74t_tMPA5jUITxB3lw
+goto :devcredits
