@@ -5,6 +5,7 @@ A batch file full of useful tools to use for Quest 1 and 2!
 - Change Recordings Resolution and FPS (FPS currently unstable/broken)
 - Stream your quest screen to your PC with a custom bitrate and FPS
 - KeepAlive (Keep the screen on)
+- Enable Wired ALVR
 - Change Refresh Rate
 - Sideload APK Files
 - Uninstall Apps
