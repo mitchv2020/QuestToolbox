@@ -27,22 +27,23 @@ cd Requirements
 :MainMenu
 cls
 title Quest Toolbox
-echo               [7mQuest Toolbox[0m			      Version: [7mv1.3.2[0m
+echo               [7mQuest Toolbox[0m			      Version: [7mv1.3.3[0m
 echo ==========================================
 echo Which would you like to do?
 echo ==========================================
 
 :: Options
-cmdMenuSel f870 "Change Recording Res/FPS" "Stream Quest screen to PC" "Sideload an APK File" "Uninstall an App" "Keep Alive (keep the screen on)" "Change Refresh Rate" "ADB Options" "Update QuestToolbox" "Developer Credits"
+cmdMenuSel f870 "Change Recording Res/FPS" "Stream Quest screen to PC" "Sideload an APK File" "Uninstall an App" "Enable Wired ALVR" "Keep Alive (keep the screen on)" "Change Refresh Rate" "ADB Options" "Update QuestToolbox" "Developer Credits"
 if "%errorlevel%"=="1" goto capture
 if "%errorlevel%"=="2" goto mirrorScreen
 if "%errorlevel%"=="3" goto sideloadPrompt
 if "%errorlevel%"=="4" goto uninstallAPKPrompt
-if "%errorlevel%"=="5" goto keepalive
-if "%errorlevel%"=="6" goto refreshrate
-if "%errorlevel%"=="7" goto adbmenu
-if "%errorlevel%"=="8" goto update
-if "%errorlevel%"=="9" goto devcredits
+if "%errorlevel%"=="5" goto wiredALVR
+if "%errorlevel%"=="6" goto keepalive
+if "%errorlevel%"=="7" goto refreshrate
+if "%errorlevel%"=="8" goto adbmenu
+if "%errorlevel%"=="9" goto update
+if "%errorlevel%"=="10" goto devcredits
 goto MainMenu
 
 
@@ -327,6 +328,19 @@ cls
 echo Please enter a package name!
 pause
 goto uninstalling
+
+
+
+:wiredALVR
+cls
+echo ==========================================
+echo [7mA new window will open, 
+echo do NOT close it otherwise wired ALVR will stop working.[0m
+echo ==========================================
+pause
+echo Starting bat...
+start wiredalvr.bat
+goto MainMenu
 
 
 
