@@ -2,32 +2,30 @@
 :: Developed By:
 :: mitchv2020 and lordnikon
 
-
-
 :: Sets the window size
 mode con: cols=90 lines=20 
 
 :: Checks if the requirements folder exists
-if not exist ".\Requirements" goto noRequirements
-if exist ".\Requirements" goto folderExist
-
-:noRequirements
-:: Tells the user to redownload if the requirements folder is missing
+if not exist ".\Requirements" (
 echo [41m The requirements folder does not exist, please redownload! [0m
 start https://github.com/mitchv2020/QuestToolbox/releases/latest
 pause
 exit
+)
 
-:folderExist
+:: Checks if the requirements folder exists
+if exist ".\Requirements" (
 :: Sets the window size
 mode con: cols=72 lines=20 
 :: Changes directory into the requirements folder, which is needed for KeepAlive and the UI
 cd Requirements
+goto MainMenu
+)
 
 :MainMenu
 cls
 title Quest Toolbox
-echo               [7mQuest Toolbox[0m			      Version: [7mv1.3.3[0m
+echo               [7mQuest Toolbox[0m			      Version: [7mv1.3.4[0m
 echo ==========================================
 echo Which would you like to do?
 echo ==========================================
@@ -335,7 +333,7 @@ goto uninstalling
 cls
 echo ==========================================
 echo [7mA new window will open, 
-echo do NOT close it otherwise wired ALVR will stop working.[0m
+echo Do NOT close it otherwise wired ALVR will stop working.[0m
 echo ==========================================
 pause
 echo Starting bat...
