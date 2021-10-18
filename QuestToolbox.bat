@@ -263,7 +263,7 @@ goto sideloadPrompt
 cls
 title Sideload an APK
 echo ==========================================
-echo Type in the directory of the file or drag the file into the CMD window.
+echo Type in the directory of the file (including file name)
 echo ==========================================
 :: Resets the APK directory selected
 set APKdir=
