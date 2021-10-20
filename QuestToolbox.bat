@@ -25,13 +25,13 @@ goto MainMenu
 :MainMenu
 cls
 title Quest Toolbox
-echo               [7mQuest Toolbox[0m			      Version: [7mv1.3.4[0m
+echo               [7mQuest Toolbox[0m			      Version: [7mv1.3.5[0m
 echo ==========================================
 echo Which would you like to do?
 echo ==========================================
 
 :: Options
-cmdMenuSel f870 "Change Recording Res/FPS" "Stream Quest screen to PC" "Sideload an APK File" "Uninstall an App" "Enable Wired ALVR" "Keep Alive (keep the screen on)" "Change Refresh Rate" "ADB Options" "Update QuestToolbox" "Developer Credits"
+cmdMenuSel f870 "Change Recording Res/FPS" "Stream Quest screen to PC" "Sideload an APK File" "Uninstall an App" "Enable Wired ALVR" "Keep Alive (keep the screen on)" "Change Refresh Rate" "ADB Options" "Change Quest Resolution" "Update QuestToolbox" "Developer Credits"
 if "%errorlevel%"=="1" goto capture
 if "%errorlevel%"=="2" goto mirrorScreen
 if "%errorlevel%"=="3" goto sideloadPrompt
@@ -40,8 +40,9 @@ if "%errorlevel%"=="5" goto wiredALVR
 if "%errorlevel%"=="6" goto keepalive
 if "%errorlevel%"=="7" goto refreshrate
 if "%errorlevel%"=="8" goto adbmenu
-if "%errorlevel%"=="9" goto update
-if "%errorlevel%"=="10" goto devcredits
+if "%errorlevel%"=="9" goto changeResPrompt
+if "%errorlevel%"=="10" goto update
+if "%errorlevel%"=="11" goto devcredits
 goto MainMenu
 
 
@@ -250,7 +251,7 @@ goto MainMenu
 cls
 title Do you want to sideload an APK?
 echo ==========================================
-echo Do you want to sideload an APK?
+echo      [7mDo you want to sideload an APK?[0m
 echo ==========================================
 
 :: Options
@@ -288,7 +289,7 @@ goto sideload
 :uninstallAPKPrompt
 cls
 echo ==========================================
-echo Are you sure you want to uninstall an App?
+echo [7mAre you sure you want to uninstall an App?[0m
 echo ==========================================
 cmdMenuSel f870 "Yes" "No"
 if "%errorlevel%"=="1" goto uninstallAPK
@@ -538,6 +539,65 @@ title Disconnecting...
 adb disconnect
 echo Disconnected!
 title Disconnected!
+pause
+goto MainMenu
+
+
+
+:changeResPrompt
+cls
+echo ==========================================
+echo         [7mChange Quest Resolution[0m
+echo ==========================================
+cmdMenuSel f870 "Default Resolution (1832x1920)" "Custom Resolution" "==Back=="
+
+if "%errorlevel%"=="1" goto defaultRes
+if "%errorlevel%"=="2" goto changeCustomRes
+if "%errorlevel%"=="3" goto MainMenu
+
+:defaultRes
+cls
+echo ==========================================
+echo [7mAre you sure you want to change resolution?[0m
+echo ==========================================
+cmdMenuSel f870 "Yes" "No"
+if "%errorlevel%"=="1" goto changingToDefault
+if "%errorlevel%"=="2" goto MainMenu
+
+echo Changing Height...
+adb shell setprop debug.oculus.textureHeight 1832
+echo Changing Width...
+adb shell setprop debug.oculus.textureWidth 1920
+pause
+goto MainMenu
+
+:changeCustomRes
+cls
+echo ==========================================
+echo [7mAre you sure you want to change resolution?[0m
+echo ==========================================
+cmdMenuSel f870 "Yes" "No"
+if "%errorlevel%"=="1" goto customRes
+if "%errorlevel%"=="2" goto MainMenu
+
+:customRes
+cls
+echo ==========================================
+echo [41mBe careful because if you do something
+echo wrong it can BREAK.[0m
+echo ==========================================
+echo [7mTYPE "[1mexit[0m[7m" TO CANCEL[0m
+set resHeight=
+set resWidth=
+set /p resHeight=Custom Height: 
+if "%resHeight%"=="exit" goto MainMenu
+set /p resWidth=Custom Width: 
+if "%resWidth%"=="exit" goto MainMenu
+
+cls
+echo Changing resolution...
+adb shell setprop debug.oculus.textureHeight %resHeight%
+adb shell setprop debug.oculus.textureWidth %resWidth%
 pause
 goto MainMenu
 
