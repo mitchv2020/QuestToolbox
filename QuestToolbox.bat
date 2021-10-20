@@ -134,7 +134,7 @@ echo Do you have a Quest 1 or 2?
 echo ==========================================
 
 ::Options
-cmdMenuSel f870 "Quest 1" "Quest 2" "==Exit=="
+cmdMenuSel f870 "Quest 1" "Quest 2" "==Back=="
 if "%errorlevel%"=="1" goto Q1mirror
 if "%errorlevel%"=="2" goto Q2mirror
 if "%errorlevel%"=="3" goto MainMenu
