@@ -6,6 +6,7 @@ A batch file full of useful tools to use for Quest 1 and 2!
 - Stream your quest screen to your PC with a custom bitrate and FPS
 - KeepAlive (Keep the screen on)
 - Enable Wired ALVR
+- Change Quest Resolution
 - Change Refresh Rate
 - Sideload APK Files
 - Uninstall Apps
@@ -24,7 +25,7 @@ We currently dont support linux
 
 We currently dont support Mac OS
 
-![](https://i.imgur.com/gERyxpI.png)
+![](https://i.imgur.com/MYpQiAw.png)
 
 # Known Bugs/Problems
 - Resizing the window will break the ui (to fix this just choose any option)
