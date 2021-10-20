@@ -25,7 +25,7 @@ goto MainMenu
 :MainMenu
 cls
 title Quest Toolbox
-echo               [7mQuest Toolbox[0m			      Version: [7mv1.3.6[0m
+echo               [7mQuest Toolbox[0m			      Version: [7mv1.3.7[0m
 echo ==========================================
 echo Which would you like to do?
 echo ==========================================
@@ -70,7 +70,22 @@ adb shell setprop debug.oculus.capture.height 1080
 adb shell setprop debug.oculus.capture.bitrate 10000000
 adb shell setprop debug.oculus.foveation.level 0
 adb shell setprop debug.oculus.capture.fps 60
-Echo done.
+
+if "%errorlevel%"=="-1" (
+cls
+echo [7mYou have either more than 1 or no Android devices connected!
+echo Please disconnect any other devices or connect your Quest.[0m
+pause
+goto MainMenu
+)
+
+if "%errorlevel%"=="0" (
+cls
+echo Successfully Changed Resolution and FPS!
+pause
+goto MainMenu
+)
+
 pause
 goto MainMenu
 
@@ -81,7 +96,22 @@ adb shell setprop debug.oculus.capture.height 1280
 adb shell setprop debug.oculus.capture.bitrate 10000000
 adb shell setprop debug.oculus.foveation.level 0
 adb shell setprop debug.oculus.capture.fps 60
-Echo done.
+
+if "%errorlevel%"=="-1" (
+cls
+echo [7mYou have either more than 1 or no Android devices connected!
+echo Please disconnect any other devices or connect your Quest.[0m
+pause
+goto MainMenu
+)
+
+if "%errorlevel%"=="0" (
+cls
+echo Successfully Changed Resolution and FPS!
+pause
+goto MainMenu
+)
+
 pause
 goto MainMenu
 
@@ -92,7 +122,22 @@ adb shell setprop debug.oculus.capture.height 1920
 adb shell setprop debug.oculus.capture.bitrate 10000000
 adb shell setprop debug.oculus.foveation.level 0
 adb shell setprop debug.oculus.capture.fps 60
-Echo done.
+
+if "%errorlevel%"=="-1" (
+cls
+echo [7mYou have either more than 1 or no Android devices connected!
+echo Please disconnect any other devices or connect your Quest.[0m
+pause
+goto MainMenu
+)
+
+if "%errorlevel%"=="0" (
+cls
+echo Successfully Changed Resolution and FPS!
+pause
+goto MainMenu
+)
+
 pause
 goto MainMenu
 
@@ -115,7 +160,22 @@ adb shell setprop debug.oculus.capture.height %height%
 adb shell setprop debug.oculus.capture.bitrate 10000000
 adb shell setprop debug.oculus.foveation.level 0
 adb shell setprop debug.oculus.capture.fps %fps%
-Echo done.
+
+if "%errorlevel%"=="-1" (
+cls
+echo [7mYou have either more than 1 or no Android devices connected!
+echo Please disconnect any other devices or connect your Quest.[0m
+pause
+goto MainMenu
+)
+
+if "%errorlevel%"=="0" (
+cls
+echo Successfully Changed Resolution and FPS!
+pause
+goto MainMenu
+)
+
 pause
 goto MainMenu
 
@@ -183,6 +243,15 @@ cls
 echo Starting stream at %Q1streamFPS% FPS....
 :: Starts a stream to the quest at a custom fps and bitrate with a crop set
 scrcpy --max-fps %Q1streamFPS% --crop 1280:720:1500:350 --bit-rate %Q1bitrate%M
+
+if "%errorlevel%"=="1" (
+cls
+echo [7mYou have either more than 1 or no Android devices connected!
+echo Please disconnect any other devices or connect your Quest.[0m
+pause
+goto MainMenu
+)
+
 pause
 goto MainMenu
 
@@ -235,6 +304,15 @@ cls
 echo Starting stream at %Q2streamFPS% FPS....
 :: Starts a stream to the quest at a custom fps with a crop set
 scrcpy --max-fps %Q2streamFPS% --crop 1600:900:2017:510 --bit-rate %Q2bitrate%M
+
+if "%errorlevel%"=="1" (
+cls
+echo [7mYou have either more than 1 or no Android devices connected!
+echo Please disconnect any other devices or connect your Quest.[0m
+pause
+goto MainMenu
+)
+
 pause
 goto MainMenu
 
@@ -258,14 +336,32 @@ cls
 echo ==========================================
 echo Type in the directory of the file (including file name)
 echo ==========================================
+echo Type "exit" to cancel.
 :: Resets the APK directory selected
 set APKdir=
 :: Input
 set /p APKdir=Answer:
+if "%APKdir%"=="exit" goto MainMenu
 if "%APKdir%"=="" goto sideloadIncorrect
 cls
 echo Sideloading APK.... Please wait
 adb install %APKdir%
+
+if "%errorlevel%"=="1" (
+cls
+echo [7mYou have either more than 1 or no Android devices connected!
+echo Please disconnect any other devices or connect your Quest.[0m
+pause
+goto MainMenu
+)
+
+if "%errorlevel%"=="0" (
+cls
+echo Successfully Sideloaded APK!
+pause
+goto MainMenu
+)
+
 pause
 goto MainMenu
 
@@ -309,6 +405,21 @@ if "%APKuninst%"=="exit" goto MainMenu
 cls
 echo Uninstalling APK....
 adb uninstall %APKuninst%
+
+if "%errorlevel%"=="-1" (
+cls
+echo [7mYou have either more than 1 or no Android devices connected!
+echo Please disconnect any other devices or connect your Quest.[0m
+pause
+goto MainMenu
+)
+
+if "%errorlevel%"=="0" (
+echo Successfully Uninstalled APK!
+pause
+goto MainMenu
+)
+
 pause
 goto MainMenu
 
@@ -361,35 +472,93 @@ goto refreshrate
 cls
 echo Updating Refresh Rate...
 adb shell setprop debug.oculus.refreshRate 60
-echo Done!
+
+if "%errorlevel%"=="-1" (
+cls
+echo [7mYou have either more than 1 or no Android devices connected!
+echo Please disconnect any other devices or connect your Quest.[0m
 pause
-goto refreshrate
+goto MainMenu
+)
+
+if "%errorlevel%"=="0" (
+cls
+echo Successfully Applied Refresh Rate!
+pause
+goto MainMenu
+)
+
+pause
+goto MainMenu
 
 :72
 cls
 echo Updating Refresh Rate...
 adb shell setprop debug.oculus.refreshRate 72
-echo Done!
+
+if "%errorlevel%"=="-1" (
+cls
+echo [7mYou have either more than 1 or no Android devices connected!
+echo Please disconnect any other devices or connect your Quest.[0m
 pause
-goto refreshrate
+goto MainMenu
+)
+
+if "%errorlevel%"=="0" (
+cls
+echo Successfully Applied Refresh Rate!
+pause
+goto MainMenu
+)
+
+pause
+goto MainMenu
 
 :90
 cls
 echo Updating Refresh Rate...
 adb shell setprop debug.oculus.refreshRate 90
-echo Done!
+
+if "%errorlevel%"=="-1" (
+cls
+echo [7mYou have either more than 1 or no Android devices connected!
+echo Please disconnect any other devices or connect your Quest.[0m
 pause
-goto refreshrate
+goto MainMenu
+)
+
+if "%errorlevel%"=="0" (
+cls
+echo Successfully Applied Refresh Rate!
+pause
+goto MainMenu
+)
+
+pause
+goto MainMenu
 
 :120
 cls
 echo Updating Refresh Rate...
 adb shell setprop debug.oculus.refreshRate 120
-echo Done!
+
+if "%errorlevel%"=="-1" (
+cls
+echo [7mYou have either more than 1 or no Android devices connected!
+echo Please disconnect any other devices or connect your Quest.[0m
 pause
-goto refreshrate
+goto MainMenu
+)
 
+if "%errorlevel%"=="0" (
+cls
+echo Successfully Applied Refresh Rate!
+pause
+goto MainMenu
+)
 
+pause
+goto MainMenu
 
 :ADBMenu
 cls
@@ -404,7 +573,6 @@ if "%errorlevel%"=="1" goto wirelesssetup
 if "%errorlevel%"=="2" goto changeip
 if "%errorlevel%"=="3" goto disconnect
 if "%errorlevel%"=="4" goto MainMenu
-goto ADBMenuOptions
 
 :wirelesssetup
 cls
@@ -443,52 +611,18 @@ goto WirelessIP
 cls
 title Connecting...
 :: Sets the quest up for wireless
-adb tcpip 5037
-:: Connects to the quest wirelessly
-adb connect %localip%:5037
-echo You can now unplug your Quest / Quest 2 if it connected!
+adb tcpip 5555
+
+if "%errorlevel%"=="1" (
+cls
+echo [7mYou have either more than 1 or no Android devices connected!
+echo Please disconnect any other devices or connect your Quest.[0m
 pause
 goto MainMenu
+)
 
-:changeIP
-cls
-echo ==========================================
-echo [7mDo you want to change your Wireless ADB IP?[0m
-echo ==========================================
-
-:: Options
-cmdMenuSel f870 "Yes" "No"
-if "%errorlevel%"=="1" goto changingIP
-if "%errorlevel%"=="2" goto MainMenu
-goto ChangeIP
-
-:changingip
-cls
-echo ==========================================
-echo [41mIf not done yet, please setup Wireless ADB First![7m
-echo ==========================================
-:: Resets the local IP
-set changedip=
-:: Prompts for local IP
-set /p changedip=Quest / Quest 2 local IP: 
-
-:changingIPconfirm
-cls
-echo ==========================================
-echo You set your Quest / Quest 2 local ip to [7m%changedip%[0m. is that correct?.
-echo ==========================================
-
-:: Options
-cmdMenuSel f870 "Yes" "No"
-if "%errorlevel%"=="1" goto changingadb
-if "%errorlevel%"=="2" goto changingip
-goto changingip
-
-:changingadb
-cls
-echo connecting...
-:: Connects to the new local IP
-adb connect %changedip%:5037
+:: Connects to the quest wirelessly
+adb connect %localip%:5555
 pause
 goto MainMenu
 
@@ -508,7 +642,14 @@ goto disconnect
 :disconnecting
 cls
 adb disconnect
-echo Disconnected!
+
+if "%errorlevel%"=="0" (
+cls
+echo Successfully Disconnected
+pause
+goto MainMenu
+)
+
 pause
 goto MainMenu
 
@@ -536,12 +677,26 @@ if "%errorlevel%"=="2" goto MainMenu
 
 :changingToDefault
 cls
-echo Changing Height...
+echo Changing Resolution...
 adb shell setprop debug.oculus.textureHeight 1832
-echo Changing Width...
 adb shell setprop debug.oculus.textureWidth 1920
+
+if "%errorlevel%"=="-1" (
+cls
+echo [7mYou have either more than 1 or no Android devices connected!
+echo Please disconnect any other devices or connect your Quest.[0m
 pause
 goto MainMenu
+)
+
+if "%errorlevel%"=="0" (
+cls
+echo Successfully Changed Resolution!
+pause
+goto MainMenu
+)
+
+
 
 :changeCustomRes
 cls
@@ -570,8 +725,21 @@ cls
 echo Changing resolution...
 adb shell setprop debug.oculus.textureHeight %resHeight%
 adb shell setprop debug.oculus.textureWidth %resWidth%
+
+if "%errorlevel%"=="-1" (
+cls
+echo [7mYou have either more than 1 or no Android devices connected!
+echo Please disconnect any other devices or connect your Quest.[0m
 pause
 goto MainMenu
+)
+
+if "%errorlevel%"=="0" (
+cls
+echo Successfully Changed Resolution!
+pause
+goto MainMenu
+)
 
 
 
