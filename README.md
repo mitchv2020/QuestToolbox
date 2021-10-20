@@ -23,7 +23,7 @@ We currently dont support linux
 
 - Mac OS
 
-We currently dont support Mac OS
+Although MacOS can run Batch files. we can not guarantee that it will work
 
 ![](https://i.imgur.com/MYpQiAw.png)
 
