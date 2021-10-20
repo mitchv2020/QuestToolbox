@@ -10,30 +10,23 @@ echo ==========================================
 
 cmdMenuSel f870 "Enable Keep Alive" "Disable Keep Alive" "==Exit=="
 
-if "%ERRORLEVEL%"=="1" goto enable
-if "%ERRORLEVEL%"=="2" goto disable
-if "%ERRORLEVEL%"=="3" goto exit
-goto start
-
-:enable
+if "%ERRORLEVEL%"=="1" (
 cls
 echo Enabling...
 adb shell svc power stayon true
 echo Enabled!
 pause
 goto start
+)
 
-:disable
+if "%ERRORLEVEL%"=="2" (
 cls
 echo Disabling...
 adb shell svc power stayon false
 echo Disabled!
 pause
 goto start
+)
 
-:exit
-cls
-echo Disabling...
-adb shell svc power stayon false
-Echo Exiting...
-exit
+if "%ERRORLEVEL%"=="3" exit
+
