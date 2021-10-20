@@ -25,7 +25,7 @@ goto MainMenu
 :MainMenu
 cls
 title Quest Toolbox
-echo               [7mQuest Toolbox[0m			      Version: [7mv1.3.5[0m
+echo               [7mQuest Toolbox[0m			      Version: [7mv1.3.6[0m
 echo ==========================================
 echo Which would you like to do?
 echo ==========================================
@@ -49,13 +49,11 @@ goto MainMenu
 
 :capture
 cls
-Title Change Recording Res/FPS
 echo            [7mChange Recording Res/FPS[0m
 echo ==========================================
 echo Which capture commands do you want to run?
 echo ==========================================
 
-:captureInput
 cmdMenuSel f870 "1920x1080 60fps (Widescreen)" "1280x1280 60fps (Square)" "1080x1920 60fps (Youtube Shorts)" "Custom res/fps" "==Back=="
 
 if "%errorlevel%"=="1" goto wide
@@ -67,7 +65,6 @@ goto capture
 
 :wide
 cls
-title Widescreen
 adb shell setprop debug.oculus.capture.width 1920
 adb shell setprop debug.oculus.capture.height 1080
 adb shell setprop debug.oculus.capture.bitrate 10000000
@@ -79,7 +76,6 @@ goto MainMenu
 
 :square
 cls
-title Square
 adb shell setprop debug.oculus.capture.width 1280
 adb shell setprop debug.oculus.capture.height 1280
 adb shell setprop debug.oculus.capture.bitrate 10000000
@@ -91,7 +87,6 @@ goto MainMenu
 
 :shorts
 cls
-title Youtube Shorts
 adb shell setprop debug.oculus.capture.width 1080
 adb shell setprop debug.oculus.capture.height 1920
 adb shell setprop debug.oculus.capture.bitrate 10000000
@@ -103,16 +98,16 @@ goto MainMenu
 
 :custom
 cls
-title Custom Option
 
+:: Clears all the variables
 set width=
-set /p width=Custom Width: 
-
 set height=
+set fps=
+
+set /p width=Custom Width: 
 set /p height=Custom Height: 
 
 echo [41mDue to oculus capping FPS, min is 30 and max is 90![0m
-set fps=
 set /p fps=Custom FPS: 
 
 adb shell setprop debug.oculus.capture.width %width%
@@ -128,7 +123,6 @@ goto MainMenu
 
 :mirrorScreen
 cls
-title Stream Quest to PC
 echo ==========================================
 echo Do you have a Quest 1 or 2?
 echo ==========================================
@@ -194,7 +188,6 @@ goto MainMenu
 
 :Q2mirror
 cls
-title Starting stream....
 echo ==========================================
 echo What FPS would you like the stream to be?
 echo ==========================================
@@ -262,7 +255,6 @@ goto sideloadPrompt
 
 :sideload
 cls
-title Sideload an APK
 echo ==========================================
 echo Type in the directory of the file (including file name)
 echo ==========================================
@@ -272,7 +264,6 @@ set APKdir=
 set /p APKdir=Answer:
 if "%APKdir%"=="" goto sideloadIncorrect
 cls
-title Sideloading...
 echo Sideloading APK.... Please wait
 adb install %APKdir%
 pause
@@ -316,7 +307,6 @@ set /p APKuninst=Answer:
 if "%APKuninst%"=="" goto wrongInputAPK
 if "%APKuninst%"=="exit" goto MainMenu
 cls
-title Uninstalling APK....
 echo Uninstalling APK....
 adb uninstall %APKuninst%
 pause
@@ -333,8 +323,8 @@ goto uninstalling
 :wiredALVR
 cls
 echo ==========================================
-echo [7mA new window will open, 
-echo Do NOT close it otherwise wired ALVR will stop working.[0m
+echo [7mA new window will open, do NOT close it 
+echo otherwise wired ALVR will stop working.[0m
 echo ==========================================
 pause
 echo Starting bat...
@@ -345,9 +335,8 @@ goto MainMenu
 
 :keepalive
 cls
-cd ./Requirements
-start KeepAlive.bat
-echo Started KeepAlive...
+echo Starting KeepAlive...
+start keepalive.bat
 goto MainMenu
 
 
@@ -355,7 +344,6 @@ goto MainMenu
 :refreshrate
 cls
 echo               [7mRefresh Rate[0m
-title Which refresh rate do you want to use?
 echo ==========================================
 echo Which Refresh Rate do you want to use?
 echo ==========================================
@@ -371,40 +359,32 @@ goto refreshrate
 
 :60
 cls
-title Updating Refresh Rate...
 echo Updating Refresh Rate...
 adb shell setprop debug.oculus.refreshRate 60
-title Done!
 echo Done!
 pause
 goto refreshrate
 
 :72
 cls
-title Updating Refresh Rate...
 echo Updating Refresh Rate...
 adb shell setprop debug.oculus.refreshRate 72
-title Done!
 echo Done!
 pause
 goto refreshrate
 
 :90
 cls
-title Updating Refresh Rate...
 echo Updating Refresh Rate...
 adb shell setprop debug.oculus.refreshRate 90
-title Done!
 echo Done!
 pause
 goto refreshrate
 
 :120
 cls
-title Updating Refresh Rate...
 echo Updating Refresh Rate...
 adb shell setprop debug.oculus.refreshRate 120
-title Done!
 echo Done!
 pause
 goto refreshrate
@@ -428,7 +408,6 @@ goto ADBMenuOptions
 
 :wirelesssetup
 cls
-title Do you want to setup wireless adb?
 echo ==========================================
 echo     [7mDo you want to setup wireless adb?[0m
 echo ==========================================
@@ -441,7 +420,6 @@ goto wirelesssetup
 
 :wirelessIP
 cls
-title Please plug in your Quest
 echo ==========================================
 echo [41mPlease plug in your Quest / Quest 2![0m
 echo ==========================================
@@ -451,7 +429,6 @@ set localip=
 set /p localip=Quest / Quest 2 local IP: 
 
 cls
-title is that correct?
 echo ==========================================
 echo You set your Quest / Quest 2 local ip to [7m%localip%[0m. is that correct?
 echo ==========================================
@@ -470,7 +447,6 @@ adb tcpip 5037
 :: Connects to the quest wirelessly
 adb connect %localip%:5037
 echo You can now unplug your Quest / Quest 2 if it connected!
-title Connected!
 pause
 goto MainMenu
 
@@ -488,7 +464,6 @@ goto ChangeIP
 
 :changingip
 cls
-title Changing Wireless ADB IP
 echo ==========================================
 echo [41mIf not done yet, please setup Wireless ADB First![7m
 echo ==========================================
@@ -499,7 +474,6 @@ set /p changedip=Quest / Quest 2 local IP:
 
 :changingIPconfirm
 cls
-title is that correct?
 echo ==========================================
 echo You set your Quest / Quest 2 local ip to [7m%changedip%[0m. is that correct?.
 echo ==========================================
@@ -512,16 +486,14 @@ goto changingip
 
 :changingadb
 cls
-title Connecting...
+echo connecting...
 :: Connects to the new local IP
 adb connect %changedip%:5037
-title Connected!
 pause
 goto MainMenu
 
 :disconnect
 cls
-title Do you want to disconnect wireless ADB?
 echo ==========================================
 echo [7mDo you want to disconnect wireless ADB?[0m
 echo ==========================================
@@ -535,10 +507,8 @@ goto disconnect
 
 :disconnecting
 cls
-title Disconnecting...
 adb disconnect
 echo Disconnected!
-title Disconnected!
 pause
 goto MainMenu
 
@@ -585,8 +555,8 @@ if "%errorlevel%"=="2" goto MainMenu
 :customRes
 cls
 echo ==========================================
-echo [41mBe careful because if you do something
-echo wrong it can BREAK.[0m
+echo [7mBe careful because if you do something wrong it can break.[0m
+echo If something does go wrong, a reboot usually fixes it.
 echo ==========================================
 echo [7mTYPE "[1mexit[0m[7m" TO CANCEL[0m
 set resHeight=
