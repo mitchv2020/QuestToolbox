@@ -21,9 +21,9 @@ Download the [latest release](https://github.com/mitchv2020/QuestToolbox/release
 
 We currently dont support linux
 
-- Mac OS
+- MacOS
 
-Although MacOS can run Batch files. we can not guarantee that it will work
+We currently dont support MacOS
 
 ![](https://i.imgur.com/MYpQiAw.png)
 
