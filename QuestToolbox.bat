@@ -626,6 +626,50 @@ adb connect %localip%:5555
 pause
 goto MainMenu
 
+:changeIP
+cls
+echo ==========================================
+echo [7mDo you want to change your Wireless ADB IP?[0m
+echo ==========================================
+
+:: Options
+cmdMenuSel f870 "Yes" "No"
+if "%errorlevel%"=="1" goto changingIP
+if "%errorlevel%"=="2" goto MainMenu
+goto ChangeIP
+
+:changingip
+cls
+echo ==========================================
+echo [41mIf not done yet, please setup Wireless ADB First![0m
+echo ==========================================
+:: Resets the local IP
+set changedip=
+:: Prompts for local IP
+set /p changedip=Quest / Quest 2 local IP: 
+
+:changingIPconfirm
+cls
+echo ==========================================
+echo You set your Quest / Quest 2 local ip to [7m%changedip%[0m. is that correct?.
+echo ==========================================
+
+:: Options
+cmdMenuSel f870 "Yes" "No"
+if "%errorlevel%"=="1" goto changingadb
+if "%errorlevel%"=="2" goto changingip
+goto changingip
+
+:changingadb
+cls
+echo connecting...
+:: Connects to the new local IP
+adb connect %changedip%:5555
+pause
+goto MainMenu
+
+
+
 :disconnect
 cls
 echo ==========================================
