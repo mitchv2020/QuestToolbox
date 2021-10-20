@@ -564,6 +564,8 @@ cmdMenuSel f870 "Yes" "No"
 if "%errorlevel%"=="1" goto changingToDefault
 if "%errorlevel%"=="2" goto MainMenu
 
+:changingToDefault
+cls
 echo Changing Height...
 adb shell setprop debug.oculus.textureHeight 1832
 echo Changing Width...
