@@ -25,7 +25,7 @@ goto MainMenu
 :MainMenu
 cls
 title Quest Toolbox
-echo               [7mQuest Toolbox[0m			      Version: [7mv1.3.7[0m
+echo               [7mQuest Toolbox[0m			      Version: [7mv1.3.8[0m
 echo ==========================================
 echo Which would you like to do?
 echo ==========================================
@@ -54,8 +54,8 @@ echo ==========================================
 echo Which capture commands do you want to run?
 echo ==========================================
 
+::Options
 cmdMenuSel f870 "1920x1080 60fps (Widescreen)" "1280x1280 60fps (Square)" "1080x1920 60fps (Youtube Shorts)" "Custom res/fps" "==Back=="
-
 if "%errorlevel%"=="1" goto wide
 if "%errorlevel%"=="2" goto square
 if "%errorlevel%"=="3" goto shorts
@@ -152,7 +152,7 @@ set fps=
 set /p width=Custom Width: 
 set /p height=Custom Height: 
 
-echo [41mDue to oculus capping FPS, min is 30 and max is 90![0m
+echo [7mDue to oculus capping FPS, min is 30 and max is 90![0m
 set /p fps=Custom FPS: 
 
 adb shell setprop debug.oculus.capture.width %width%
@@ -183,6 +183,7 @@ goto MainMenu
 
 :mirrorScreen
 cls
+echo            [7mStream Quest Screen[0m
 echo ==========================================
 echo Do you have a Quest 1 or 2?
 echo ==========================================
@@ -195,7 +196,6 @@ if "%errorlevel%"=="3" goto MainMenu
 
 :Q1mirror
 cls
-title Starting stream....
 echo ==========================================
 echo What FPS would you like the stream to be?
 echo ==========================================
@@ -260,6 +260,8 @@ cls
 echo ==========================================
 echo What FPS would you like the stream to be?
 echo ==========================================
+
+::Options
 cmdMenuSel f870 "60 FPS" "30 FPS" "Custom" "==back=="
 if "%errorlevel%"=="1" goto 60Q2
 if "%errorlevel%"=="2" goto 30Q2
@@ -336,7 +338,7 @@ cls
 echo ==========================================
 echo Type in the directory of the file (including file name)
 echo ==========================================
-echo Type "exit" to cancel.
+echo [7mType "exit" to cancel.[0m
 :: Resets the APK directory selected
 set APKdir=
 :: Input
@@ -397,7 +399,7 @@ echo ==========================================
 echo Please Enter the package name of 
 echo the app you would like to uninstall (Without the "package:")
 echo ==========================================
-echo [7m Type "exit" to cancel!![0m
+echo [7mType "exit" to cancel.[0m
 set APKuninst=
 set /p APKuninst=Answer:
 if "%APKuninst%"=="" goto wrongInputAPK
@@ -459,8 +461,8 @@ echo ==========================================
 echo Which Refresh Rate do you want to use?
 echo ==========================================
 
+::Options
 cmdMenuSel f870 "60Hz" "72Hz" "90Hz (Quest 2 ONLY)" "120Hz (Quest 2 ONLY)" "==Back=="
-
 if "%errorlevel%"=="1" goto 60
 if "%errorlevel%"=="2" goto 72
 if "%errorlevel%"=="3" goto 90
@@ -591,10 +593,13 @@ cls
 echo ==========================================
 echo [41mPlease plug in your Quest / Quest 2![0m
 echo ==========================================
+echo [7mType "exit" to cancel.[0m
 :: Resets the local ip
 set localip=
 :: Prompts for the local IP
 set /p localip=Quest / Quest 2 local IP: 
+if "%localip%"=="exit" goto MainMenu
+if "%localip%"=="" goto IncorrectInputIP
 
 cls
 echo ==========================================
@@ -609,7 +614,6 @@ goto WirelessIP
 
 :connecting
 cls
-title Connecting...
 :: Sets the quest up for wireless
 adb tcpip 5555
 
@@ -625,6 +629,12 @@ goto MainMenu
 adb connect %localip%:5555
 pause
 goto MainMenu
+
+:IncorrectInputIP
+cls
+echo Please enter an IP
+pause
+goto wirelessIP
 
 :changeIP
 cls
@@ -643,10 +653,13 @@ cls
 echo ==========================================
 echo [41mIf not done yet, please setup Wireless ADB First![0m
 echo ==========================================
+echo [7mType "exit" to cancel.[0m
 :: Resets the local IP
 set changedip=
 :: Prompts for local IP
 set /p changedip=Quest / Quest 2 local IP: 
+if "%changedip%"=="" goto IncorrectInputChangeIP
+if "%changedip%"=="exit" goto MainMenu
 
 :changingIPconfirm
 cls
@@ -667,6 +680,12 @@ echo connecting...
 adb connect %changedip%:5555
 pause
 goto MainMenu
+
+:IncorrectInputChangeIP
+cls
+echo Please enter an IP
+pause
+goto changingIP
 
 
 
@@ -704,8 +723,9 @@ cls
 echo ==========================================
 echo         [7mChange Quest Resolution[0m
 echo ==========================================
-cmdMenuSel f870 "Default Resolution (1832x1920)" "Custom Resolution" "==Back=="
 
+::Options
+cmdMenuSel f870 "Default Resolution (1832x1920)" "Custom Resolution" "==Back=="
 if "%errorlevel%"=="1" goto defaultRes
 if "%errorlevel%"=="2" goto changeCustomRes
 if "%errorlevel%"=="3" goto MainMenu
@@ -715,6 +735,8 @@ cls
 echo ==========================================
 echo [7mAre you sure you want to change resolution?[0m
 echo ==========================================
+
+::Options
 cmdMenuSel f870 "Yes" "No"
 if "%errorlevel%"=="1" goto changingToDefault
 if "%errorlevel%"=="2" goto MainMenu
@@ -747,6 +769,8 @@ cls
 echo ==========================================
 echo [7mAre you sure you want to change resolution?[0m
 echo ==========================================
+
+::Options
 cmdMenuSel f870 "Yes" "No"
 if "%errorlevel%"=="1" goto customRes
 if "%errorlevel%"=="2" goto MainMenu
@@ -757,7 +781,7 @@ echo ==========================================
 echo [7mBe careful because if you do something wrong it can break.[0m
 echo If something does go wrong, a reboot usually fixes it.
 echo ==========================================
-echo [7mTYPE "[1mexit[0m[7m" TO CANCEL[0m
+echo [7mType "exit" to cancel.[0m
 set resHeight=
 set resWidth=
 set /p resHeight=Custom Height: 
