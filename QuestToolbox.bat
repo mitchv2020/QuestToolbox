@@ -25,7 +25,7 @@ goto MainMenu
 :MainMenu
 cls
 title Quest Toolbox
-echo               [7mQuest Toolbox[0m			      Version: [7mv1.3.8[0m
+echo               [7mQuest Toolbox[0m			      Version: [7mv1.3.9[0m
 echo ==========================================
 echo Which would you like to do?
 echo ==========================================
@@ -568,13 +568,14 @@ echo               [7mADB Options[0m
 echo ==========================================
 echo Which would you like to do?
 echo ==========================================
-cmdMenuSel f870 "Setup Wireless ADB" "Change Wireless ADB IP" "Disconnect Wireless ADB" "==Back=="
+cmdMenuSel f870 "Setup Wireless ADB" "Change Wireless ADB IP" "Disconnect Wireless ADB" "Custom ADB Command" "==Back=="
 
 :: Options
 if "%errorlevel%"=="1" goto wirelesssetup
 if "%errorlevel%"=="2" goto changeip
 if "%errorlevel%"=="3" goto disconnect
-if "%errorlevel%"=="4" goto MainMenu
+if "%errorlevel%"=="4" goto customADB
+if "%errorlevel%"=="5" goto MainMenu
 
 :wirelesssetup
 cls
@@ -687,7 +688,31 @@ echo Please enter an IP
 pause
 goto changingIP
 
+:customADB
+cls
+echo ==========================================
+echo [41mMake sure you know what you are doing
+echo before inputting your own adb command in[0m
+echo ==========================================
+echo [7mType "[1mexit[0m[7m" to cancel.[0m
+set adbCom=
+set /p adbCom=adb 
+if "%adbCom%"=="exit" goto MainMenu
+if "%adbCom%"=="" goto IncorrectCustomCommand
+cls
+echo Running ADB Command
+echo ==========================================
+adb %adbCom%
+echo ==========================================
+if "%errorlevel%"=="0" echo Successfully executed command.
+pause
+goto ADBMenu
 
+:IncorrectCustomCommand
+cls
+echo Please input a command.
+pause
+goto customADB
 
 :disconnect
 cls
