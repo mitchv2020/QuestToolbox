@@ -11,16 +11,13 @@ echo [41m The requirements folder does not exist, please redownload! [0m
 start https://github.com/mitchv2020/QuestToolbox/releases/latest
 pause
 exit
-)
-
-:: Checks if the requirements folder exists
-if exist ".\Requirements" (
+) ELSE (
 :: Sets the window size
 mode con: cols=72 lines=20 
-:: Changes directory into the requirements folder, which is needed for KeepAlive and the UI
 cd Requirements
 goto MainMenu
 )
+
 
 :MainMenu
 cls
