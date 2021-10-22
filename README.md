@@ -10,6 +10,7 @@ A batch file full of useful tools to use for Quest 1 and 2!
 - Change Refresh Rate
 - Sideload APK Files
 - Uninstall Apps
+- Custom ADB Command
 - Wireless ADB
 
 # Install
