@@ -2,6 +2,8 @@
 :: Developed By:
 :: mitchv2020 and lordnikon
 
+set version=v1.3.9
+
 :: Sets the window size
 mode con: cols=90 lines=20 
 
@@ -22,7 +24,7 @@ goto MainMenu
 :MainMenu
 cls
 title Quest Toolbox
-echo               [7mQuest Toolbox[0m			      Version: [7mv1.3.9[0m
+echo               [7mQuest Toolbox[0m			      Version: [7m%version%[0m
 echo ==========================================
 echo Which would you like to do?
 echo ==========================================
@@ -319,7 +321,6 @@ goto MainMenu
 
 :sideloadPrompt
 cls
-title Do you want to sideload an APK?
 echo ==========================================
 echo      [7mDo you want to sideload an APK?[0m
 echo ==========================================
@@ -689,7 +690,7 @@ goto changingIP
 cls
 echo ==========================================
 echo [41mMake sure you know what you are doing
-echo before inputting your own adb command in[0m
+echo before typing in adb commands.[0m
 echo ==========================================
 echo [7mType "[1mexit[0m[7m" to cancel.[0m
 set adbCom=
@@ -720,9 +721,6 @@ echo ==========================================
 cmdMenuSel f870 "Yes" "No"
 if "%errorlevel%"=="1" goto disconnecting
 if "%errorlevel%"=="2" goto MainMenu
-echo Please enter a valid answer!
-pause
-goto disconnect
 
 :disconnecting
 cls
