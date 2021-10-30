@@ -2,24 +2,32 @@
 :: Developed By:
 :: mitchv2020 and lordnikon
 
-set version=v1.3.9
+set version=v1.4.0
 
-:: Sets the window size
-mode con: cols=90 lines=20 
+::::
+:::: FILE CHECKS
+::::
+if not exist ".\Requirements" goto noRequirements
 
-:: Checks if the requirements folder exists
-if not exist ".\Requirements" (
-echo [41m The requirements folder does not exist, please redownload! [0m
-start https://github.com/mitchv2020/QuestToolbox/releases/latest
-pause
-exit
-) ELSE (
+if not exist ".\Requirements\cmdmenusel.exe" goto noCmdMenuSel
+
+if not exist ".\Requirements\adb.exe" goto noADB
+
+if not exist ".\Requirements\scrcpy.exe" goto noScrcpy
+
+if not exist ".\Requirements\keepalive.bat" goto noKeepAliveBat
+
+if not exist ".\Requirements\packages.bat" goto noPackagesBat
+
+if not exist ".\Requirements\wiredalvr.bat" goto noWiredALVRBat
+::::
+::::
+::::
+
 :: Sets the window size
 mode con: cols=72 lines=20 
 cd Requirements
 goto MainMenu
-)
-
 
 :MainMenu
 cls
@@ -30,7 +38,7 @@ echo Which would you like to do?
 echo ==========================================
 
 :: Options
-cmdMenuSel f870 "Change Recording Res/FPS" "Stream Quest screen to PC" "Sideload an APK File" "Uninstall an App" "Enable Wired ALVR" "Keep Alive (keep the screen on)" "Change Refresh Rate" "ADB Options" "Change Quest Resolution" "Update QuestToolbox" "Developer Credits"
+cmdMenuSel f870 "Change Recording Res/FPS" "Stream Quest screen to PC" "Sideload an APK File" "Uninstall an App" "Enable Wired ALVR" "Keep Alive (keep the screen on)" "Change Refresh Rate" "ADB Options" "Change Quest Resolution" "Update QuestToolbox" "==========================================" "Developer Credits"
 if "%errorlevel%"=="1" goto capture
 if "%errorlevel%"=="2" goto mirrorScreen
 if "%errorlevel%"=="3" goto sideloadPrompt
@@ -41,8 +49,8 @@ if "%errorlevel%"=="7" goto refreshrate
 if "%errorlevel%"=="8" goto adbmenu
 if "%errorlevel%"=="9" goto changeResPrompt
 if "%errorlevel%"=="10" goto update
-if "%errorlevel%"=="11" goto devcredits
-goto MainMenu
+if "%errorlevel%"=="11" goto MainMenu
+if "%errorlevel%"=="12" goto devcredits
 
 
 
@@ -70,13 +78,7 @@ adb shell setprop debug.oculus.capture.bitrate 10000000
 adb shell setprop debug.oculus.foveation.level 0
 adb shell setprop debug.oculus.capture.fps 60
 
-if "%errorlevel%"=="-1" (
-cls
-echo [7mYou have either more than 1 or no Android devices connected!
-echo Please disconnect any other devices or connect your Quest.[0m
-pause
-goto MainMenu
-)
+if "%errorlevel%"=="-1" goto noDevices
 
 if "%errorlevel%"=="0" (
 cls
@@ -96,13 +98,7 @@ adb shell setprop debug.oculus.capture.bitrate 10000000
 adb shell setprop debug.oculus.foveation.level 0
 adb shell setprop debug.oculus.capture.fps 60
 
-if "%errorlevel%"=="-1" (
-cls
-echo [7mYou have either more than 1 or no Android devices connected!
-echo Please disconnect any other devices or connect your Quest.[0m
-pause
-goto MainMenu
-)
+if "%errorlevel%"=="-1" goto noDevices
 
 if "%errorlevel%"=="0" (
 cls
@@ -122,13 +118,7 @@ adb shell setprop debug.oculus.capture.bitrate 10000000
 adb shell setprop debug.oculus.foveation.level 0
 adb shell setprop debug.oculus.capture.fps 60
 
-if "%errorlevel%"=="-1" (
-cls
-echo [7mYou have either more than 1 or no Android devices connected!
-echo Please disconnect any other devices or connect your Quest.[0m
-pause
-goto MainMenu
-)
+if "%errorlevel%"=="-1" goto noDevices
 
 if "%errorlevel%"=="0" (
 cls
@@ -160,13 +150,7 @@ adb shell setprop debug.oculus.capture.bitrate 10000000
 adb shell setprop debug.oculus.foveation.level 0
 adb shell setprop debug.oculus.capture.fps %fps%
 
-if "%errorlevel%"=="-1" (
-cls
-echo [7mYou have either more than 1 or no Android devices connected!
-echo Please disconnect any other devices or connect your Quest.[0m
-pause
-goto MainMenu
-)
+if "%errorlevel%"=="-1" goto noDevices
 
 if "%errorlevel%"=="0" (
 cls
@@ -243,13 +227,7 @@ echo Starting stream at %Q1streamFPS% FPS....
 :: Starts a stream to the quest at a custom fps and bitrate with a crop set
 scrcpy --max-fps %Q1streamFPS% --crop 1280:720:1500:350 --bit-rate %Q1bitrate%M
 
-if "%errorlevel%"=="1" (
-cls
-echo [7mYou have either more than 1 or no Android devices connected!
-echo Please disconnect any other devices or connect your Quest.[0m
-pause
-goto MainMenu
-)
+if "%errorlevel%"=="1" goto noDevices
 
 pause
 goto MainMenu
@@ -306,13 +284,7 @@ echo Starting stream at %Q2streamFPS% FPS....
 :: Starts a stream to the quest at a custom fps with a crop set
 scrcpy --max-fps %Q2streamFPS% --crop 1600:900:2017:510 --bit-rate %Q2bitrate%M
 
-if "%errorlevel%"=="1" (
-cls
-echo [7mYou have either more than 1 or no Android devices connected!
-echo Please disconnect any other devices or connect your Quest.[0m
-pause
-goto MainMenu
-)
+if "%errorlevel%"=="1" goto noDevices
 
 pause
 goto MainMenu
@@ -347,13 +319,7 @@ cls
 echo Sideloading APK.... Please wait
 adb install %APKdir%
 
-if "%errorlevel%"=="1" (
-cls
-echo [7mYou have either more than 1 or no Android devices connected!
-echo Please disconnect any other devices or connect your Quest.[0m
-pause
-goto MainMenu
-)
+if "%errorlevel%"=="1" goto noDevices
 
 if "%errorlevel%"=="0" (
 cls
@@ -406,13 +372,7 @@ cls
 echo Uninstalling APK....
 adb uninstall %APKuninst%
 
-if "%errorlevel%"=="-1" (
-cls
-echo [7mYou have either more than 1 or no Android devices connected!
-echo Please disconnect any other devices or connect your Quest.[0m
-pause
-goto MainMenu
-)
+if "%errorlevel%"=="-1" goto noDevices
 
 if "%errorlevel%"=="0" (
 echo Successfully Uninstalled APK!
@@ -473,13 +433,7 @@ cls
 echo Updating Refresh Rate...
 adb shell setprop debug.oculus.refreshRate 60
 
-if "%errorlevel%"=="-1" (
-cls
-echo [7mYou have either more than 1 or no Android devices connected!
-echo Please disconnect any other devices or connect your Quest.[0m
-pause
-goto MainMenu
-)
+if "%errorlevel%"=="-1" goto noDevices
 
 if "%errorlevel%"=="0" (
 cls
@@ -496,13 +450,7 @@ cls
 echo Updating Refresh Rate...
 adb shell setprop debug.oculus.refreshRate 72
 
-if "%errorlevel%"=="-1" (
-cls
-echo [7mYou have either more than 1 or no Android devices connected!
-echo Please disconnect any other devices or connect your Quest.[0m
-pause
-goto MainMenu
-)
+if "%errorlevel%"=="-1" goto noDevices
 
 if "%errorlevel%"=="0" (
 cls
@@ -519,13 +467,7 @@ cls
 echo Updating Refresh Rate...
 adb shell setprop debug.oculus.refreshRate 90
 
-if "%errorlevel%"=="-1" (
-cls
-echo [7mYou have either more than 1 or no Android devices connected!
-echo Please disconnect any other devices or connect your Quest.[0m
-pause
-goto MainMenu
-)
+if "%errorlevel%"=="-1" goto noDevices
 
 if "%errorlevel%"=="0" (
 cls
@@ -542,13 +484,7 @@ cls
 echo Updating Refresh Rate...
 adb shell setprop debug.oculus.refreshRate 120
 
-if "%errorlevel%"=="-1" (
-cls
-echo [7mYou have either more than 1 or no Android devices connected!
-echo Please disconnect any other devices or connect your Quest.[0m
-pause
-goto MainMenu
-)
+if "%errorlevel%"=="-1" goto noDevices
 
 if "%errorlevel%"=="0" (
 cls
@@ -616,13 +552,7 @@ cls
 :: Sets the quest up for wireless
 adb tcpip 5555
 
-if "%errorlevel%"=="1" (
-cls
-echo [7mYou have either more than 1 or no Android devices connected!
-echo Please disconnect any other devices or connect your Quest.[0m
-pause
-goto MainMenu
-)
+if "%errorlevel%"=="1" goto noDevices
 
 :: Connects to the quest wirelessly
 adb connect %localip%:5555
@@ -767,13 +697,7 @@ echo Changing Resolution...
 adb shell setprop debug.oculus.textureHeight 1832
 adb shell setprop debug.oculus.textureWidth 1920
 
-if "%errorlevel%"=="-1" (
-cls
-echo [7mYou have either more than 1 or no Android devices connected!
-echo Please disconnect any other devices or connect your Quest.[0m
-pause
-goto MainMenu
-)
+if "%errorlevel%"=="-1" goto noDevices
 
 if "%errorlevel%"=="0" (
 cls
@@ -814,13 +738,7 @@ echo Changing resolution...
 adb shell setprop debug.oculus.textureHeight %resHeight%
 adb shell setprop debug.oculus.textureWidth %resWidth%
 
-if "%errorlevel%"=="-1" (
-cls
-echo [7mYou have either more than 1 or no Android devices connected!
-echo Please disconnect any other devices or connect your Quest.[0m
-pause
-goto MainMenu
-)
+if "%errorlevel%"=="-1" goto noDevices
 
 if "%errorlevel%"=="0" (
 cls
@@ -864,3 +782,80 @@ cls
 :: Redirects the user to lordnikon's youtube channel
 start https://www.youtube.com/channel/UCTaoq74t_tMPA5jUITxB3lw
 goto :devcredits
+
+
+
+
+
+
+
+
+
+::::::::::::::::::::::::::::::::::::::::
+:::::::::::::ERROR MESSAGES:::::::::::::
+::::::::::::::::::::::::::::::::::::::::
+
+:noDevices
+cls
+echo [7mYou have either more than 1 or no Android devices connected!
+echo Please disconnect any other devices or connect your Quest.[0m
+pause
+goto MainMenu
+
+:noRequirements
+mode con: cols=90 lines=20 
+cls
+echo [41mThe requirements folder does not exist, please redownload![0m
+pause
+start https://github.com/mitchv2020/QuestToolbox/releases/latest
+exit
+
+:noCmdMenuSel
+mode con: cols=90 lines=20 
+cls
+echo [41mcmdmenusel.exe was not found in the requirements folder,
+echo which is required for UI. Please redownload![0m
+pause
+start https://github.com/mitchv2020/QuestTool.box/releases/latest
+exit
+
+:noADB
+mode con: cols=90 lines=20 
+cls
+echo [41madb.exe was not found in the requirements folder,
+echo which is required for basically everything. Please redownload![0m
+pause
+start https://github.com/mitchv2020/QuestToolbox/releases/latest
+exit
+
+:noScrcpy
+mode con: cols=90 lines=20 
+cls
+echo [41mscrcpy.exe was not found in the requirements folder. Please redownload![0m
+pause
+start https://github.com/mitchv2020/QuestToolbox/releases/latest
+exit
+
+:noKeepAliveBat
+mode con: cols=90 lines=20 
+cls
+echo [41mkeepalive.bat was not found in the requirements folder. Please redownload![0m
+pause
+start https://github.com/mitchv2020/QuestToolbox/releases/latest
+exit
+
+:noPackagesBat
+mode con: cols=90 lines=20 
+cls
+echo [41mpackages.bat was not found in the requirements folder. Please redownload![0m
+pause
+start https://github.com/mitchv2020/QuestToolbox/releases/latest
+exit
+
+:noWiredALVRBat
+mode con: cols=90 lines=20 
+cls
+echo [41mwiredalvr.bat was not found in the requirements folder. Please redownload![0m
+pause
+start https://github.com/mitchv2020/QuestToolbox/releases/latest
+exit
