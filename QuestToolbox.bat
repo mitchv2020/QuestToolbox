@@ -4,25 +4,89 @@
 
 set version=v1.4.0
 
-::::
-:::: FILE CHECKS
-::::
+:::::::::::::::::::::
+:::: FILE CHECKS ::::
+:::::::::::::::::::::
 if not exist ".\Requirements" goto noRequirements
 
-if not exist ".\Requirements\cmdmenusel.exe" goto noCmdMenuSel
+if not exist ".\Requirements\cmdmenusel.exe" (
+set missingFile=cmdmenusel.exe
+goto missingFile
+)
 
-if not exist ".\Requirements\adb.exe" goto noADB
+if not exist ".\Requirements\adb.exe" (
+set missingFile=adb.exe
+goto missingFile
+)
 
-if not exist ".\Requirements\scrcpy.exe" goto noScrcpy
+if not exist ".\Requirements\scrcpy.exe" (
+set missingFile=scrcpy.exe
+goto missingFile
+)
 
-if not exist ".\Requirements\keepalive.bat" goto noKeepAliveBat
+if not exist ".\Requirements\keepalive.bat" (
+set missingFile=keepalive.bat
+goto missingFile
+)
 
-if not exist ".\Requirements\packages.bat" goto noPackagesBat
+if not exist ".\Requirements\packages.bat" (
+set missingFile=packages.bat
+goto missingFile
+)
 
-if not exist ".\Requirements\wiredalvr.bat" goto noWiredALVRBat
-::::
-::::
-::::
+if not exist ".\Requirements\wiredalvr.bat" (
+set missingFile=wiredalvr.bat
+goto missingFile
+)
+
+if not exist ".\Requirements\AdbWinApi.dll" (
+set missingFile=AdbWinApi.dll
+goto missingFile
+)
+
+if not exist ".\Requirements\AdbWinUsbApi.dll" (
+set missingFile=AdbWinUsbApi.dll
+goto missingFile
+)
+
+if not exist ".\Requirements\avcodec-58.dll" (
+set missingFile=avcodec-58.dll
+goto missingFile
+)
+
+if not exist ".\Requirements\avformat-58.dll" (
+set missingFile=avformat-58.dll
+goto missingFile
+)
+
+if not exist ".\Requirements\avutil-56.dll" (
+set missingFile=avutil-56.dll
+goto missingFile
+)
+
+if not exist ".\Requirements\scrcpy-server" (
+set missingFile=The scrcpy-server file
+goto missingFile
+)
+
+if not exist ".\Requirements\SDL2.dll" (
+set missingFile=SDL2.dll
+goto missingFile
+)
+
+if not exist ".\Requirements\swresample-3.dll" (
+set missingFile=swresample-3.dll
+goto missingFile
+)
+
+if not exist ".\Requirements\swscale-5.dll" (
+set missingFile=swscale-5.dll
+goto missingFile
+)
+
+:::::::::::::::::::::
+:::::::::::::::::::::
+:::::::::::::::::::::
 
 :: Sets the window size
 mode con: cols=72 lines=20 
@@ -810,52 +874,10 @@ pause
 start https://github.com/mitchv2020/QuestToolbox/releases/latest
 exit
 
-:noCmdMenuSel
+:missingFile
 mode con: cols=90 lines=20 
 cls
-echo [41mcmdmenusel.exe was not found in the requirements folder,
-echo which is required for UI. Please redownload![0m
-pause
-start https://github.com/mitchv2020/QuestTool.box/releases/latest
-exit
-
-:noADB
-mode con: cols=90 lines=20 
-cls
-echo [41madb.exe was not found in the requirements folder,
-echo which is required for basically everything. Please redownload![0m
-pause
-start https://github.com/mitchv2020/QuestToolbox/releases/latest
-exit
-
-:noScrcpy
-mode con: cols=90 lines=20 
-cls
-echo [41mscrcpy.exe was not found in the requirements folder. Please redownload![0m
-pause
-start https://github.com/mitchv2020/QuestToolbox/releases/latest
-exit
-
-:noKeepAliveBat
-mode con: cols=90 lines=20 
-cls
-echo [41mkeepalive.bat was not found in the requirements folder. Please redownload![0m
-pause
-start https://github.com/mitchv2020/QuestToolbox/releases/latest
-exit
-
-:noPackagesBat
-mode con: cols=90 lines=20 
-cls
-echo [41mpackages.bat was not found in the requirements folder. Please redownload![0m
-pause
-start https://github.com/mitchv2020/QuestToolbox/releases/latest
-exit
-
-:noWiredALVRBat
-mode con: cols=90 lines=20 
-cls
-echo [41mwiredalvr.bat was not found in the requirements folder. Please redownload![0m
+echo [41m%missingFile% was not found in the requirements folder. Please redownload![0m
 pause
 start https://github.com/mitchv2020/QuestToolbox/releases/latest
 exit
