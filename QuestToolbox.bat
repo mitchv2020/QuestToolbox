@@ -2,7 +2,7 @@
 :: Developed By:
 :: mitchv2020 and lordnikon
 
-set version=v1.4.0
+set version=v1.4.1
 
 :::::::::::::::::::::
 :::: FILE CHECKS ::::
@@ -145,10 +145,10 @@ adb shell setprop debug.oculus.capture.fps 60
 if "%errorlevel%"=="-1" goto noDevices
 
 if "%errorlevel%"=="0" (
-cls
-echo Successfully Changed Resolution and FPS!
-pause
-goto MainMenu
+	cls
+	echo Successfully Changed Resolution and FPS!
+	pause
+	goto MainMenu
 )
 
 pause
@@ -165,10 +165,10 @@ adb shell setprop debug.oculus.capture.fps 60
 if "%errorlevel%"=="-1" goto noDevices
 
 if "%errorlevel%"=="0" (
-cls
-echo Successfully Changed Resolution and FPS!
-pause
-goto MainMenu
+	cls
+	echo Successfully Changed Resolution and FPS!
+	pause
+	goto MainMenu
 )
 
 pause
@@ -185,10 +185,10 @@ adb shell setprop debug.oculus.capture.fps 60
 if "%errorlevel%"=="-1" goto noDevices
 
 if "%errorlevel%"=="0" (
-cls
-echo Successfully Changed Resolution and FPS!
-pause
-goto MainMenu
+	
+	echo Successfully Changed Resolution and FPS!
+	pause
+	goto MainMenu
 )
 
 pause
@@ -217,10 +217,10 @@ adb shell setprop debug.oculus.capture.fps %fps%
 if "%errorlevel%"=="-1" goto noDevices
 
 if "%errorlevel%"=="0" (
-cls
-echo Successfully Changed Resolution and FPS!
-pause
-goto MainMenu
+	cls
+	echo Successfully Changed Resolution and FPS!
+	pause
+	goto MainMenu
 )
 
 pause
@@ -377,7 +377,7 @@ echo [7mType "exit" to cancel.[0m
 set APKdir=
 :: Input
 set /p APKdir=Answer:
-if "%APKdir%"=="exit" goto MainMenu
+if /I "%APKdir%"=="exit" goto MainMenu
 if "%APKdir%"=="" goto sideloadIncorrect
 cls
 echo Sideloading APK.... Please wait
@@ -386,10 +386,10 @@ adb install %APKdir%
 if "%errorlevel%"=="1" goto noDevices
 
 if "%errorlevel%"=="0" (
-cls
-echo Successfully Sideloaded APK!
-pause
-goto MainMenu
+	cls
+	echo Successfully Sideloaded APK!
+	pause
+	goto MainMenu
 )
 
 pause
@@ -431,7 +431,7 @@ echo [7mType "exit" to cancel.[0m
 set APKuninst=
 set /p APKuninst=Answer:
 if "%APKuninst%"=="" goto wrongInputAPK
-if "%APKuninst%"=="exit" goto MainMenu
+if /I "%APKuninst%"=="exit" goto MainMenu
 cls
 echo Uninstalling APK....
 adb uninstall %APKuninst%
@@ -439,9 +439,9 @@ adb uninstall %APKuninst%
 if "%errorlevel%"=="-1" goto noDevices
 
 if "%errorlevel%"=="0" (
-echo Successfully Uninstalled APK!
-pause
-goto MainMenu
+	echo Successfully Uninstalled APK!
+	pause
+	goto MainMenu
 )
 
 pause
@@ -500,10 +500,10 @@ adb shell setprop debug.oculus.refreshRate 60
 if "%errorlevel%"=="-1" goto noDevices
 
 if "%errorlevel%"=="0" (
-cls
-echo Successfully Applied Refresh Rate!
-pause
-goto MainMenu
+	cls
+	echo Successfully Applied Refresh Rate!
+	pause
+	goto MainMenu
 )
 
 pause
@@ -517,10 +517,10 @@ adb shell setprop debug.oculus.refreshRate 72
 if "%errorlevel%"=="-1" goto noDevices
 
 if "%errorlevel%"=="0" (
-cls
-echo Successfully Applied Refresh Rate!
-pause
-goto MainMenu
+	cls
+	echo Successfully Applied Refresh Rate!
+	pause
+	goto MainMenu
 )
 
 pause
@@ -534,10 +534,10 @@ adb shell setprop debug.oculus.refreshRate 90
 if "%errorlevel%"=="-1" goto noDevices
 
 if "%errorlevel%"=="0" (
-cls
-echo Successfully Applied Refresh Rate!
-pause
-goto MainMenu
+	cls
+	echo Successfully Applied Refresh Rate!
+	pause
+	goto MainMenu
 )
 
 pause
@@ -551,10 +551,10 @@ adb shell setprop debug.oculus.refreshRate 120
 if "%errorlevel%"=="-1" goto noDevices
 
 if "%errorlevel%"=="0" (
-cls
-echo Successfully Applied Refresh Rate!
-pause
-goto MainMenu
+	cls
+	echo Successfully Applied Refresh Rate!
+	pause
+	goto MainMenu
 )
 
 pause
@@ -566,14 +566,16 @@ echo               [7mADB Options[0m
 echo ==========================================
 echo Which would you like to do?
 echo ==========================================
-cmdMenuSel f870 "Setup Wireless ADB" "Change Wireless ADB IP" "Disconnect Wireless ADB" "Custom ADB Command" "==Back=="
+cmdMenuSel f870 "Setup Wireless ADB" "Change Wireless ADB IP" "Disconnect Wireless ADB" "Custom ADB Command" "Sideload Firmware" "Download Firmware Files" "==Back=="
 
 :: Options
 if "%errorlevel%"=="1" goto wirelesssetup
 if "%errorlevel%"=="2" goto changeip
 if "%errorlevel%"=="3" goto disconnect
 if "%errorlevel%"=="4" goto customADB
-if "%errorlevel%"=="5" goto MainMenu
+if "%errorlevel%"=="5" goto firmwareConfirm
+if "%errorlevel%"=="6" goto downloadFirmware
+if "%errorlevel%"=="7" goto MainMenu
 
 :wirelesssetup
 cls
@@ -597,7 +599,7 @@ echo [7mType "exit" to cancel.[0m
 set localip=
 :: Prompts for the local IP
 set /p localip=Quest / Quest 2 local IP: 
-if "%localip%"=="exit" goto MainMenu
+if /I "%localip%"=="exit" goto MainMenu
 if "%localip%"=="" goto IncorrectInputIP
 
 cls
@@ -652,7 +654,7 @@ set changedip=
 :: Prompts for local IP
 set /p changedip=Quest / Quest 2 local IP: 
 if "%changedip%"=="" goto IncorrectInputChangeIP
-if "%changedip%"=="exit" goto MainMenu
+if /I "%changedip%"=="exit" goto MainMenu
 
 :changingIPconfirm
 cls
@@ -689,8 +691,16 @@ echo ==========================================
 echo [7mType "[1mexit[0m[7m" to cancel.[0m
 set adbCom=
 set /p adbCom=adb 
-if "%adbCom%"=="exit" goto MainMenu
-if "%adbCom%"=="" goto IncorrectCustomCommand
+
+if /I "%adbCom%"=="exit" goto MainMenu
+
+if "%adbCom%"=="" (
+cls
+echo Please input a command.
+pause
+goto customADB
+)
+
 cls
 echo Running ADB Command
 echo ==========================================
@@ -700,11 +710,7 @@ if "%errorlevel%"=="0" echo Successfully executed command.
 pause
 goto ADBMenu
 
-:IncorrectCustomCommand
-cls
-echo Please input a command.
-pause
-goto customADB
+
 
 :disconnect
 cls
@@ -721,15 +727,155 @@ cls
 adb disconnect
 
 if "%errorlevel%"=="0" (
-cls
-echo Successfully Disconnected
-pause
-goto MainMenu
+	cls
+	echo Successfully Disconnected
+	pause
+	goto MainMenu
 )
 
 pause
 goto MainMenu
 
+:firmwareConfirm
+cls
+echo ==========================================
+echo [7mAre you sure you want to sideload firmware?[0m
+echo ==========================================
+cmdMenuSel f870 "Yes" "No"
+
+if "%errorlevel%"=="1" goto sideloadSetup
+if "%errorlevel%"=="2" goto MainMenu
+
+:sideloadSetup
+cls
+echo [7mMake sure to boot your Quest into Recovery
+echo and select the "Sideload Update" option!![0m
+pause
+goto sideloadFirmware
+
+:sideloadFirmware
+cls
+echo ==========================================
+echo [7mMake sure you know what you are doing!![0m
+echo Type in the directory of the .zip containing 
+echo the firmware (including file name)
+echo ==========================================
+echo [7mType "exit" to cancel.[0m
+
+set FirmwareZip=
+set /p FirmwareZip=Answer: 
+
+if "%FirmwareZip%"=="" (
+	cls
+	echo Please enter a valid directory
+	pause
+	goto sideloadFirmware
+)
+
+if /I "%FirmwareZip%"=="exit" goto MainMenu
+
+cls
+echo Sideloading...
+adb sideload %FirmwareZip%
+
+if "%errorlevel%"=="0" (
+	cls
+	echo Successfully sideloaded
+	pause
+	goto MainMenu
+)
+
+pause
+goto MainMenu
+
+:downloadFirmware
+cls
+echo ==========================================
+echo Which firmware version would you like to download?
+echo ==========================================
+
+cmdMenuSel f870 "v34" "v33" "v28" "v20" "v19" "v18" "v17" "v16" "v15" "v14" "v13" "v12" "v11" "v10" "v9" "v8" "==Back=="
+if "%errorlevel%"=="1" (
+	start https://vrdiscord.com/10000000_607329520697967_1131219119747458298_n.zip
+	goto MainMenu
+)
+
+if "%errorlevel%"=="2" (
+	start https://cdn.discordapp.com/attachments/494585360689397792/887311532059418624/v33partialq2.zip
+	goto MainMenu
+)
+
+if "%errorlevel%"=="3" (
+	start https://vrdiscord.com/10000000_199590601735813_1333856360172557081_n.zip
+	goto MainMenu
+)
+
+if "%errorlevel%"=="4" (
+	start http://www.mediafire.com/file/qewy4hqr1exu9dt/10000000_733778840807572_3134597064107830720_n.zip/file
+	goto MainMenu
+)
+
+if "%errorlevel%"=="5" (
+	start http://www.mediafire.com/file/mlv23o1x1gsnpjm/8214900132100000_8214900132100000.zip/file
+	goto MainMenu
+)
+
+if "%errorlevel%"=="6" (
+	start http://www.mediafire.com/file/77v1isc5tpp25k7/7386600268600000_7386600268600000.zip/file
+	goto MainMenu
+)
+
+if "%errorlevel%"=="7" (
+	start http://www.mediafire.com/file/ul49zg6cconvvm1/6551400235200000_6551400235200000.zip/file
+	goto MainMenu
+)
+
+if "%errorlevel%"=="8" (
+	start http://www.mediafire.com/file/f8umqyxgq8jimdq/6023800249000000_6023800249000000.zip/file
+	goto MainMenu
+)
+
+if "%errorlevel%"=="9" (
+	start http://www.mediafire.com/file/d2n4as1rkfi64y3/5551800225700000_5551800225700000.zip/file
+	goto MainMenu
+)
+
+if "%errorlevel%"=="10" (
+	start http://www.mediafire.com/file/a6ya3lpylx578bh/5072400209400000_5072400209400000.zip/file
+	goto MainMenu
+)
+
+if "%errorlevel%"=="11" (
+	start http://www.mediafire.com/file/xdbwqhwnmc9tsoh/4566800260600000_4566800260600000.zip/file
+	goto MainMenu
+)
+
+if "%errorlevel%"=="12" (
+	start http://www.mediafire.com/file/ouw6f4cdybmck9l/4342600050300000_4342600050300000.zip/file
+	goto MainMenu
+)
+
+if "%errorlevel%"=="13" (
+	start http://www.mediafire.com/file/lej5us8gideodsl/4156300067000000_4156300067000000.zip/file
+	goto MainMenu
+)
+
+if "%errorlevel%"=="14" (
+	start http://www.mediafire.com/file/a478lchz1ullzof/3965200061700115_3965200061700115.zip/file
+	goto MainMenu
+)
+
+if "%errorlevel%"=="15" (
+	start http://www.mediafire.com/file/6geqiuyuv2njnzc/3774800165000000_3774800165000000.zip/file
+	goto MainMenu
+)
+
+if "%errorlevel%"=="16" (
+	start http://www.mediafire.com/file/0i14r6f683h6nwm/3585700093200000_3585700093200000.zip/file
+	goto MainMenu
+)
+
+if "%errorlevel%"=="17" goto MainMenu
 
 
 :changeResPrompt
@@ -764,10 +910,10 @@ adb shell setprop debug.oculus.textureWidth 1920
 if "%errorlevel%"=="-1" goto noDevices
 
 if "%errorlevel%"=="0" (
-cls
-echo Successfully Changed Resolution!
-pause
-goto MainMenu
+	cls
+	echo Successfully Changed Resolution!
+	pause
+	goto MainMenu
 )
 
 
@@ -793,9 +939,9 @@ echo [7mType "exit" to cancel.[0m
 set resHeight=
 set resWidth=
 set /p resHeight=Custom Height: 
-if "%resHeight%"=="exit" goto MainMenu
+if /I "%resHeight%"=="exit" goto MainMenu
 set /p resWidth=Custom Width: 
-if "%resWidth%"=="exit" goto MainMenu
+if /I "%resWidth%"=="exit" goto MainMenu
 
 cls
 echo Changing resolution...
@@ -805,10 +951,10 @@ adb shell setprop debug.oculus.textureWidth %resWidth%
 if "%errorlevel%"=="-1" goto noDevices
 
 if "%errorlevel%"=="0" (
-cls
-echo Successfully Changed Resolution!
-pause
-goto MainMenu
+	cls
+	echo Successfully Changed Resolution!
+	pause
+	goto MainMenu
 )
 
 
