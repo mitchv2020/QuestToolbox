@@ -11,6 +11,8 @@ A batch file full of useful tools to use for Quest 1 and 2!
 - Sideload APK Files
 - Uninstall Apps
 - Custom ADB Command
+- Sideload Firmware
+- Download Firmware Files/zips
 - Wireless ADB
 
 # Install
