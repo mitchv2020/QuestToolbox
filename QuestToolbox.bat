@@ -743,10 +743,10 @@ echo [7mAre you sure you want to sideload firmware?[0m
 echo ==========================================
 cmdMenuSel f870 "Yes" "No"
 
-if "%errorlevel%"=="1" goto sideloadSetup
+if "%errorlevel%"=="1" goto firmwareSetup
 if "%errorlevel%"=="2" goto MainMenu
 
-:sideloadSetup
+:firmwareSetup
 cls
 echo [7mMake sure to boot your Quest into Recovery
 echo and select the "Sideload Update" option!![0m
@@ -797,85 +797,95 @@ echo ==========================================
 cmdMenuSel f870 "v34" "v33" "v28" "v20" "v19" "v18" "v17" "v16" "v15" "v14" "v13" "v12" "v11" "v10" "v9" "v8" "==Back=="
 if "%errorlevel%"=="1" (
 	start https://vrdiscord.com/10000000_607329520697967_1131219119747458298_n.zip
-	goto MainMenu
+	goto sideloadQuestion
 )
 
 if "%errorlevel%"=="2" (
 	start https://cdn.discordapp.com/attachments/494585360689397792/887311532059418624/v33partialq2.zip
-	goto MainMenu
+	goto sideloadQuestion
 )
 
 if "%errorlevel%"=="3" (
 	start https://vrdiscord.com/10000000_199590601735813_1333856360172557081_n.zip
-	goto MainMenu
+	goto sideloadQuestion
 )
 
 if "%errorlevel%"=="4" (
 	start http://www.mediafire.com/file/qewy4hqr1exu9dt/10000000_733778840807572_3134597064107830720_n.zip/file
-	goto MainMenu
+	goto sideloadQuestion
 )
 
 if "%errorlevel%"=="5" (
 	start http://www.mediafire.com/file/mlv23o1x1gsnpjm/8214900132100000_8214900132100000.zip/file
-	goto MainMenu
+	goto sideloadQuestion
 )
 
 if "%errorlevel%"=="6" (
 	start http://www.mediafire.com/file/77v1isc5tpp25k7/7386600268600000_7386600268600000.zip/file
-	goto MainMenu
+	goto sideloadQuestion
 )
 
 if "%errorlevel%"=="7" (
 	start http://www.mediafire.com/file/ul49zg6cconvvm1/6551400235200000_6551400235200000.zip/file
-	goto MainMenu
+	goto sideloadQuestion
 )
 
 if "%errorlevel%"=="8" (
 	start http://www.mediafire.com/file/f8umqyxgq8jimdq/6023800249000000_6023800249000000.zip/file
-	goto MainMenu
+	goto sideloadQuestion
 )
 
 if "%errorlevel%"=="9" (
 	start http://www.mediafire.com/file/d2n4as1rkfi64y3/5551800225700000_5551800225700000.zip/file
-	goto MainMenu
+	goto sideloadQuestion
 )
 
 if "%errorlevel%"=="10" (
 	start http://www.mediafire.com/file/a6ya3lpylx578bh/5072400209400000_5072400209400000.zip/file
-	goto MainMenu
+	goto sideloadQuestion
 )
 
 if "%errorlevel%"=="11" (
 	start http://www.mediafire.com/file/xdbwqhwnmc9tsoh/4566800260600000_4566800260600000.zip/file
-	goto MainMenu
+	goto sideloadQuestion
 )
 
 if "%errorlevel%"=="12" (
 	start http://www.mediafire.com/file/ouw6f4cdybmck9l/4342600050300000_4342600050300000.zip/file
-	goto MainMenu
+	goto sideloadQuestion
 )
 
 if "%errorlevel%"=="13" (
 	start http://www.mediafire.com/file/lej5us8gideodsl/4156300067000000_4156300067000000.zip/file
-	goto MainMenu
+	goto sideloadQuestion
 )
 
 if "%errorlevel%"=="14" (
 	start http://www.mediafire.com/file/a478lchz1ullzof/3965200061700115_3965200061700115.zip/file
-	goto MainMenu
+	goto sideloadQuestion
 )
 
 if "%errorlevel%"=="15" (
 	start http://www.mediafire.com/file/6geqiuyuv2njnzc/3774800165000000_3774800165000000.zip/file
-	goto MainMenu
+	goto sideloadQuestion
 )
 
 if "%errorlevel%"=="16" (
 	start http://www.mediafire.com/file/0i14r6f683h6nwm/3585700093200000_3585700093200000.zip/file
-	goto MainMenu
+	goto sideloadQuestion
 )
 
 if "%errorlevel%"=="17" goto MainMenu
+
+:sideloadQuestion
+cls
+echo ==========================================
+echo Would you like to sideload the firmware?
+echo ==========================================
+
+cmdMenuSel f870 "Yes" "No"
+if "%errorlevel%"=="1" goto firmwareSetup
+if "%errorlevel%"=="2" goto MainMenu
 
 
 :changeResPrompt
