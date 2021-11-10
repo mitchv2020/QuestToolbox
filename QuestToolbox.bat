@@ -2,7 +2,7 @@
 :: Developed By:
 :: mitchv2020 and lordnikon
 
-set version=v1.4.1
+set version=v1.4.2
 
 :::::::::::::::::::::
 :::: FILE CHECKS ::::
@@ -96,13 +96,13 @@ goto MainMenu
 :MainMenu
 cls
 title Quest Toolbox
-echo               [7mQuest Toolbox[0m			      Version: [7m%version%[0m
+echo               [7mQuest Toolbox[0m			      [93mVersion: [7m%version%[0m[0m
 echo ==========================================
 echo Which would you like to do?
 echo ==========================================
 
 :: Options
-cmdMenuSel f870 "Change Recording Res/FPS" "Stream Quest screen to PC" "Sideload an APK File" "Uninstall an App" "Enable Wired ALVR" "Keep Alive (keep the screen on)" "Change Refresh Rate" "ADB Options" "Change Quest Resolution" "Update QuestToolbox" "==========================================" "Developer Credits"
+cmdMenuSel f870 "Change Recording Res/FPS" "Stream Quest screen to PC" "Sideload an APK File" "Uninstall an App" "Enable Wired ALVR" "Keep Alive (keep the screen on)" "Change Refresh Rate" "ADB Options" "Change Quest Resolution" "Update QuestToolbox" "==========================================" "Developer Credits" "Help"
 if "%errorlevel%"=="1" goto capture
 if "%errorlevel%"=="2" goto mirrorScreen
 if "%errorlevel%"=="3" goto sideloadPrompt
@@ -115,7 +115,8 @@ if "%errorlevel%"=="9" goto changeResPrompt
 if "%errorlevel%"=="10" goto update
 if "%errorlevel%"=="11" goto MainMenu
 if "%errorlevel%"=="12" goto devcredits
-
+if "%errorlevel%"=="13" goto Support
+goto MainMenu
 
 
 :capture
@@ -185,7 +186,7 @@ adb shell setprop debug.oculus.capture.fps 60
 if "%errorlevel%"=="-1" goto noDevices
 
 if "%errorlevel%"=="0" (
-	
+	cls
 	echo Successfully Changed Resolution and FPS!
 	pause
 	goto MainMenu
@@ -202,11 +203,39 @@ set width=
 set height=
 set fps=
 
+:setWidth
+cls
 set /p width=Custom Width: 
+
+if "%width%"="" (
+cls
+echo Please enter a width!
+pause
+goto setWidth
+)
+
+:setHeight
+cls
 set /p height=Custom Height: 
 
+if "%height%"="" (
+cls
+echo Please enter a height!
+pause
+goto setHeight
+)
+
+:setFPS
+cls
 echo [7mDue to oculus capping FPS, min is 30 and max is 90![0m
 set /p fps=Custom FPS: 
+
+if "%fps%"="" (
+cls
+echo Please enter a fps!
+pause
+goto setFPS
+)
 
 adb shell setprop debug.oculus.capture.width %width%
 adb shell setprop debug.oculus.capture.height %height%
@@ -283,6 +312,14 @@ echo ==========================================
 set Q1bitrate=
 :: Input for bitrate of stream
 set /p Q1bitrate=Answer:
+
+if "%Q1bitrate%"=="" (
+cls
+echo Please enter a bitrate!
+pause
+goto Q1bitrate
+)
+
 goto Q1streaming
 
 :Q1streaming
@@ -340,6 +377,14 @@ echo ==========================================
 set Q2bitrate=
 :: Input for bitrate of stream
 set /p Q2bitrate=Answer:
+
+if "%Q2bitrate%"=="" (
+cls
+echo Please enter a bitrate!
+pause
+goto Q2bitrate
+)
+
 goto Q2streaming
 
 :Q2streaming
@@ -586,7 +631,7 @@ echo ==========================================
 :: Options
 cmdMenuSel f870 "Yes" "No"
 if "%errorlevel%"=="1" goto wirelessIP
-if "%errorlevel%"=="2" goto MainMenu
+if "%errorlevel%"=="2" goto ADBMenu
 goto wirelesssetup
 
 :wirelessIP
@@ -599,7 +644,7 @@ echo [7mType "exit" to cancel.[0m
 set localip=
 :: Prompts for the local IP
 set /p localip=Quest / Quest 2 local IP: 
-if /I "%localip%"=="exit" goto MainMenu
+if /I "%localip%"=="exit" goto ADBMenu
 if "%localip%"=="" goto IncorrectInputIP
 
 cls
@@ -640,7 +685,7 @@ echo ==========================================
 :: Options
 cmdMenuSel f870 "Yes" "No"
 if "%errorlevel%"=="1" goto changingIP
-if "%errorlevel%"=="2" goto MainMenu
+if "%errorlevel%"=="2" goto ADBMenu
 goto ChangeIP
 
 :changingip
@@ -692,7 +737,7 @@ echo [7mType "[1mexit[0m[7m" to cancel.[0m
 set adbCom=
 set /p adbCom=adb 
 
-if /I "%adbCom%"=="exit" goto MainMenu
+if /I "%adbCom%"=="exit" goto ADBMenu
 
 if "%adbCom%"=="" (
 cls
@@ -720,7 +765,7 @@ echo ==========================================
 
 cmdMenuSel f870 "Yes" "No"
 if "%errorlevel%"=="1" goto disconnecting
-if "%errorlevel%"=="2" goto MainMenu
+if "%errorlevel%"=="2" goto ADBMenu
 
 :disconnecting
 cls
@@ -744,7 +789,7 @@ echo ==========================================
 cmdMenuSel f870 "Yes" "No"
 
 if "%errorlevel%"=="1" goto firmwareSetup
-if "%errorlevel%"=="2" goto MainMenu
+if "%errorlevel%"=="2" goto ADBMenu
 
 :firmwareSetup
 cls
@@ -772,7 +817,7 @@ if "%FirmwareZip%"=="" (
 	goto sideloadFirmware
 )
 
-if /I "%FirmwareZip%"=="exit" goto MainMenu
+if /I "%FirmwareZip%"=="exit" goto ADBMenu
 
 cls
 echo Sideloading...
@@ -875,7 +920,7 @@ if "%errorlevel%"=="16" (
 	goto sideloadQuestion
 )
 
-if "%errorlevel%"=="17" goto MainMenu
+if "%errorlevel%"=="17" goto ADBMenu
 
 :sideloadQuestion
 cls
@@ -885,7 +930,7 @@ echo ==========================================
 
 cmdMenuSel f870 "Yes" "No"
 if "%errorlevel%"=="1" goto firmwareSetup
-if "%errorlevel%"=="2" goto MainMenu
+if "%errorlevel%"=="2" goto ADBMenu
 
 
 :changeResPrompt
@@ -940,18 +985,43 @@ if "%errorlevel%"=="1" goto customRes
 if "%errorlevel%"=="2" goto MainMenu
 
 :customRes
+set resHeight=
+set resWidth=
+
+:resHeight
+echo ==========================================
+echo [7mBe careful because if you do something wrong it can break.[0m
+echo If something does go wrong, a reboot usually fixes it.
+echo ==========================================
+echo [7mType "exit" to cancel.[0m
+set /p resHeight=Custom Height: 
+
+if /I "%resHeight%"=="exit" goto MainMenu
+
+if "%resHeight%"=="" (
+cls
+echo Please enter a Height!
+pause
+goto resHeight
+)
+
+:resWidth
 cls
 echo ==========================================
 echo [7mBe careful because if you do something wrong it can break.[0m
 echo If something does go wrong, a reboot usually fixes it.
 echo ==========================================
 echo [7mType "exit" to cancel.[0m
-set resHeight=
-set resWidth=
-set /p resHeight=Custom Height: 
-if /I "%resHeight%"=="exit" goto MainMenu
 set /p resWidth=Custom Width: 
+
 if /I "%resWidth%"=="exit" goto MainMenu
+
+if "%resWidth%"=="" (
+cls
+echo Please enter a Width!
+pause
+goto resWidth
+)
 
 cls
 echo Changing resolution...
@@ -967,7 +1037,8 @@ if "%errorlevel%"=="0" (
 	goto MainMenu
 )
 
-
+pause
+goto MainMenu
 
 :update
 cls
@@ -1005,7 +1076,27 @@ goto :devcredits
 
 
 
+:Support
+cls
+echo ==========================================
+echo Add on Discord: (you can click on them)
+echo ==========================================
 
+cmdMenuSel f870 "mitchv2020#2538" "LordNikon#1793" "==Back=="
+
+if "%errorlevel%"=="1" goto addDev1
+if "%errorlevel%"=="2" goto addDev2
+if "%errorlevel%"=="3" goto MainMenu
+
+:addDev1
+cls
+start https://discord.com/users/330282620833366016
+goto MainMenu
+
+:addDev2
+cls
+start https://discord.com/users/555856178500993024
+goto MainMenu
 
 
 
