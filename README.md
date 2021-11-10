@@ -28,7 +28,7 @@ We currently dont support linux
 
 We currently dont support MacOS
 
-![](https://i.imgur.com/0l7rCVW.png)
+![](https://i.imgur.com/LjPr1eN.png)
 
 # Known Bugs/Problems
 - Resizing the window will break the ui (to fix this just choose any option)
