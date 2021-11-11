@@ -2,7 +2,7 @@
 :: Developed By:
 :: mitchv2020 and lordnikon
 
-set version=v1.4.2
+set version=v1.4.3
 
 :::::::::::::::::::::
 :::: FILE CHECKS ::::
@@ -10,78 +10,78 @@ set version=v1.4.2
 if not exist ".\Requirements" goto noRequirements
 
 if not exist ".\Requirements\cmdmenusel.exe" (
-set missingFile=cmdmenusel.exe
-goto missingFile
+	set missingFile=cmdmenusel.exe
+	goto missingFile
 )
 
 if not exist ".\Requirements\adb.exe" (
-set missingFile=adb.exe
-goto missingFile
+	set missingFile=adb.exe
+	goto missingFile
 )
 
 if not exist ".\Requirements\scrcpy.exe" (
-set missingFile=scrcpy.exe
-goto missingFile
+	set missingFile=scrcpy.exe
+	goto missingFile
 )
 
 if not exist ".\Requirements\keepalive.bat" (
-set missingFile=keepalive.bat
-goto missingFile
+	set missingFile=keepalive.bat
+	goto missingFile
 )
 
 if not exist ".\Requirements\packages.bat" (
-set missingFile=packages.bat
-goto missingFile
+	set missingFile=packages.bat
+	goto missingFile
 )
 
 if not exist ".\Requirements\wiredalvr.bat" (
-set missingFile=wiredalvr.bat
-goto missingFile
+	set missingFile=wiredalvr.bat
+	goto missingFile
 )
 
 if not exist ".\Requirements\AdbWinApi.dll" (
-set missingFile=AdbWinApi.dll
-goto missingFile
+	set missingFile=AdbWinApi.dll
+	goto missingFile
 )
 
 if not exist ".\Requirements\AdbWinUsbApi.dll" (
-set missingFile=AdbWinUsbApi.dll
-goto missingFile
+	set missingFile=AdbWinUsbApi.dll
+	goto missingFile
 )
 
 if not exist ".\Requirements\avcodec-58.dll" (
-set missingFile=avcodec-58.dll
-goto missingFile
+	set missingFile=avcodec-58.dll
+	goto missingFile
 )
 
 if not exist ".\Requirements\avformat-58.dll" (
-set missingFile=avformat-58.dll
-goto missingFile
+	set missingFile=avformat-58.dll
+	goto missingFile
 )
 
 if not exist ".\Requirements\avutil-56.dll" (
-set missingFile=avutil-56.dll
-goto missingFile
+	set missingFile=avutil-56.dll
+	goto missingFile
 )
 
 if not exist ".\Requirements\scrcpy-server" (
-set missingFile=The scrcpy-server file
-goto missingFile
+	set missingFile=The scrcpy-server file
+	goto missingFile
 )
 
 if not exist ".\Requirements\SDL2.dll" (
-set missingFile=SDL2.dll
-goto missingFile
+	set missingFile=SDL2.dll
+	goto missingFile
 )
 
 if not exist ".\Requirements\swresample-3.dll" (
-set missingFile=swresample-3.dll
-goto missingFile
+	set missingFile=swresample-3.dll
+	goto missingFile
 )
 
 if not exist ".\Requirements\swscale-5.dll" (
-set missingFile=swscale-5.dll
-goto missingFile
+	set missingFile=swscale-5.dll
+	goto missingFile
 )
 
 :::::::::::::::::::::
@@ -96,13 +96,13 @@ goto MainMenu
 :MainMenu
 cls
 title Quest Toolbox
-echo               [7mQuest Toolbox[0m			      [93mVersion: [7m%version%[0m[0m
+echo               [7mQuest Toolbox[0m			      Version: [7m%version%[0m
 echo ==========================================
 echo Which would you like to do?
 echo ==========================================
 
 :: Options
-cmdMenuSel f870 "Change Recording Res/FPS" "Stream Quest screen to PC" "Sideload an APK File" "Uninstall an App" "Enable Wired ALVR" "Keep Alive (keep the screen on)" "Change Refresh Rate" "ADB Options" "Change Quest Resolution" "Update QuestToolbox" "==========================================" "Developer Credits" "Help"
+cmdMenuSel f870 "Change Recording Res/FPS" "Stream Quest screen to PC" "Sideload an APK File" "Uninstall an App" "Enable Wired ALVR" "Keep Alive (keep the screen on)" "Change Refresh Rate" "Change Quest Resolution" "Update QuestToolbox" "ADB Options" "==========================================" "Developer Credits" "Help"
 if "%errorlevel%"=="1" goto capture
 if "%errorlevel%"=="2" goto mirrorScreen
 if "%errorlevel%"=="3" goto sideloadPrompt
@@ -110,9 +110,9 @@ if "%errorlevel%"=="4" goto uninstallAPKPrompt
 if "%errorlevel%"=="5" goto wiredALVR
 if "%errorlevel%"=="6" goto keepalive
 if "%errorlevel%"=="7" goto refreshrate
-if "%errorlevel%"=="8" goto adbmenu
-if "%errorlevel%"=="9" goto changeResPrompt
-if "%errorlevel%"=="10" goto update
+if "%errorlevel%"=="8" goto changeResPrompt
+if "%errorlevel%"=="9" goto update
+if "%errorlevel%"=="10" goto adbmenu
 if "%errorlevel%"=="11" goto MainMenu
 if "%errorlevel%"=="12" goto devcredits
 if "%errorlevel%"=="13" goto Support
@@ -208,10 +208,10 @@ cls
 set /p width=Custom Width: 
 
 if "%width%"="" (
-cls
-echo Please enter a width!
-pause
-goto setWidth
+	cls
+	echo Please enter a width!
+	pause
+	goto setWidth
 )
 
 :setHeight
@@ -219,10 +219,10 @@ cls
 set /p height=Custom Height: 
 
 if "%height%"="" (
-cls
-echo Please enter a height!
-pause
-goto setHeight
+	cls
+	echo Please enter a height!
+	pause
+	goto setHeight
 )
 
 :setFPS
@@ -231,10 +231,10 @@ echo [7mDue to oculus capping FPS, min is 30 and max is 90![0m
 set /p fps=Custom FPS: 
 
 if "%fps%"="" (
-cls
-echo Please enter a fps!
-pause
-goto setFPS
+	cls
+	echo Please enter a fps!
+	pause
+	goto setFPS
 )
 
 adb shell setprop debug.oculus.capture.width %width%
@@ -314,10 +314,10 @@ set Q1bitrate=
 set /p Q1bitrate=Answer:
 
 if "%Q1bitrate%"=="" (
-cls
-echo Please enter a bitrate!
-pause
-goto Q1bitrate
+	cls
+	echo Please enter a bitrate!
+	pause
+	goto Q1bitrate
 )
 
 goto Q1streaming
@@ -379,10 +379,10 @@ set Q2bitrate=
 set /p Q2bitrate=Answer:
 
 if "%Q2bitrate%"=="" (
-cls
-echo Please enter a bitrate!
-pause
-goto Q2bitrate
+	cls
+	echo Please enter a bitrate!
+	pause
+	goto Q2bitrate
 )
 
 goto Q2streaming
@@ -698,7 +698,14 @@ echo [7mType "exit" to cancel.[0m
 set changedip=
 :: Prompts for local IP
 set /p changedip=Quest / Quest 2 local IP: 
-if "%changedip%"=="" goto IncorrectInputChangeIP
+
+if "%changedip%"=="" (
+	cls
+	echo Please enter an IP
+	pause
+	goto changingIP
+)
+
 if /I "%changedip%"=="exit" goto MainMenu
 
 :changingIPconfirm
@@ -721,11 +728,7 @@ adb connect %changedip%:5555
 pause
 goto MainMenu
 
-:IncorrectInputChangeIP
-cls
-echo Please enter an IP
-pause
-goto changingIP
+
 
 :customADB
 cls
@@ -740,10 +743,10 @@ set /p adbCom=adb
 if /I "%adbCom%"=="exit" goto ADBMenu
 
 if "%adbCom%"=="" (
-cls
-echo Please input a command.
-pause
-goto customADB
+	cls
+	echo Please input a command.
+	pause
+	goto customADB
 )
 
 cls
@@ -999,10 +1002,10 @@ set /p resHeight=Custom Height:
 if /I "%resHeight%"=="exit" goto MainMenu
 
 if "%resHeight%"=="" (
-cls
-echo Please enter a Height!
-pause
-goto resHeight
+	cls
+	echo Please enter a Height!
+	pause
+	goto resHeight
 )
 
 :resWidth
@@ -1017,10 +1020,10 @@ set /p resWidth=Custom Width:
 if /I "%resWidth%"=="exit" goto MainMenu
 
 if "%resWidth%"=="" (
-cls
-echo Please enter a Width!
-pause
-goto resWidth
+	cls
+	echo Please enter a Width!
+	pause
+	goto resWidth
 )
 
 cls
