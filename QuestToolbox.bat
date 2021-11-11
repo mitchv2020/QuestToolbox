@@ -2,7 +2,7 @@
 :: Developed By:
 :: mitchv2020 and lordnikon
 
-set version=v1.4.3
+set version=v1.4.3fix
 
 :::::::::::::::::::::
 :::: FILE CHECKS ::::
@@ -207,18 +207,20 @@ set fps=
 cls
 set /p width=Custom Width: 
 
-if "%width%"="" (
+if "%width%"=="" (
 	cls
 	echo Please enter a width!
 	pause
 	goto setWidth
 )
 
+goto setHeight
+
 :setHeight
 cls
 set /p height=Custom Height: 
 
-if "%height%"="" (
+if "%height%"=="" (
 	cls
 	echo Please enter a height!
 	pause
@@ -230,7 +232,7 @@ cls
 echo [7mDue to oculus capping FPS, min is 30 and max is 90![0m
 set /p fps=Custom FPS: 
 
-if "%fps%"="" (
+if "%fps%"=="" (
 	cls
 	echo Please enter a fps!
 	pause
@@ -1087,19 +1089,21 @@ echo ==========================================
 
 cmdMenuSel f870 "mitchv2020#2538" "LordNikon#1793" "==Back=="
 
-if "%errorlevel%"=="1" goto addDev1
-if "%errorlevel%"=="2" goto addDev2
+if "%errorlevel%"=="1" (
+	cls
+	start https://discord.com/users/330282620833366016
+	goto MainMenu
+)
+
+if "%errorlevel%"=="2" (
+	cls
+	start https://discord.com/users/555856178500993024
+	goto MainMenu
+)
+
 if "%errorlevel%"=="3" goto MainMenu
+goto Support
 
-:addDev1
-cls
-start https://discord.com/users/330282620833366016
-goto MainMenu
-
-:addDev2
-cls
-start https://discord.com/users/555856178500993024
-goto MainMenu
 
 
 
