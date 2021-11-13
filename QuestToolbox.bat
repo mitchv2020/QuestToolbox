@@ -2,7 +2,7 @@
 :: Developed By:
 :: mitchv2020 and lordnikon
 
-set version=v1.4.3fix
+set version=v1.4.4
 
 :::::::::::::::::::::
 :::: FILE CHECKS ::::
@@ -24,8 +24,8 @@ if not exist ".\Requirements\scrcpy.exe" (
 	goto missingFile
 )
 
-if not exist ".\Requirements\keepalive.bat" (
-	set missingFile=keepalive.bat
+if not exist ".\Requirements\ffmpeg.exe" (
+	set missingFile=ffmpeg.exe
 	goto missingFile
 )
 
@@ -36,6 +36,11 @@ if not exist ".\Requirements\packages.bat" (
 
 if not exist ".\Requirements\wiredalvr.bat" (
 	set missingFile=wiredalvr.bat
+	goto missingFile
+)
+
+if not exist ".\Requirements\keepaliveReplay.bat" (
+	set missingFile=keepquestalive.bat
 	goto missingFile
 )
 
@@ -102,20 +107,21 @@ echo Which would you like to do?
 echo ==========================================
 
 :: Options
-cmdMenuSel f870 "Change Recording Res/FPS" "Stream Quest screen to PC" "Sideload an APK File" "Uninstall an App" "Enable Wired ALVR" "Keep Alive (keep the screen on)" "Change Refresh Rate" "Change Quest Resolution" "Update QuestToolbox" "ADB Options" "==========================================" "Developer Credits" "Help"
+cmdMenuSel f870 "Change Recording Res/FPS" "Stream Quest screen to PC" "Sideload an APK File" "Uninstall an App" "Enable Wired ALVR" "Change Refresh Rate" "Replay Tools" "Change Quest Resolution" "Update QuestToolbox" "ADB Options" "==========================================" "Developer Credits" "Special Thanks" "Help"
 if "%errorlevel%"=="1" goto capture
 if "%errorlevel%"=="2" goto mirrorScreen
 if "%errorlevel%"=="3" goto sideloadPrompt
 if "%errorlevel%"=="4" goto uninstallAPKPrompt
 if "%errorlevel%"=="5" goto wiredALVR
-if "%errorlevel%"=="6" goto keepalive
-if "%errorlevel%"=="7" goto refreshrate
+if "%errorlevel%"=="6" goto refreshrate
+if "%errorlevel%"=="7" goto replayTools
 if "%errorlevel%"=="8" goto changeResPrompt
 if "%errorlevel%"=="9" goto update
 if "%errorlevel%"=="10" goto adbmenu
 if "%errorlevel%"=="11" goto MainMenu
 if "%errorlevel%"=="12" goto devcredits
-if "%errorlevel%"=="13" goto Support
+if "%errorlevel%"=="13" goto specialThanks
+if "%errorlevel%"=="14" goto Support
 goto MainMenu
 
 
@@ -515,13 +521,6 @@ goto MainMenu
 
 
 
-:keepalive
-cls
-echo Starting KeepAlive...
-start keepalive.bat
-goto MainMenu
-
-
 
 :refreshrate
 cls
@@ -606,6 +605,207 @@ if "%errorlevel%"=="0" (
 
 pause
 goto MainMenu
+
+:replayTools
+cls
+echo               [7mReplay Tools[0m
+echo ==========================================
+echo Which would you like to do?
+echo ==========================================
+echo These options are for the Render release of 
+echo Replay mod for Beat Saber. (not currently out yet)
+echo ==========================================
+cmdMenuSel f870 "Render files" "Remux Rendered Files (Must render first!)"
+
+:: Options
+if "%errorlevel%"=="1" goto keepaliveReplay
+if "%errorlevel%"=="2" goto remux
+
+:keepaliveReplay
+cls
+adb shell am broadcast -a com.oculus.vrpowermanager.prox_close
+start keepaliveReplay.bat
+cls
+echo [41mPlease keep this next window open while rendering
+echo to not corrupt the render![0m
+echo ==========================================================
+echo [7mPress enter once you have finished rendering the video
+echo and the other batch window is closed![0m
+pause
+shell am broadcast -a com.oculus.vrpowermanager.automation_disable
+goto replayTools
+
+:remux
+cls
+echo [41mMake sure you have rendered your files before remuxing[0m
+set /p fileLoc=Enter file location: 
+
+cls
+echo Converting [7maudio.wav[0m to [7maudio.ogg[0m
+ffmpeg -hide_banner -loglevel error -i %fileLoc%/audio.wav -acodec libvorbis %fileloc%/audio.ogg
+ 
+cls
+echo Merging both [7mvideo.h264[0m and [7maudio.ogg[0m into [7moutput.mp4[0m. this could take a while.
+ffmpeg -hide_banner -loglevel error -framerate 45 -i %fileLoc%/video.h264 -i %fileLoc%/audio.ogg -c copy %fileLoc%/output.mp4
+
+cls
+echo Check the [7moutput.mp4[0m file. Does the audio need to be synced?
+cmdMenuSel f870 "Yes" "No"
+
+:: Options
+if "%errorlevel%"=="1" goto syncNeeded
+if "%errorlevel%"=="2" goto nonsyncFinished
+
+:syncNeeded
+cls
+echo Fixing audio and video desync
+ffmpeg -hide_banner -loglevel error -i %fileLoc%/output.mp4 -itsoffset -0.3 -i %fileLoc%/output.mp4 -vcodec copy -acodec copy -map 0:0 -map 1:1 %fileLoc%/finalVideo.mp4
+del %fileLoc%/output.mp4
+goto syncFinished
+
+:nonsyncFinished
+cls
+echo Finished remuxing audio and video. Open File?
+cmdMenuSel f870 "Yes" "No"
+
+:: Options
+
+if "%errorlevel%"=="1" (
+start %fileLoc%/output.mp4
+goto MainMenu
+)
+if "%errorlevel%"=="2" goto MainMenu
+
+:syncFinished
+cls
+echo Finished remuxing audio and video. Open File?
+cmdMenuSel f870 "Yes" "No"
+
+if "%errorlevel%"=="1" (
+start %fileLoc%/finalVideo.mp4
+goto MainMenu
+)
+if "%errorlevel%"=="2" goto MainMenu
+
+
+
+:changeResPrompt
+cls
+echo ==========================================
+echo         [7mChange Quest Resolution[0m
+echo ==========================================
+
+::Options
+cmdMenuSel f870 "Default Resolution (1832x1920)" "Custom Resolution" "==Back=="
+if "%errorlevel%"=="1" goto defaultRes
+if "%errorlevel%"=="2" goto changeCustomRes
+if "%errorlevel%"=="3" goto MainMenu
+
+:defaultRes
+cls
+echo ==========================================
+echo [7mAre you sure you want to change resolution?[0m
+echo ==========================================
+
+::Options
+cmdMenuSel f870 "Yes" "No"
+if "%errorlevel%"=="1" goto changingToDefault
+if "%errorlevel%"=="2" goto MainMenu
+
+:changingToDefault
+cls
+echo Changing Resolution...
+adb shell setprop debug.oculus.textureHeight 1832
+adb shell setprop debug.oculus.textureWidth 1920
+
+if "%errorlevel%"=="-1" goto noDevices
+
+if "%errorlevel%"=="0" (
+	cls
+	echo Successfully Changed Resolution!
+	pause
+	goto MainMenu
+)
+
+
+
+:changeCustomRes
+cls
+echo ==========================================
+echo [7mAre you sure you want to change resolution?[0m
+echo ==========================================
+
+::Options
+cmdMenuSel f870 "Yes" "No"
+if "%errorlevel%"=="1" goto customRes
+if "%errorlevel%"=="2" goto MainMenu
+
+:customRes
+set resHeight=
+set resWidth=
+
+:resHeight
+echo ==========================================
+echo [7mBe careful because if you do something wrong it can break.[0m
+echo If something does go wrong, a reboot usually fixes it.
+echo ==========================================
+echo [7mType "exit" to cancel.[0m
+set /p resHeight=Custom Height: 
+
+if /I "%resHeight%"=="exit" goto MainMenu
+
+if "%resHeight%"=="" (
+	cls
+	echo Please enter a Height!
+	pause
+	goto resHeight
+)
+
+:resWidth
+cls
+echo ==========================================
+echo [7mBe careful because if you do something wrong it can break.[0m
+echo If something does go wrong, a reboot usually fixes it.
+echo ==========================================
+echo [7mType "exit" to cancel.[0m
+set /p resWidth=Custom Width: 
+
+if /I "%resWidth%"=="exit" goto MainMenu
+
+if "%resWidth%"=="" (
+	cls
+	echo Please enter a Width!
+	pause
+	goto resWidth
+)
+
+cls
+echo Changing resolution...
+adb shell setprop debug.oculus.textureHeight %resHeight%
+adb shell setprop debug.oculus.textureWidth %resWidth%
+
+if "%errorlevel%"=="-1" goto noDevices
+
+if "%errorlevel%"=="0" (
+	cls
+	echo Successfully Changed Resolution!
+	pause
+	goto MainMenu
+)
+
+pause
+goto MainMenu
+
+
+
+:update
+cls
+echo Opening GitHub page...
+:: Opens a browser tab with the latest release
+start https://www.github.com/mitchv2020/QuestToolbox/releases/latest
+goto MainMenu
+
+
 
 :ADBMenu
 cls
@@ -938,121 +1138,6 @@ if "%errorlevel%"=="1" goto firmwareSetup
 if "%errorlevel%"=="2" goto ADBMenu
 
 
-:changeResPrompt
-cls
-echo ==========================================
-echo         [7mChange Quest Resolution[0m
-echo ==========================================
-
-::Options
-cmdMenuSel f870 "Default Resolution (1832x1920)" "Custom Resolution" "==Back=="
-if "%errorlevel%"=="1" goto defaultRes
-if "%errorlevel%"=="2" goto changeCustomRes
-if "%errorlevel%"=="3" goto MainMenu
-
-:defaultRes
-cls
-echo ==========================================
-echo [7mAre you sure you want to change resolution?[0m
-echo ==========================================
-
-::Options
-cmdMenuSel f870 "Yes" "No"
-if "%errorlevel%"=="1" goto changingToDefault
-if "%errorlevel%"=="2" goto MainMenu
-
-:changingToDefault
-cls
-echo Changing Resolution...
-adb shell setprop debug.oculus.textureHeight 1832
-adb shell setprop debug.oculus.textureWidth 1920
-
-if "%errorlevel%"=="-1" goto noDevices
-
-if "%errorlevel%"=="0" (
-	cls
-	echo Successfully Changed Resolution!
-	pause
-	goto MainMenu
-)
-
-
-
-:changeCustomRes
-cls
-echo ==========================================
-echo [7mAre you sure you want to change resolution?[0m
-echo ==========================================
-
-::Options
-cmdMenuSel f870 "Yes" "No"
-if "%errorlevel%"=="1" goto customRes
-if "%errorlevel%"=="2" goto MainMenu
-
-:customRes
-set resHeight=
-set resWidth=
-
-:resHeight
-echo ==========================================
-echo [7mBe careful because if you do something wrong it can break.[0m
-echo If something does go wrong, a reboot usually fixes it.
-echo ==========================================
-echo [7mType "exit" to cancel.[0m
-set /p resHeight=Custom Height: 
-
-if /I "%resHeight%"=="exit" goto MainMenu
-
-if "%resHeight%"=="" (
-	cls
-	echo Please enter a Height!
-	pause
-	goto resHeight
-)
-
-:resWidth
-cls
-echo ==========================================
-echo [7mBe careful because if you do something wrong it can break.[0m
-echo If something does go wrong, a reboot usually fixes it.
-echo ==========================================
-echo [7mType "exit" to cancel.[0m
-set /p resWidth=Custom Width: 
-
-if /I "%resWidth%"=="exit" goto MainMenu
-
-if "%resWidth%"=="" (
-	cls
-	echo Please enter a Width!
-	pause
-	goto resWidth
-)
-
-cls
-echo Changing resolution...
-adb shell setprop debug.oculus.textureHeight %resHeight%
-adb shell setprop debug.oculus.textureWidth %resWidth%
-
-if "%errorlevel%"=="-1" goto noDevices
-
-if "%errorlevel%"=="0" (
-	cls
-	echo Successfully Changed Resolution!
-	pause
-	goto MainMenu
-)
-
-pause
-goto MainMenu
-
-:update
-cls
-echo Opening GitHub page...
-:: Opens a browser tab with the latest release
-start https://www.github.com/mitchv2020/QuestToolbox/releases/latest
-goto MainMenu
-
-
 
 :devcredits
 cls
@@ -1080,6 +1165,22 @@ start https://www.youtube.com/channel/UCTaoq74t_tMPA5jUITxB3lw
 goto :devcredits
 
 
+
+:specialThanks
+cls
+echo ==========================================
+echo Special Thanks to:
+echo ==========================================
+
+cmdMenuSel f870 "Henwill8" "==Back=="
+
+if "%errorlevel%"=="1" (
+	cls
+	start https://www.youtube.com/channel/UCSvbTEjaYHRH-ZAgAOONZeg
+	goto MainMenu
+)
+
+if "%errorlevel%"=="2" goto MainMenu
 
 :Support
 cls
