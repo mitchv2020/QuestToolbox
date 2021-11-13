@@ -615,11 +615,12 @@ echo ==========================================
 echo These options are for the Render release of 
 echo Replay mod for Beat Saber. (not currently out yet)
 echo ==========================================
-cmdMenuSel f870 "Render files" "Remux Rendered Files (Must render first!)"
+cmdMenuSel f870 "Render files" "Remux Rendered Files (Must render first!)" "==Back=="
 
 :: Options
 if "%errorlevel%"=="1" goto keepaliveReplay
 if "%errorlevel%"=="2" goto remux
+if "%errorlevel%"=="3" goto MainMenu
 
 :keepaliveReplay
 cls
