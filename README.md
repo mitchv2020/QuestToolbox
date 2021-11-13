@@ -13,6 +13,7 @@ A batch file full of useful tools to use for Quest 1 and 2!
 - Custom ADB Command
 - Sideload Firmware
 - Download Firmware Files/zips
+- Replay Tools for Henwill8's Replay mod
 - Wireless ADB
 
 # Install
@@ -28,7 +29,7 @@ We currently dont support linux
 
 We currently dont support MacOS
 
-![](https://i.imgur.com/AayWA5V.png)
+![](https://i.imgur.com/5j6vJxJ.png)
 
 # Known Bugs/Problems
 - Resizing the window will break the ui (to fix this just choose any option)
