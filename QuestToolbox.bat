@@ -40,7 +40,7 @@ if not exist ".\Requirements\wiredalvr.bat" (
 )
 
 if not exist ".\Requirements\keepaliveReplay.bat" (
-	set missingFile=keepquestalive.bat
+	set missingFile=keepaliveReplay.bat
 	goto missingFile
 )
 
