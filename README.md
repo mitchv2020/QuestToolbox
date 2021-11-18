@@ -33,3 +33,4 @@ We currently dont support MacOS
 # Known Bugs/Problems
 - Resizing the window will break the ui (to fix this just choose any option)
 - Custom recording FPS is broken/unstable
+- Spamming the equals (=) row of lines causes the UI to freak out
