@@ -814,7 +814,7 @@ echo               [7mADB Options[0m
 echo ==========================================
 echo Which would you like to do?
 echo ==========================================
-cmdMenuSel f870 "Setup Wireless ADB" "Change Wireless ADB IP" "Disconnect Wireless ADB" "Custom ADB Command" "Sideload Firmware" "Download Firmware Files" "==Back=="
+cmdMenuSel f870 "Setup Wireless ADB" "Change Wireless ADB IP" "Disconnect Wireless ADB" "Custom ADB Command" "Sideload Firmware" "Download Firmware Files" "Disable Proximity Sensor" "==Back=="
 
 :: Options
 if "%errorlevel%"=="1" goto wirelesssetup
@@ -823,7 +823,8 @@ if "%errorlevel%"=="3" goto disconnect
 if "%errorlevel%"=="4" goto customADB
 if "%errorlevel%"=="5" goto firmwareConfirm
 if "%errorlevel%"=="6" goto downloadFirmware
-if "%errorlevel%"=="7" goto MainMenu
+if "%errorlevel%"=="7" goto proximitySensorOptions
+if "%errorlevel%"=="8" goto MainMenu
 
 :wirelesssetup
 cls
@@ -1138,6 +1139,49 @@ cmdMenuSel f870 "Yes" "No"
 if "%errorlevel%"=="1" goto firmwareSetup
 if "%errorlevel%"=="2" goto ADBMenu
 
+
+
+:proximitySensorOptions
+cls
+echo ==========================================
+echo Which would you like to do?
+echo ==========================================
+cmdMenuSel f870 "Enable Proximity Sensor" "Disable Proximity Sensor" "==Back=="
+
+if "%errorlevel%"=="1" goto enableProximitySens
+if "%errorlevel%"=="2" goto disableProximitySens
+if "%errorlevel%"=="3" goto ADBMenu
+goto proximitySensorOptions
+
+:enableProximitySens
+cls
+echo Enabling...
+adb shell am broadcast -a com.oculus.vrpowermanager.prox_close
+
+if "%errorlevel%"=="-1" goto noDevices
+
+if "%errorlevel%"=="0" (
+cls
+echo Enabled Successfully!
+pause
+goto ADBMenu
+)
+pause
+
+:disableProximitySens
+cls
+echo Disabling...
+adb shell am broadcast -a com.oculus.vrpowermanager.automation_disable
+
+if "%errorlevel%"=="-1" goto noDevices
+
+if "%errorlevel%"=="0" (
+cls
+echo Disabled Successfully!
+pause
+goto ADBMenu
+)
+pause
 
 
 :devcredits
