@@ -33,4 +33,3 @@ We currently dont support MacOS
 # Known Bugs/Problems
 - Resizing the window will break the ui (to fix this just choose any option)
 - Custom recording FPS is broken/unstable
-- KeepAlive is only working on Quest 1/ Bugged on Quest 2
