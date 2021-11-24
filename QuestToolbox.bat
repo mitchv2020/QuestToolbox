@@ -2,7 +2,7 @@
 :: Developed By:
 :: mitchv2020 and lordnikon
 
-set version=v1.4.4
+set version=v1.4.5
 
 :::::::::::::::::::::
 :::: FILE CHECKS ::::
