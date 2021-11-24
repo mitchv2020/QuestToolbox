@@ -14,6 +14,7 @@ A batch file full of useful tools to use for Quest 1 and 2!
 - Download Firmware Files/zips
 - Replay Tools for Henwill8's Replay mod
 - Wireless ADB
+- Disable and enable the proximity sensor
 
 # Install
 - Windows
