@@ -1233,7 +1233,7 @@ echo ==========================================
 echo Add on Discord: (you can click on them)
 echo ==========================================
 
-cmdMenuSel f870 "mitchv2020#2538" "LordNikon#1793" "==Back=="
+cmdMenuSel f870 "mitchv2020#5697" "LordNikon#1793" "==Back=="
 
 if "%errorlevel%"=="1" (
 	cls
