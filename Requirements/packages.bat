@@ -1,4 +1,5 @@
 @echo off
+title List of Installed Apps
 :start
 cls
 echo ==========================================
