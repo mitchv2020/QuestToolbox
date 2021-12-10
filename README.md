@@ -35,3 +35,4 @@ We currently dont support MacOS
 - Resizing the window will break the ui (to fix this just choose any option)
 - Custom recording FPS is broken/unstable
 - When inputting the directory of an APK in sideloading, it will crash if the directory/file name has a space in it.
+- Choosing Default Resolution in the changing quest resoultion options is the wrong resolution
