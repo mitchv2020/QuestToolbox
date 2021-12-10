@@ -647,10 +647,10 @@ set /p fileLoc=Enter file location of [7maudio.wav[0m and [7mvideo.h264[0m:
 
 
 if "%fileLoc%"=="" (
-cls
-echo Please enter a Directory!
-pause
-goto remux
+	cls
+	echo Please enter a Directory!
+	pause
+	goto remux
 )
 
 if /I "%fileLoc%"=="exit" goto replayTools
@@ -660,11 +660,11 @@ echo Converting [7maudio.wav[0m to [7maudio.ogg[0m
 ffmpeg -hide_banner -loglevel error -i %fileLoc%/audio.wav -acodec libvorbis %fileloc%/audio.ogg
 
 if "%errorlevel%"=="1" (
-cls
-echo [7maudio.wav[0m does not exist in the directory
-echo you have entered! Please check the folder.
-pause
-goto remux
+	cls
+	echo [7maudio.wav[0m does not exist in the directory
+	echo you have entered! Please check the folder.
+	pause
+	goto remux
 )
 
 echo error code: %errorlevel%
@@ -675,11 +675,11 @@ echo Merging both [7mvideo.h264[0m and [7maudio.ogg[0m into [7moutput.mp4[
 ffmpeg -hide_banner -loglevel error -framerate 45 -i %fileLoc%/video.h264 -i %fileLoc%/audio.ogg -c copy %fileLoc%/output.mp4
 
 if "%errorlevel%"=="1" (
-cls
-echo [7mvideo.h264[0m does not exist in the directory
-echo you have entered! Please check the folder.
-pause
-goto remux
+	cls
+	echo [7mvideo.h264[0m does not exist in the directory
+	echo you have entered! Please check the folder.
+	pause
+	goto remux
 )
 
 cls
@@ -699,10 +699,10 @@ echo Fixing audio and video desync
 ffmpeg -hide_banner -loglevel error -i %fileLoc%/output.mp4 -itsoffset -0.3 -i %fileLoc%/output.mp4 -vcodec copy -acodec copy -map 0:0 -map 1:1 %fileLoc%/finalVideo.mp4
 
 if "%errorlevel%"=="1" (
-cls
-echo [7moutput.mp4[0m could not be found. Please try remuxing again.
-pause
-goto replayTools
+	cls
+	echo [7moutput.mp4[0m could not be found. Please try remuxing again.
+	pause
+	goto replayTools
 )
 
 del %fileLoc%/output.mp4
@@ -717,8 +717,8 @@ cmdMenuSel f870 "Yes" "No"
 :: Options
 
 if "%errorlevel%"=="1" (
-start %fileLoc%/%remuxedFile%
-goto MainMenu
+	start %fileLoc%/%remuxedFile%
+	goto MainMenu
 )
 if "%errorlevel%"=="2" goto MainMenu
 
