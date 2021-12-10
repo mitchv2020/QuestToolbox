@@ -2,7 +2,7 @@
 :: Developed By:
 :: mitchv2020 and lordnikon
 
-set version=v1.4.5
+set version=v1.4.6
 
 :::::::::::::::::::::
 :::: FILE CHECKS ::::
@@ -627,7 +627,7 @@ cls
 adb shell am broadcast -a com.oculus.vrpowermanager.prox_close
 start keepaliveReplay.bat
 cls
-echo [41mPlease keep this next window open while rendering
+echo [41mPlease keep the keepAlive open while rendering
 echo to not corrupt the render![0m
 echo ==========================================================
 echo [7mPress enter once you have finished rendering the video
@@ -638,16 +638,49 @@ goto replayTools
 
 :remux
 cls
-echo [41mMake sure you have rendered your files before remuxing[0m
-set /p fileLoc=Enter file location: 
+echo [41mMake sure to render first and that both files are 
+echo not located on your quest but on your computer![0m
+echo.
+echo [7mType "exit" to cancel.[0m
+echo.
+set /p fileLoc=Enter file location of [7maudio.wav[0m and [7mvideo.h264[0m: 
+
+
+if "%fileLoc%"=="" (
+cls
+echo Please enter a Directory!
+pause
+goto remux
+)
+
+if /I "%fileLoc%"=="exit" goto replayTools
 
 cls
 echo Converting [7maudio.wav[0m to [7maudio.ogg[0m
 ffmpeg -hide_banner -loglevel error -i %fileLoc%/audio.wav -acodec libvorbis %fileloc%/audio.ogg
- 
+
+if "%errorlevel%"=="1" (
+cls
+echo [7maudio.wav[0m does not exist in the directory
+echo you have entered! Please check the folder.
+pause
+goto remux
+)
+
+echo error code: %errorlevel%
+pause
+
 cls
 echo Merging both [7mvideo.h264[0m and [7maudio.ogg[0m into [7moutput.mp4[0m. this could take a while.
 ffmpeg -hide_banner -loglevel error -framerate 45 -i %fileLoc%/video.h264 -i %fileLoc%/audio.ogg -c copy %fileLoc%/output.mp4
+
+if "%errorlevel%"=="1" (
+cls
+echo [7mvideo.h264[0m does not exist in the directory
+echo you have entered! Please check the folder.
+pause
+goto remux
+)
 
 cls
 echo Check the [7moutput.mp4[0m file. Does the audio need to be synced?
@@ -655,16 +688,28 @@ cmdMenuSel f870 "Yes" "No"
 
 :: Options
 if "%errorlevel%"=="1" goto syncNeeded
-if "%errorlevel%"=="2" goto nonsyncFinished
+if "%errorlevel%"=="2" (
+set remuxedFile=output.mp4
+goto RemuxFinished
+)
 
 :syncNeeded
 cls
 echo Fixing audio and video desync
 ffmpeg -hide_banner -loglevel error -i %fileLoc%/output.mp4 -itsoffset -0.3 -i %fileLoc%/output.mp4 -vcodec copy -acodec copy -map 0:0 -map 1:1 %fileLoc%/finalVideo.mp4
-del %fileLoc%/output.mp4
-goto syncFinished
 
-:nonsyncFinished
+if "%errorlevel%"=="1" (
+cls
+echo [7moutput.mp4[0m could not be found. Please try remuxing again.
+pause
+goto replayTools
+)
+
+del %fileLoc%/output.mp4
+set remuxedFile=finalVideo.mp4
+goto RemuxFinished
+
+:RemuxFinished
 cls
 echo Finished remuxing audio and video. Open File?
 cmdMenuSel f870 "Yes" "No"
@@ -672,22 +717,12 @@ cmdMenuSel f870 "Yes" "No"
 :: Options
 
 if "%errorlevel%"=="1" (
-start %fileLoc%/output.mp4
+start %fileLoc%/%remuxedFile%
 goto MainMenu
 )
 if "%errorlevel%"=="2" goto MainMenu
 
-:syncFinished
-cls
-echo Finished remuxing audio and video. Open File?
-cmdMenuSel f870 "Yes" "No"
-
-if "%errorlevel%"=="1" (
-start %fileLoc%/finalVideo.mp4
-goto MainMenu
-)
-if "%errorlevel%"=="2" goto MainMenu
-
+goto RemuxFinished
 
 
 :changeResPrompt
@@ -695,6 +730,8 @@ cls
 echo ==========================================
 echo         [7mChange Quest Resolution[0m
 echo ==========================================
+echo Default resolution is currently a bit broken. Use at your own risk
+echo.
 
 ::Options
 cmdMenuSel f870 "Default Resolution (1832x1920)" "Custom Resolution" "==Back=="
