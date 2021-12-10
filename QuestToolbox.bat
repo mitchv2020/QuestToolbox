@@ -627,7 +627,7 @@ cls
 adb shell am broadcast -a com.oculus.vrpowermanager.prox_close
 start keepaliveReplay.bat
 cls
-echo [41mPlease keep the keepAlive open while rendering
+echo [41mPlease keep the keepAlive window open while rendering
 echo to not corrupt the render![0m
 echo ==========================================================
 echo [7mPress enter once you have finished rendering the video
