@@ -861,7 +861,7 @@ if "%errorlevel%"=="3" goto customADB
 if "%errorlevel%"=="4" goto firmwareConfirm
 if "%errorlevel%"=="5" goto downloadFirmware
 if "%errorlevel%"=="6" goto proximitySensorOptions
-if "%errorlevel%"=="7z" goto MainMenu
+if "%errorlevel%"=="7" goto MainMenu
 
 :wirelesssetup
 cls
