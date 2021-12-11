@@ -423,7 +423,8 @@ goto sideloadPrompt
 :sideload
 cls
 echo ==========================================
-echo Type in the directory of the file (including file name)
+echo Type in the directory of the file (including file name)#
+echo [7mMake sure that the file and directory does not have a space in it![0m
 echo ==========================================
 echo [7mType "exit" to cancel.[0m
 :: Resets the APK directory selected
