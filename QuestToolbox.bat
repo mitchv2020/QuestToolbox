@@ -646,7 +646,6 @@ echo [7mType "exit" to cancel.[0m
 echo.
 set /p fileLoc=Enter file location of [7maudio.wav[0m and [7mvideo.h264[0m: 
 
-
 if "%fileLoc%"=="" (
 	cls
 	echo Please enter a Directory!
@@ -784,6 +783,7 @@ set resHeight=
 set resWidth=
 
 :resHeight
+cls
 echo ==========================================
 echo [7mBe careful because if you do something wrong it can break.[0m
 echo If something does go wrong, a reboot usually fixes it.

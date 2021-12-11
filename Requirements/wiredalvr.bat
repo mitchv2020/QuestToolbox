@@ -1,4 +1,5 @@
 @echo off
+title Wired ALVR
 mode con: cols=65 lines=16 
 echo Starting wired ALVR...
 adb forward tcp:9943 tcp:9943
