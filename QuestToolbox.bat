@@ -2,7 +2,7 @@
 :: Developed By:
 :: mitchv2020 and lordnikon
 
-set version=v1.4.6
+set version=v1.4.7
 
 :::::::::::::::::::::
 :::: FILE CHECKS ::::
@@ -423,7 +423,7 @@ goto sideloadPrompt
 :sideload
 cls
 echo ==========================================
-echo Type in the directory of the file (including file name)#
+echo Type in the directory of the file (including file name)
 echo [7mMake sure that the file and directory does not have a space in it![0m
 echo ==========================================
 echo [7mType "exit" to cancel.[0m
@@ -852,17 +852,16 @@ echo               [7mADB Options[0m
 echo ==========================================
 echo Which would you like to do?
 echo ==========================================
-cmdMenuSel f870 "Setup Wireless ADB" "Change Wireless ADB IP" "Disconnect Wireless ADB" "Custom ADB Command" "Sideload Firmware" "Download Firmware Files" "Disable Proximity Sensor" "==Back=="
+cmdMenuSel f870 "Setup Wireless ADB" "Disconnect Wireless ADB" "Custom ADB Command" "Sideload Firmware" "Download Firmware Files" "Disable Proximity Sensor" "==Back=="
 
 :: Options
 if "%errorlevel%"=="1" goto wirelesssetup
-if "%errorlevel%"=="2" goto changeip
-if "%errorlevel%"=="3" goto disconnect
-if "%errorlevel%"=="4" goto customADB
-if "%errorlevel%"=="5" goto firmwareConfirm
-if "%errorlevel%"=="6" goto downloadFirmware
-if "%errorlevel%"=="7" goto proximitySensorOptions
-if "%errorlevel%"=="8" goto MainMenu
+if "%errorlevel%"=="2" goto disconnect
+if "%errorlevel%"=="3" goto customADB
+if "%errorlevel%"=="4" goto firmwareConfirm
+if "%errorlevel%"=="5" goto downloadFirmware
+if "%errorlevel%"=="6" goto proximitySensorOptions
+if "%errorlevel%"=="7z" goto MainMenu
 
 :wirelesssetup
 cls
@@ -917,59 +916,6 @@ cls
 echo Please enter an IP
 pause
 goto wirelessIP
-
-:changeIP
-cls
-echo ==========================================
-echo [7mDo you want to change your Wireless ADB IP?[0m
-echo ==========================================
-
-:: Options
-cmdMenuSel f870 "Yes" "No"
-if "%errorlevel%"=="1" goto changingIP
-if "%errorlevel%"=="2" goto ADBMenu
-goto ChangeIP
-
-:changingip
-cls
-echo ==========================================
-echo [41mIf not done yet, please setup Wireless ADB First![0m
-echo ==========================================
-echo [7mType "exit" to cancel.[0m
-:: Resets the local IP
-set changedip=
-:: Prompts for local IP
-set /p changedip=Quest / Quest 2 local IP: 
-
-if "%changedip%"=="" (
-	cls
-	echo Please enter an IP
-	pause
-	goto changingIP
-)
-
-if /I "%changedip%"=="exit" goto MainMenu
-
-:changingIPconfirm
-cls
-echo ==========================================
-echo You set your Quest / Quest 2 local ip to [7m%changedip%[0m. is that correct?.
-echo ==========================================
-
-:: Options
-cmdMenuSel f870 "Yes" "No"
-if "%errorlevel%"=="1" goto changingadb
-if "%errorlevel%"=="2" goto changingip
-goto changingip
-
-:changingadb
-cls
-echo connecting...
-:: Connects to the new local IP
-adb connect %changedip%:5555
-pause
-goto MainMenu
-
 
 
 :customADB
@@ -1038,7 +984,7 @@ if "%errorlevel%"=="2" goto ADBMenu
 
 :firmwareSetup
 cls
-echo [7mMake sure to boot your Quest into Recovery
+echo [7mMake sure to boot your Quest into Recovery mode
 echo and select the "Sideload Update" option!![0m
 pause
 goto sideloadFirmware
