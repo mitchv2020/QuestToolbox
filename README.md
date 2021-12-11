@@ -16,6 +16,10 @@ A batch file full of useful tools to use for Quest 1 and 2!
 - Wireless ADB
 - Disable and enable the proximity sensor
 
+# How to use
+
+It is pretty simple to use QuestToolbox but if you ever get confused you can look at our wiki [here](https://github.com/mitchv2020/QuestToolbox/wiki/How-to-use)
+
 # Install
 - Windows
 
