@@ -667,9 +667,6 @@ if "%errorlevel%"=="1" (
 	goto remux
 )
 
-echo error code: %errorlevel%
-pause
-
 cls
 echo Merging both [7mvideo.h264[0m and [7maudio.ogg[0m into [7moutput.mp4[0m. this could take a while.
 ffmpeg -hide_banner -loglevel error -framerate 45 -i %fileLoc%/video.h264 -i %fileLoc%/audio.ogg -c copy %fileLoc%/output.mp4
