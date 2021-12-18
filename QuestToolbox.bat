@@ -1142,10 +1142,10 @@ adb shell am broadcast -a com.oculus.vrpowermanager.prox_close
 if "%errorlevel%"=="-1" goto noDevices
 
 if "%errorlevel%"=="0" (
-cls
-echo Enabled Successfully!
-pause
-goto ADBMenu
+	cls
+	echo Enabled Successfully!
+	pause
+	goto ADBMenu
 )
 pause
 
@@ -1157,10 +1157,10 @@ adb shell am broadcast -a com.oculus.vrpowermanager.automation_disable
 if "%errorlevel%"=="-1" goto noDevices
 
 if "%errorlevel%"=="0" (
-cls
-echo Disabled Successfully!
-pause
-goto ADBMenu
+	cls
+	echo Disabled Successfully!
+	pause
+	goto ADBMenu
 )
 pause
 
