@@ -27,7 +27,7 @@ Download the [latest release](https://github.com/mitchv2020/QuestToolbox/release
 
 - Linux
 
-We currently dont support linux
+We currently dont support linux ([Wine](https://github.com/wine-mirror/wine) would probably work but we dont have support for it)
 
 - MacOS
 
