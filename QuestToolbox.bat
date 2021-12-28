@@ -2,12 +2,27 @@
 :: Developed By:
 :: mitchv2020 and lordnikon
 
-set version=v1.4.8
+set version=v1.4.9
 
 :::::::::::::::::::::
 :::: FILE CHECKS ::::
 :::::::::::::::::::::
 if not exist ".\Requirements" goto noRequirements
+
+if not exist ".\Requirements\curl.exe" (
+	set missingFile=curl.exe
+	goto missingFile
+)
+
+if not exist ".\Requirements\checkforupdates.bat" (
+	set missingFile=checkforupdates.bat
+	goto missingFile
+)
+
+if not exist ".\Requirements\list_of_ver_fromdate.txt" (
+	set missingFile=list_of_ver_fromdate.txt
+	goto missingFile
+)
 
 if not exist ".\Requirements\cmdmenusel.exe" (
 	set missingFile=cmdmenusel.exe
@@ -89,14 +104,13 @@ if not exist ".\Requirements\swscale-5.dll" (
 	goto missingFile
 )
 
-:::::::::::::::::::::
-:::::::::::::::::::::
-:::::::::::::::::::::
-
+:continueSetup
 :: Sets the window size
-mode con: cols=72 lines=20 
-cd Requirements
-goto MainMenu
+mode con: cols=72 lines=21 
+
+:: Checks for updates
+cd requirements
+call checkforupdates.bat
 
 :MainMenu
 cls
