@@ -1,6 +1,6 @@
 echo off
 :: Sets the title and window size respectively
-title KeepAlive - Replay Mod
+title KeepAlive
 mode con: cols=72 lines=20 
 
 :tap

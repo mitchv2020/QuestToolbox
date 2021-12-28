@@ -2,7 +2,7 @@
 :: Developed By:
 :: mitchv2020 and lordnikon
 
-set version=v1.4.7
+set version=v1.4.8
 
 :::::::::::::::::::::
 :::: FILE CHECKS ::::
@@ -107,21 +107,22 @@ echo Which would you like to do?
 echo ==========================================
 
 :: Options
-cmdMenuSel f870 "Change Recording Res/FPS" "Stream Quest screen to PC" "Sideload an APK File" "Uninstall an App" "Enable Wired ALVR" "Change Refresh Rate" "Replay Tools" "Change Quest Resolution" "Update QuestToolbox" "ADB Options" "==========================================" "Developer Credits" "Special Thanks" "Help"
+cmdMenuSel f870 "Change Recording Res/FPS" "Stream Quest screen to PC" "Sideload an APK File" "Uninstall an App" "Keep Alive" "Enable Wired ALVR" "Change Refresh Rate" "Replay Tools" "Change Quest Resolution" "Update QuestToolbox" "ADB Options" "==========================================" "Developer Credits" "Special Thanks" "Help"
 if "%errorlevel%"=="1" goto capture
 if "%errorlevel%"=="2" goto mirrorScreen
 if "%errorlevel%"=="3" goto sideloadPrompt
 if "%errorlevel%"=="4" goto uninstallAPKPrompt
-if "%errorlevel%"=="5" goto wiredALVR
-if "%errorlevel%"=="6" goto refreshrate
-if "%errorlevel%"=="7" goto replayTools
-if "%errorlevel%"=="8" goto changeResPrompt
-if "%errorlevel%"=="9" goto update
-if "%errorlevel%"=="10" goto adbmenu
-if "%errorlevel%"=="11" goto MainMenu
-if "%errorlevel%"=="12" goto devcredits
-if "%errorlevel%"=="13" goto specialThanks
-if "%errorlevel%"=="14" goto Support
+if "%errorlevel%"=="5" goto startkeepAlive
+if "%errorlevel%"=="6" goto wiredALVR
+if "%errorlevel%"=="7" goto refreshrate
+if "%errorlevel%"=="8" goto replayTools
+if "%errorlevel%"=="9" goto changeResPrompt
+if "%errorlevel%"=="10" goto update
+if "%errorlevel%"=="11" goto adbmenu
+if "%errorlevel%"=="12" goto MainMenu
+if "%errorlevel%"=="13" goto devcredits
+if "%errorlevel%"=="14" goto specialThanks
+if "%errorlevel%"=="15" goto Support
 goto MainMenu
 
 
@@ -506,6 +507,14 @@ cls
 echo Please enter a package name!
 pause
 goto uninstalling
+
+
+
+:startkeepAlive
+cls
+echo Starting keepAlive.bat...
+start keepAlive.bat
+goto MainMenu
 
 
 
