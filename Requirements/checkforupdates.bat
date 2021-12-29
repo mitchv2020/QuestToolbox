@@ -9,6 +9,7 @@ goto continueSetup
 pause
 
 :matchFail
+cls
 echo [7mThere is a new version of QuestToolBox available.
 echo Do you want to update? (This will be automatic in the future)[0m
 

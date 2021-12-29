@@ -2,7 +2,7 @@
 :: Developed By:
 :: mitchv2020 and lordnikon
 
-set version=v1.4.9
+set version=v1.5.0
 
 :::::::::::::::::::::
 :::: FILE CHECKS ::::
@@ -110,6 +110,7 @@ mode con: cols=72 lines=21
 
 :: Checks for updates
 cd requirements
+echo Checking for updates...
 call checkforupdates.bat
 
 :MainMenu
@@ -637,7 +638,7 @@ echo ==========================================
 echo Which would you like to do?
 echo ==========================================
 echo These options are for the Render release of 
-echo Replay mod for Beat Saber. (not currently out yet)
+echo Replay mod for Beat Saber. (not publicly available yet)
 echo ==========================================
 cmdMenuSel f870 "Render files" "Remux Rendered Files (Must render first!)" "==Back=="
 
@@ -678,6 +679,24 @@ if "%fileLoc%"=="" (
 
 if /I "%fileLoc%"=="exit" goto replayTools
 
+:fPerSec
+cls
+echo [41mMake sure to render first and that both files are 
+echo not located on your quest but on your computer![0m
+echo.
+echo [7mType "exit" to cancel.[0m
+echo.
+set /p framesPS=Please enter what FPS you would like it to be rendered at: 
+
+if "%framesPS%"=="" (
+	cls
+	echo Please enter a value!
+	pause
+	goto fPerSec
+)
+
+if /I "%framesPS%"=="exit" goto replayTools
+
 cls
 echo Converting [7maudio.wav[0m to [7maudio.ogg[0m
 ffmpeg -hide_banner -loglevel error -i %fileLoc%/audio.wav -acodec libvorbis %fileloc%/audio.ogg
@@ -692,7 +711,7 @@ if "%errorlevel%"=="1" (
 
 cls
 echo Merging both [7mvideo.h264[0m and [7maudio.ogg[0m into [7moutput.mp4[0m. this could take a while.
-ffmpeg -hide_banner -loglevel error -framerate 45 -i %fileLoc%/video.h264 -i %fileLoc%/audio.ogg -c copy %fileLoc%/output.mp4
+ffmpeg -hide_banner -loglevel error -framerate %framesPS% -i %fileLoc%/video.h264 -i %fileLoc%/audio.ogg -c copy %fileLoc%/output.mp4
 
 if "%errorlevel%"=="1" (
 	cls
