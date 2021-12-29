@@ -637,7 +637,7 @@ echo ==========================================
 echo Which would you like to do?
 echo ==========================================
 echo These options are for the Render release of 
-echo Replay mod for Beat Saber. (not currently out yet)
+echo Replay mod for Beat Saber. (not publicly availabe yet)
 echo ==========================================
 cmdMenuSel f870 "Render files" "Remux Rendered Files (Must render first!)" "==Back=="
 
@@ -678,6 +678,23 @@ if "%fileLoc%"=="" (
 
 if /I "%fileLoc%"=="exit" goto replayTools
 
+:fPerSec
+cls
+echo [41mPlease select what FPS you rendered at[0m
+echo.
+echo [7mType "exit" to cancel.[0m
+echo.
+set /p framesPS=Enter file location of [7maudio.wav[0m and [7mvideo.h264[0m: 
+
+if "%framesPS%"=="" (
+	cls
+	echo Please enter a value!
+	pause
+	goto fPerSec
+)
+
+if /I "%framesPS%"=="exit" goto replayTools
+
 cls
 echo Converting [7maudio.wav[0m to [7maudio.ogg[0m
 ffmpeg -hide_banner -loglevel error -i %fileLoc%/audio.wav -acodec libvorbis %fileloc%/audio.ogg
@@ -692,7 +709,7 @@ if "%errorlevel%"=="1" (
 
 cls
 echo Merging both [7mvideo.h264[0m and [7maudio.ogg[0m into [7moutput.mp4[0m. this could take a while.
-ffmpeg -hide_banner -loglevel error -framerate 45 -i %fileLoc%/video.h264 -i %fileLoc%/audio.ogg -c copy %fileLoc%/output.mp4
+ffmpeg -hide_banner -loglevel error -framerate %framesPS% -i %fileLoc%/video.h264 -i %fileLoc%/audio.ogg -c copy %fileLoc%/output.mp4
 
 if "%errorlevel%"=="1" (
 	cls
