@@ -1,6 +1,6 @@
 @echo off
 :: Developed By:
-:: mitchv2020 and lordnikon
+:: mitchv2020 and LordNikonUK
 
 set version=v1.5.0
 
@@ -1214,7 +1214,7 @@ echo Developed by:
 echo ==========================================
 
 :: Options
-cmdMenuSel f870 "mitchv2020" "LordNikonYT" "==Back=="
+cmdMenuSel f870 "mitchv2020" "LordNikonUK" "==Back=="
 if "%errorlevel%"=="1" goto dev1
 if "%errorlevel%"=="2" goto dev2
 if "%errorlevel%"=="3" goto MainMenu
