@@ -21,3 +21,8 @@ if "%errorlevel%"=="1" (
     start https://github.com/mitchv2020/QuestToolbox/releases
     exit
 )
+if "%errorlevel%"=="2" (
+    del list_of_ver.txt
+    del sc.txt
+    goto continueSetup
+)
