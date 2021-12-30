@@ -5,6 +5,8 @@ fc list_of_ver.txt list_of_ver_fromdate.txt > nul
 if errorlevel 1 goto matchFail
 
 :next
+del list_of_ver.txt
+del sc.txt
 goto continueSetup
 pause
 
