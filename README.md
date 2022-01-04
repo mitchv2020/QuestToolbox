@@ -33,7 +33,7 @@ We currently dont support linux ([Wine](https://github.com/wine-mirror/wine) wou
 
 We currently dont support MacOS
 
-![](https://i.imgur.com/sZUXY17.png)
+![](https://i.imgur.com/bSkQU8Z.png)
 
 # Known Bugs/Problems
 - Resizing the window will break the ui (to fix this just choose any option)
