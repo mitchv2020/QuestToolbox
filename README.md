@@ -1,4 +1,4 @@
-![](https://i.imgur.com/S0Fo5SP.png)
+![](https://i.imgur.com/HDQJxqE.png)
 
 # Features
 - Change Recordings Resolution and FPS (FPS currently unstable/broken)
