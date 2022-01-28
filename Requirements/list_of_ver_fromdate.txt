@@ -1,3 +1,4 @@
+    "tag_name": "v1.5.1",
     "tag_name": "v1.5.0",
     "tag_name": "v1.4.9",
     "tag_name": "v1.4.8",
@@ -27,4 +28,3 @@
     "tag_name": "v1.2.5",
     "tag_name": "v1.2.4",
     "tag_name": "v1.2.3",
-    "tag_name": "v1.2.2",

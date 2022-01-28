@@ -2,7 +2,7 @@
 :: Developed By:
 :: mitchv2020 and LordNikonUK
 
-set version=v1.5.0
+set version=v1.5.1
 
 :::::::::::::::::::::
 :::: FILE CHECKS ::::
@@ -878,12 +878,10 @@ goto MainMenu
 
 :update
 cls
-echo Opening GitHub page...
-:: Opens a browser tab with the latest release
-start https://www.github.com/mitchv2020/QuestToolbox/releases/latest
+set update=yes
+echo Checking for updates...
+call checkforupdates.bat
 goto MainMenu
-
-
 
 :ADBMenu
 cls
