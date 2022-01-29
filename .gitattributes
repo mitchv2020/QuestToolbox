@@ -1,2 +1,0 @@
-ffmpeg.exe filter=lfs diff=lfs merge=lfs -text
-avcodec-58.dll filter=lfs diff=lfs merge=lfs -text
