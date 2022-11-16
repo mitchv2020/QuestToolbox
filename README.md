@@ -1,3 +1,7 @@
+# DEPRICATED
+This software is no longer maintained. to continue getting updates please visit [MetaTools](https://github.com/NikonUK/MetaTools)
+
+
 # QuestToolbox
 A batch file full of useful stuff for Quest 1/2!
 
